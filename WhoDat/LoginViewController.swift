@@ -31,13 +31,41 @@ class LoginViewController: UIViewController {
     @IBAction func anonymousButton_TouchUpInside(_ sender: Any) {
         AuthService.loginAnonymously(onSuccess: {
             
-            // Add to the number active users
-            Api.numberOfActiveUsers = Api.numberOfActiveUsers + 1
+            // Update and increment user count by adding to database
+            let groupId = "Group 1"
+            Api.group.setUserCount(groupId: groupId, onSuccess: { (group) in
+                self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+            }, onError: { (error) in
+                print(error!)
+            })
             
-            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
         }) { (error) in
             print(error!)
         }
     }
+    
+    
+    
+//    func addUserToGroup() {
+//        
+//        // Check for current User ID
+//        guard let currentUser = Api.user.CURRENT_USER else {
+//            return
+//        }
+//        let currentUserId = currentUser.uid
+//        
+//        // Add user ID to group ID reference in "user-group" table for us to get the number of active users
+//        let groupId = "Group 1"
+//        let groupIdRef = Api.group.GROUP_REF.child(groupId)
+//        let data = ["userId": currentUserId]
+//        
+//        groupIdRef.setValue(data) { (error, reference) in
+//            if error != nil {
+//                print(error)
+//            } else {
+//                
+//            }
+//        }
+//    }
     
 }

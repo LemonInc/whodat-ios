@@ -11,7 +11,7 @@ import KMPlaceholderTextView
 
 class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
 
-    @IBOutlet weak var activeUsersLabel: UILabel!
+    @IBOutlet weak var userCountLabel: UILabel!
     @IBOutlet weak var messageTextInput: UITextView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -22,8 +22,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("number of active users \(Api.numberOfActiveUsers)")
         
         // Setting cell row height to be dynamic based on content height
         tableView.dataSource = self
@@ -40,6 +38,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         messageTextInput.centerVertically()
         
         configureSendButton()
+        loadGroupDetails()
         loadMessages()
         
         // Tap gesture to hide keyboard when tableview's pressed
@@ -122,6 +121,25 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         sendButton.isEnabled = false
     }
     
+    // Grab group details and assign to view, observe methods trigger whenever Firebase changes, so it's an on-going function
+    func loadGroupDetails() {
+        let groupId = "Group 1"
+        Api.group.observeGroup(groupId: groupId) { (group) in
+            
+            // Set user count value
+            guard let userCount = group.userCount else {
+                return
+            }
+            self.userCountLabel.text = String(userCount)
+            
+            // Set navigation title to group location
+            guard let location = group.location else {
+                return
+            }
+            self.navigationItem.title = location
+        }
+    }
+    
     // Grab all messages from database and assign to local messages array
     func loadMessages() {
         Api.message.observeMessages { (messages) in
@@ -174,13 +192,23 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func logoutButton_TouchUpInside(_ sender: Any) {
-        AuthService.logout(onSuccess: {
-            // After log out, switch to login screen
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let signInVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-            self.present(signInVC, animated: true, completion: nil)
+        
+        // Update and decrement user count by removing from database
+        let groupId = "Group 1"
+        Api.group.setUserCount(groupId: groupId, onSuccess: { (group) in
+            
+            // Logout user after user count has been updated
+            AuthService.logout(onSuccess: {
+                // After log out, switch to login screen
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let signInVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+                self.present(signInVC, animated: true, completion: nil)
+            }, onError: { (error) in
+                print(error)
+            })
+            
         }) { (error) in
-            print(error)
+            print(error!)
         }
     }
 

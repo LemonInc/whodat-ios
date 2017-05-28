@@ -11,5 +11,5 @@ import Foundation
 struct Api {
     static var message = MessageApi()
     static var user = UserApi()
-    static var numberOfActiveUsers = 0
+    static var group = GroupApi()
 }
