@@ -237,6 +237,12 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Pass the current indexPath.row message data to MessageTableViewCell for use
         cell.message = message
+        cell.user = user
+        
+        // Pass message type to cell to set the avatar
+        if cellIdentifier == "IncomingChatCell" {
+            cell.messageType = "IncomingChatCell"
+        }
         
         return cell
 

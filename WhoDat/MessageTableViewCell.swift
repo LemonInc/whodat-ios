@@ -10,6 +10,7 @@ import UIKit
 
 class MessageTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var avatar: UIView!
     @IBOutlet weak var messageTextLabel: UILabel!
     @IBOutlet weak var backgroundBubble: UIView!
     
@@ -17,6 +18,20 @@ class MessageTableViewCell: UITableViewCell {
     var message: Message? {
         didSet {
             updateView()
+        }
+    }
+
+    var messageType: String?
+    
+//    var messageType: String? {
+//        didSet {
+//            updateAvatar()
+//        }
+//    }
+    
+    var user: User? {
+        didSet {
+            updateAvatar()
         }
     }
     
@@ -40,6 +55,13 @@ class MessageTableViewCell: UITableViewCell {
     
     func updateView() {
         messageTextLabel.text = message?.messageText
+    }
+    
+    func updateAvatar() {
+        if messageType == "IncomingChatCell" {
+            print(user?.avatar)
+            avatar.backgroundColor = UIColor.yellow
+        }
     }
 
 }

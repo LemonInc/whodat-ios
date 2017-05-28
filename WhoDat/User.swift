@@ -10,12 +10,14 @@ import Foundation
 
 class User {
     var userId: String?
+    var avatar: String?
 }
 
 extension User {
     static func transformUser(dict: [String: Any]) -> User {
         let user = User()
         user.userId = dict["userId"] as? String
+        user.avatar = dict["avatar"] as? String
         return user
     }
 }

@@ -122,6 +122,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.16747883657732793" green="0.68403686019433307" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
+                                            <outlet property="avatar" destination="gs2-03-7Io" id="m0T-Hb-nbI"/>
                                             <outlet property="backgroundBubble" destination="QSf-jx-UTc" id="k3x-2M-GCs"/>
                                             <outlet property="messageTextLabel" destination="bIj-vw-tjs" id="Rpk-LO-koE"/>
                                         </connections>
@@ -247,7 +248,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VO6-JG-gH8">
-                                        <rect key="frame" x="63" y="6" width="11" height="20.5"/>
+                                        <rect key="frame" x="63" y="6" width="11" height="21"/>
                                         <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -282,7 +283,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Su9-L0-ivB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>

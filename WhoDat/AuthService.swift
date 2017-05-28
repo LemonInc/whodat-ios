@@ -17,7 +17,8 @@ class AuthService {
             if error == nil {
                 // Store anonymous user information on Firebase database under 'users' entity
                 let newUser = FIRDatabase.database().reference().child("users").child(anonymousUser!.uid)
-                newUser.setValue(["userId":"\(anonymousUser!.uid)"])
+                let userData = ["userId": anonymousUser!.uid, "avatar": "#00A654"]
+                newUser.setValue(userData)
                 
                 onSuccess()
             } else {
