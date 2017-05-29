@@ -17,7 +17,12 @@ class AuthService {
             if error == nil {
                 // Store anonymous user information on Firebase database under 'users' entity
                 let newUser = FIRDatabase.database().reference().child("users").child(anonymousUser!.uid)
-                let userData = ["userId": anonymousUser!.uid, "avatar": "#00A654"]
+                
+                // Generate a random hexcode and store in user database
+                let helper = Helper()
+                let avatarColour = helper.generateRandomUIColor()
+                let userData = ["userId": anonymousUser!.uid, "avatar": avatarColour.toHexString()]
+                print(avatarColour.toHexString())
                 newUser.setValue(userData)
                 
                 onSuccess()

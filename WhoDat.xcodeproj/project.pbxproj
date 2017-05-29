@@ -15,6 +15,7 @@
 		5225D0261EB79DA300D6A1B4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225D0251EB79DA300D6A1B4 /* LoginViewController.swift */; };
 		524F10AF1EDAFC3E00E38373 /* GroupApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F10AE1EDAFC3E00E38373 /* GroupApi.swift */; };
 		524F10B11EDB0A7D00E38373 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F10B01EDB0A7D00E38373 /* Group.swift */; };
+		524F10B31EDB917B00E38373 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F10B21EDB917B00E38373 /* Helper.swift */; };
 		52A59FB61ECF841D00F64743 /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */; };
 		52A59FBA1ED0513500F64743 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A59FB91ED0513500F64743 /* MessageViewController.swift */; };
 		52A59FBE1ED0849A00F64743 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A59FBD1ED0849A00F64743 /* Message.swift */; };
@@ -40,6 +41,7 @@
 		5225D0251EB79DA300D6A1B4 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		524F10AE1EDAFC3E00E38373 /* GroupApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupApi.swift; sourceTree = "<group>"; };
 		524F10B01EDB0A7D00E38373 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		524F10B21EDB917B00E38373 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
 		52A59FB91ED0513500F64743 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		52A59FBD1ED0849A00F64743 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */,
+				524F10B21EDB917B00E38373 /* Helper.swift */,
 				52A59FBF1ED0875D00F64743 /* Api.swift */,
 				52A59FCC1ED09B3F00F64743 /* AuthService.swift */,
 				52A59FC11ED0878500F64743 /* MessageApi.swift */,
@@ -286,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52A59FC01ED0875D00F64743 /* Api.swift in Sources */,
+				524F10B31EDB917B00E38373 /* Helper.swift in Sources */,
 				5225D0261EB79DA300D6A1B4 /* LoginViewController.swift in Sources */,
 				52A59FCD1ED09B3F00F64743 /* AuthService.swift in Sources */,
 				52A59FC41ED08B4400F64743 /* MessageTableViewCell.swift in Sources */,

@@ -20,14 +20,12 @@ class MessageTableViewCell: UITableViewCell {
             updateView()
         }
     }
-
-    var messageType: String?
     
-//    var messageType: String? {
-//        didSet {
-//            updateAvatar()
-//        }
-//    }
+    var messageType: String? {
+        didSet {
+            updateAvatar()
+        }
+    }
     
     var user: User? {
         didSet {
@@ -59,8 +57,10 @@ class MessageTableViewCell: UITableViewCell {
     
     func updateAvatar() {
         if messageType == "IncomingChatCell" {
-            print(user?.avatar)
-            avatar.backgroundColor = UIColor.yellow
+            // Setting the avatar view colour background by grabbing user hexcode stored in Firebase and converting to UIColor
+            let helper = Helper()
+            let avatarColour = helper.hexStringToUIColor(hex: (user?.avatar)!)
+            avatar.backgroundColor = avatarColour
         }
     }
 
