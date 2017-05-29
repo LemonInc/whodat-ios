@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>22247490513-r6u5sjh29k9ia72s2ichkia935l2n24n.apps.googleusercontent.com</string>
+	<string>886451877299-1hm6sjmv89kspu2gvgte9bh8djpgm14k.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.22247490513-r6u5sjh29k9ia72s2ichkia935l2n24n</string>
+	<string>com.googleusercontent.apps.886451877299-1hm6sjmv89kspu2gvgte9bh8djpgm14k</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDSw8ch5FSWMjsKT5Q2jB3kD_Y4ykGCeXw</string>
+	<string>AIzaSyCnhsqipJh56u_W4P0HGT_LEL7WF_H7ZKQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>22247490513</string>
+	<string>886451877299</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.WotDat.WhoDat</string>
+	<string>com.LemonInc.WhoDat</string>
 	<key>PROJECT_ID</key>
-	<string>whodat-9a5d5</string>
+	<string>whodat-fdb19</string>
 	<key>STORAGE_BUCKET</key>
-	<string>whodat-9a5d5.appspot.com</string>
+	<string>whodat-fdb19.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:22247490513:ios:448ee95eca68b43a</string>
+	<string>1:886451877299:ios:c81ae9d293ee4f9d</string>
 	<key>DATABASE_URL</key>
-	<string>https://whodat-9a5d5.firebaseio.com</string>
+	<string>https://whodat-fdb19.firebaseio.com</string>
 </dict>
 </plist>
