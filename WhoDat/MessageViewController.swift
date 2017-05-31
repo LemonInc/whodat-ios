@@ -253,7 +253,22 @@ extension MessageViewController: UITextViewDelegate {
     
     // Disable send button if the user has not entered value on message text field
     func textViewDidChange(_ textView: UITextView) {
+        var timer: Timer? = nil
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.textViewDidEndEditing), userInfo: nil, repeats: false)
+        
+        print("start typing")
         configureSendButton()
+    }
+    
+    // Triggers after a time interval when user stops typing
+    func textViewStoppedTyping () {
+        print("stopped typing")
+    }
+    
+    // Triggers when keyboard closes
+    func textViewDidEndEditing(_ textView: UITextView) {
+        print("stop typing")
     }
     
 }
