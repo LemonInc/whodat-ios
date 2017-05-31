@@ -9,7 +9,6 @@
 import Foundation
 
 class Group {
-    //var groupId: String?
     var location: String?
     var userCount: Int?
     var users: Dictionary<String, Any>?

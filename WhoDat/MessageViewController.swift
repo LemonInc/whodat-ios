@@ -50,7 +50,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         tapGesture.delegate = self
         self.tableView.addGestureRecognizer(tapGesture)
         
-        // Methods to handle when keyboard is shown or hiden to bring up the messages text field area
+        // Methods to handle when keyboard is shown or hidden to push content up
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -82,18 +82,17 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         return true
     }
     
+    // Move view up by keyboard height when keyboard is shown
     func keyboardWillShow(_ notification: NSNotification) {
-        let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        UIView.animate(withDuration: 0.3) {
-            self.constraintToBottom.constant = keyboardFrame!.height
-            self.view.layoutIfNeeded()
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y -= keyboardSize.height
         }
     }
     
+    // Move view down by keyboard height when keyboard is hidden
     func keyboardWillHide(_ notification: NSNotification) {
-        UIView.animate(withDuration: 0.3) {
-            self.constraintToBottom.constant = 0
-            self.view.layoutIfNeeded()
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.origin.y += keyboardSize.height
         }
     }
     
