@@ -62,4 +62,26 @@ class GroupApi {
             }
         }
     }
+    
+    func createGroup() {
+        
+        // Create a unique ID for each group and assign the group details to it
+        let newGroupRef = Api.group.GROUP_REF.childByAutoId()
+        
+        let location = "Canary Wharf"
+        let longitute = 37.760122
+        let latitute = -122.468158
+        
+        let groupData = ["location": location, "longitute": longitute, "latitude": latitute] as [String : Any]
+        
+        newGroupRef.setValue(groupData) { (error, reference) in
+            if error != nil {
+                print(error)
+            } else {
+                let groupId = reference.key
+                // SEND GROUPID TO MESSAGEVIEWCONTROLLER
+                // SEGUE TO MESSAGEVIEWCONTROLLER
+            }
+        }
+    }
 }

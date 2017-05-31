@@ -189,7 +189,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             if error != nil {
                 print(error)
             } else {
-                
                 // When successfully added message to database, also create a one-to-many table (group-messages) to store all message ID's connecting to a specific group ID
                 let groupMessageRef = Api.groupMessages.GROUP_MESSAGES_REF.child(self.groupId).child(newMessageId)
                 groupMessageRef.setValue(true, withCompletionBlock: { (error, reference) in
