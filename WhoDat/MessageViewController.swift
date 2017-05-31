@@ -17,11 +17,15 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var constraintToBottom: NSLayoutConstraint!
     
+    var groupId: String!
     var messages = [Message]()
     var users = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // PASS GROUP ID WHEN MAP IS CONFIGURED
+        groupId = "Group 1"
         
         // Setting cell row height to be dynamic based on content height
         tableView.dataSource = self
@@ -123,7 +127,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Grab group details and assign to view, observe methods trigger whenever Firebase changes, so it's an on-going function
     func loadGroupDetails() {
-        let groupId = "Group 1"
         Api.group.observeGroup(groupId: groupId) { (group) in
             
             // Set user count value
@@ -142,13 +145,22 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Grab all messages from database and assign to local messages array
     func loadMessages() {
-        Api.message.observeMessages { (messages) in
-            self.fetchUser(senderId: messages.senderId!, onSuccess: {
-                self.messages.append(messages)
-                self.tableView.reloadData()
-                self.scrollToLastMessage()
+        
+        // Grab all messages from assocated group ID from group-messages table
+        Api.groupMessages.observeGroupMessages(groupId: self.groupId) { (messageId) in
+            
+            // After grabbing all message ID's, then grab the message details from the messages table
+            Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
+                
+                // Also grab the user detail based corresponding to the message sender ID
+                self.fetchUser(senderId: message.senderId!, onSuccess: {
+                    self.messages.append(message)
+                    self.tableView.reloadData()
+                    self.scrollToLastMessage()
+                })
             })
         }
+        
     }
     
     // Grab the user who sent the corresponding message based on senderId
@@ -168,25 +180,37 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         let currentUserId = currentUser.uid
         
         // Create a unique ID for each message and assign the message values to the database
-        let newMessageRef = Api.message.MESSAGE_REF.childByAutoId()
+        let messageRef = Api.message.MESSAGE_REF
+        let newMessageId = messageRef.childByAutoId().key
+        let newMessageRef = messageRef.child(newMessageId)
+        
         let messageData = ["messageText": messageTextInput.text!, "senderId": currentUserId]
         
         newMessageRef.setValue(messageData) { (error, reference) in
             if error != nil {
                 print(error)
             } else {
-                // Clear text field and button state
-                self.clean()
                 
-                // Hides keyboard once finished
-                self.view.endEditing(true)
+                // When successfully added message to database, also create a one-to-many table (group-messages) to store all message ID's connecting to a specific group ID
+                let groupMessageRef = Api.groupMessages.GROUP_MESSAGES_REF.child(self.groupId).child(newMessageId)
+                groupMessageRef.setValue(true, withCompletionBlock: { (error, reference) in
+                    if error != nil {
+                        print(error)
+                    } else {
+                        // Clear text field and button state
+                        self.clear()
+                        
+                        // Hides keyboard once finished
+                        self.view.endEditing(true)
+                    }
+                })
             }
         }
         
     }
     
     // Clear text field and button state
-    func clean() {
+    func clear() {
         self.messageTextInput.text = ""
         disableSendButton()
     }

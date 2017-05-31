@@ -13,8 +13,9 @@ class MessageApi {
     
     var MESSAGE_REF = FIRDatabase.database().reference().child("messages")
     
-    func observeMessages(onSuccess: @escaping (Message) -> Void) {
-        MESSAGE_REF.observe(FIRDataEventType.childAdded, with: { (snapshot) in
+    // Grab the message details based on messageId passed in
+    func observeMessages(messageId: String, onSuccess: @escaping (Message) -> Void) {
+        MESSAGE_REF.child(messageId).observeSingleEvent(of: .value, with: { (snapshot) in
             
             // Grab the newly added message data snapshot from Firebase and add to local 'messages' JSQ array
             if let dict = snapshot.value as? [String: Any] {
