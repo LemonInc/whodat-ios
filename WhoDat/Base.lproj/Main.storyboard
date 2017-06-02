@@ -144,7 +144,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.0" green="0.70980392156862748" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.0039215686274509803" green="0.81176470588235294" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="zvr-JI-tah" firstAttribute="leading" secondItem="LEq-mY-3ae" secondAttribute="leading" constant="15" id="0Ja-Dg-fNa"/>
                                                         <constraint firstAttribute="bottom" secondItem="zvr-JI-tah" secondAttribute="bottom" constant="10" id="G00-yi-umJ"/>
@@ -230,7 +230,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Loading..." id="RvK-rf-b9Y">
                         <barButtonItem key="leftBarButtonItem" image="back_arrow" id="mtz-mw-OOz">
-                            <color key="tintColor" red="0.050980392156862744" green="0.078431372549019607" blue="0.12156862745098039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="logoutButton_TouchUpInside:" destination="Ug7-k6-9qu" id="8SL-E4-zW5"/>
                             </connections>
@@ -250,7 +250,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VO6-JG-gH8">
                                         <rect key="frame" x="63" y="6" width="11" height="21"/>
                                         <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="18"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -267,7 +267,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="constraintToBottom" destination="K86-bP-2Mu" id="Vow-XF-TqD"/>
                         <outlet property="messageTextInput" destination="2E7-As-YNt" id="SXs-NF-F9N"/>
                         <outlet property="sendButton" destination="wFY-Id-9Ef" id="ojI-Gg-uTg"/>
                         <outlet property="tableView" destination="y4V-sW-7Vp" id="3tb-d2-kXk"/>

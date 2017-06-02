@@ -15,11 +15,12 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var messageTextInput: UITextView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var constraintToBottom: NSLayoutConstraint!
     
     var groupId: String!
     var messages = [Message]()
     var users = [User]()
+    var firstLoad = true
+    var scrolledToBottom = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Setting cell row height to be dynamic based on content height
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.estimatedRowHeight = 78
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -55,20 +57,17 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scrolling")
+    // Set status bar text colour to white - only applicable for this view
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     
-    // Scroll to last message
-    func scrollToLastMessage() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
-            let numberOfSections = self.tableView.numberOfSections
-            let numberOfRows = self.tableView.numberOfRows(inSection: numberOfSections-1)
-            
-            if numberOfRows > 0 {
-                let indexPath = IndexPath(row: numberOfRows-1, section: (numberOfSections-1))
-                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // When the user scrolls to bottom, then set 'scrolledToBottom' to true, else set to false
+        if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
+            self.scrolledToBottom = true
+        } else {
+            self.scrolledToBottom = false
         }
     }
     
@@ -151,15 +150,46 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             // After grabbing all message ID's, then grab the message details from the messages table
             Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
                 
-                // Also grab the user detail based corresponding to the message sender ID
+                // Also grab the user detail corresponding to the message sender ID
                 self.fetchUser(senderId: message.senderId!, onSuccess: {
-                    self.messages.append(message)
-                    self.tableView.reloadData()
-                    self.scrollToLastMessage()
+                    
+                    var scrolledBottom = false
+                    if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
+                        scrolledBottom = true
+                    }
+                    
+                    if scrolledBottom == true {
+                        self.messages.append(message)
+                        self.tableView.reloadData()
+                        self.scrollToLastMessage()
+                    } else {
+                        self.messages.append(message)
+                        self.tableView.reloadData()
+                    }
+                    
+                    // Scroll to the bottom upon first load
+                    if self.firstLoad == true {
+                        self.scrollToLastMessage()
+                        self.firstLoad = false
+                    }
+                    
                 })
             })
         }
         
+    }
+    
+    // Scroll to last message
+    func scrollToLastMessage() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+            let numberOfSections = self.tableView.numberOfSections
+            let numberOfRows = self.tableView.numberOfRows(inSection: numberOfSections-1)
+            
+            if numberOfRows > 0 {
+                let indexPath = IndexPath(row: numberOfRows-1, section: (numberOfSections-1))
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            }
+        }
     }
     
     // Grab the user who sent the corresponding message based on senderId
@@ -200,6 +230,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         
                         // Hides keyboard once finished
                         self.view.endEditing(true)
+                        
+                        self.scrollToLastMessage()
                     }
                 })
             }
@@ -279,18 +311,17 @@ extension MessageViewController: UITextViewDelegate {
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.textViewDidEndEditing), userInfo: nil, repeats: false)
         
-        print("start typing")
         configureSendButton()
     }
     
     // Triggers after a time interval when user stops typing
     func textViewStoppedTyping () {
-        print("stopped typing")
+        //print("stopped typing")
     }
     
     // Triggers when keyboard closes
     func textViewDidEndEditing(_ textView: UITextView) {
-        print("stop typing")
+        //print("stop typing")
     }
     
 }
