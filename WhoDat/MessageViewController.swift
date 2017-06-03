@@ -20,7 +20,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     var messages = [Message]()
     var users = [User]()
     var firstLoad = true
-    var scrolledToBottom = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,12 +62,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // When the user scrolls to bottom, then set 'scrolledToBottom' to true, else set to false
-        if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
-            self.scrolledToBottom = true
-        } else {
-            self.scrolledToBottom = false
-        }
+        // User scrolls
     }
     
     // Function called when user touches screen, this will be used for dismissing the keyboard
@@ -153,24 +147,28 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 // Also grab the user detail corresponding to the message sender ID
                 self.fetchUser(senderId: message.senderId!, onSuccess: {
                     
-                    var scrolledBottom = false
-                    if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
-                        scrolledBottom = true
-                    }
-                    
-                    if scrolledBottom == true {
-                        self.messages.append(message)
-                        self.tableView.reloadData()
-                        self.scrollToLastMessage()
-                    } else {
-                        self.messages.append(message)
-                        self.tableView.reloadData()
-                    }
-                    
                     // Scroll to the bottom upon first load
                     if self.firstLoad == true {
                         self.scrollToLastMessage()
                         self.firstLoad = false
+                    } else {
+                        // If this is not first load
+                        
+                        // If the user scrolls to the bottom, set 'scrolledBottom' to true
+                        var scrolledToBottom = false
+                        if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
+                            scrolledToBottom = true
+                        }
+                        
+                        // If user has scrolled to the bottom, then scroll to last message when new message comes in
+                        if scrolledToBottom == true {
+                            self.messages.append(message)
+                            self.tableView.reloadData()
+                            self.scrollToLastMessage()
+                        } else {
+                            self.messages.append(message)
+                            self.tableView.reloadData()
+                        }
                     }
                     
                 })
