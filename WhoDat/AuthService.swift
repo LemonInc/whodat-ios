@@ -22,7 +22,6 @@ class AuthService {
                 let helper = Helper()
                 let avatarColour = helper.generateRandomUIColor()
                 let userData = ["userId": anonymousUser!.uid, "avatar": avatarColour.toHexString()]
-                print(avatarColour.toHexString())
                 newUser.setValue(userData)
                 
                 onSuccess()

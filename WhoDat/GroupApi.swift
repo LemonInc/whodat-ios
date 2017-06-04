@@ -84,4 +84,20 @@ class GroupApi {
             }
         }
     }
+    
+    func observeUserTyping(groupId id: String, onSuccess: @escaping (_ isTyping: Bool) -> Void) {
+        GROUP_REF.child(id).child("users").queryOrdered(byChild: "isUserTyping").queryEqual(toValue: true).observe(FIRDataEventType.value, with: { (snapshot) in
+            
+            // Set userIsTyping boolean to true if someone's typing (I.e. Firebase snapshot returns true atleast 1 children)
+            var userIsTyping: Bool
+            
+            if snapshot.hasChildren() {
+                userIsTyping = true
+            } else {
+                userIsTyping = false
+            }
+            
+            onSuccess(userIsTyping)
+        })
+    }
 }

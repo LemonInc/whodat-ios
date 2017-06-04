@@ -46,6 +46,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         configureSendButton()
         loadGroupDetails()
         loadMessages()
+        showTypingIndicator()
         
         // Tap gesture to hide keyboard when tableview's pressed
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -55,6 +56,12 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // Methods to handle when keyboard is shown or hidden to push content up
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func showTypingIndicator() {
+        Api.group.observeUserTyping(groupId: self.groupId) { _ in 
+            
+        }
     }
     
     // Set status bar text colour to white - only applicable for this view
@@ -105,10 +112,10 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     // Disable send button if the user has not entered value on message text field
     func configureSendButton() {
         if let messageText = messageTextInput.text, !messageText.isEmpty {
-            // Button settings when button is enabled
+            // Enable button if the user has entered something in text field
             self.enableSendButton()
         } else {
-            // Button settings when button is disabled
+            // Disable button if text field is empty
             self.disableSendButton()
         }
     }
@@ -318,25 +325,30 @@ extension MessageViewController: UITextViewDelegate {
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.textViewDidEndEditing), userInfo: nil, repeats: false)
         
+        // Set user typing status to true when user starts typing
+        let isUserTypingRef = Api.group.GROUP_REF.child(self.groupId).child("users").child((Api.user.CURRENT_USER?.uid)!).child("isUserTyping")
+        isUserTypingRef.setValue(true) { (error, reference) in
+            //print("Started typing")
+        }
+        
         // Disable send button if the user has not entered value on message text field
         configureSendButton()
     }
     
-    // Triggers after a time interval when user stops typing
-    func textViewStoppedTyping () {
-        //print("stopped typing")
-    }
-    
-    // Triggers when keyboard closes
+    // Triggers when user stops typing or when keyboard closes
     func textViewDidEndEditing(_ textView: UITextView) {
-        //print("stop typing")
+        // Set user typing status to false if user stops typing
+        let isUserTypingRef = Api.group.GROUP_REF.child(self.groupId).child("users").child((Api.user.CURRENT_USER?.uid)!).child("isUserTyping")
+        isUserTypingRef.setValue(false) { (error, reference) in
+            //print("Stopped typing")
+        }
     }
     
 }
 
 extension UITextView {
     
-    // Center vertically the text view input
+    // Center vertically on text view input
     func centerVertically() {
         let fittingSize = CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
         let size = sizeThatFits(fittingSize)
