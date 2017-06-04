@@ -73,7 +73,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QSf-jx-UTc">
-                                                    <rect key="frame" x="20" y="15" width="88.5" height="65"/>
+                                                    <rect key="frame" x="20" y="15" width="91" height="65"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gs2-03-7Io">
                                                             <rect key="frame" x="15" y="17" width="6" height="6"/>
@@ -89,7 +89,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIj-vw-tjs">
-                                                            <rect key="frame" x="29" y="10" width="44.5" height="45"/>
+                                                            <rect key="frame" x="29" y="10" width="47" height="45"/>
                                                             <attributedString key="attributedText">
                                                                 <fragment content="Label">
                                                                     <attributes>
@@ -135,10 +135,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LEq-mY-3ae">
-                                                    <rect key="frame" x="280.5" y="20" width="74.5" height="60"/>
+                                                    <rect key="frame" x="278" y="20" width="77" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-JI-tah">
-                                                            <rect key="frame" x="15" y="10" width="44.5" height="40"/>
+                                                            <rect key="frame" x="15" y="10" width="47" height="40"/>
                                                             <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="18"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -167,6 +167,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1B-r3-86Y">
+                                <rect key="frame" x="325" y="482" width="50" height="50"/>
+                                <state key="normal" image="anchor_down"/>
+                                <connections>
+                                    <action selector="anchorDownButton_TouchUpInside:" destination="Ug7-k6-9qu" eventType="touchUpInside" id="xmY-mk-Epk"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BPh-aZ-xDb">
                                 <rect key="frame" x="0.0" y="612" width="375" height="55"/>
                                 <subviews>
@@ -219,7 +226,9 @@
                         <color key="backgroundColor" red="0.93333333333333335" green="0.95294117647058818" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.33440408338769823" green="0.52670647405081372" blue="0.97515124082565308" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="g1B-r3-86Y" secondAttribute="trailing" id="BPg-dH-1Eh"/>
                             <constraint firstItem="bkX-9i-J1L" firstAttribute="top" secondItem="BPh-aZ-xDb" secondAttribute="bottom" id="K86-bP-2Mu"/>
+                            <constraint firstItem="BPh-aZ-xDb" firstAttribute="top" secondItem="g1B-r3-86Y" secondAttribute="bottom" constant="80" id="TRM-t4-ezL"/>
                             <constraint firstAttribute="trailing" secondItem="y4V-sW-7Vp" secondAttribute="trailing" id="YZV-IL-Jct"/>
                             <constraint firstItem="y4V-sW-7Vp" firstAttribute="top" secondItem="pee-41-b8l" secondAttribute="top" id="ae0-a1-JhY"/>
                             <constraint firstItem="BPh-aZ-xDb" firstAttribute="leading" secondItem="pee-41-b8l" secondAttribute="leading" id="atw-c5-syg"/>
@@ -267,6 +276,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="anchorDownButton" destination="g1B-r3-86Y" id="Yll-So-YR4"/>
                         <outlet property="messageTextInput" destination="2E7-As-YNt" id="SXs-NF-F9N"/>
                         <outlet property="sendButton" destination="wFY-Id-9Ef" id="ojI-Gg-uTg"/>
                         <outlet property="tableView" destination="y4V-sW-7Vp" id="3tb-d2-kXk"/>
@@ -282,7 +292,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Su9-L0-ivB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -301,6 +311,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="anchor_down" width="50" height="50"/>
         <image name="back_arrow" width="23" height="16"/>
         <image name="user_count" width="20" height="20"/>
     </resources>

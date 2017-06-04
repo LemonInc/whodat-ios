@@ -11,6 +11,7 @@ import KMPlaceholderTextView
 
 class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    @IBOutlet weak var anchorDownButton: UIButton!
     @IBOutlet weak var userCountLabel: UILabel!
     @IBOutlet weak var messageTextInput: UITextView!
     @IBOutlet weak var sendButton: UIButton!
@@ -61,8 +62,20 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         UIApplication.shared.statusBarStyle = .lightContent
     }
     
+    @IBAction func anchorDownButton_TouchUpInside(_ sender: Any) {
+        scrollToLastMessage(animated: true)
+    }
+    
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // User scrolls
+        
+        // If the user scroll position is greater than 800 (Further down the page), then hide anchor button. Otherwise if scroll position is less than 800 then show the anchor button
+        if self.tableView.contentOffset.y >= 800 {
+            anchorDownButton.isHidden = true
+        } else if self.tableView.contentOffset.y <= 800 {
+            anchorDownButton.isHidden = false
+        }
     }
     
     // Function called when user touches screen, this will be used for dismissing the keyboard
@@ -149,7 +162,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                     
                     // Scroll to the bottom upon first load
                     if self.firstLoad == true {
-                        self.scrollToLastMessage()
+                        self.scrollToLastMessage(animated: false)
                         self.firstLoad = false
                     } else {
                         // If this is not first load
@@ -164,7 +177,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         if scrolledToBottom == true {
                             self.messages.append(message)
                             self.tableView.reloadData()
-                            self.scrollToLastMessage()
+                            self.scrollToLastMessage(animated: false)
                         } else {
                             self.messages.append(message)
                             self.tableView.reloadData()
@@ -178,14 +191,14 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // Scroll to last message
-    func scrollToLastMessage() {
+    func scrollToLastMessage(animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
             let numberOfSections = self.tableView.numberOfSections
             let numberOfRows = self.tableView.numberOfRows(inSection: numberOfSections-1)
             
             if numberOfRows > 0 {
                 let indexPath = IndexPath(row: numberOfRows-1, section: (numberOfSections-1))
-                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
             }
         }
     }
@@ -229,7 +242,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         // Hides keyboard once finished
                         self.view.endEditing(true)
                         
-                        self.scrollToLastMessage()
+                        self.scrollToLastMessage(animated: false)
                     }
                 })
             }
