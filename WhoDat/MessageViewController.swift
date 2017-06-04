@@ -58,12 +58,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func showTypingIndicator() {
-        Api.group.observeUserTyping(groupId: self.groupId) { _ in 
-            
-        }
-    }
-    
     // Set status bar text colour to white - only applicable for this view
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.statusBarStyle = .lightContent
@@ -73,14 +67,11 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         scrollToLastMessage(animated: true)
     }
     
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // User scrolls
-        
-        // If the user scroll position is greater than 800 (Further down the page), then hide anchor button. Otherwise if scroll position is less than 800 then show the anchor button
-        if self.tableView.contentOffset.y >= 800 {
+        // If the user scroll position is greater than tableview height - 1000 (Further down the page), then hide anchor button. Otherwise if scroll position is less than tableview height - 1000 then show the anchor button
+        if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - 1000) {
             anchorDownButton.isHidden = true
-        } else if self.tableView.contentOffset.y <= 800 {
+        } else if self.tableView.contentOffset.y <= (self.tableView.contentSize.height - 1000) {
             anchorDownButton.isHidden = false
         }
     }
@@ -284,6 +275,16 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
 
+    func showTypingIndicator() {
+        Api.group.observeUserTyping(groupId: self.groupId) { (isUserTyping) in
+            if isUserTyping == true {
+                
+            } else {
+                
+            }
+        }
+    }
+    
 }
 
 extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
