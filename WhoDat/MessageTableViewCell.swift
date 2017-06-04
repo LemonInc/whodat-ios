@@ -14,16 +14,12 @@ class MessageTableViewCell: UITableViewCell {
     @IBOutlet weak var messageTextLabel: UILabel!
     @IBOutlet weak var backgroundBubble: UIView!
     
+    var isSentByCurrentUser: Bool?
+    
     // This method is called whenever message cell is instantiated
     var message: Message? {
         didSet {
             updateView()
-        }
-    }
-    
-    var messageType: String? {
-        didSet {
-            updateAvatar()
         }
     }
     
@@ -56,7 +52,15 @@ class MessageTableViewCell: UITableViewCell {
     }
     
     func updateAvatar() {
-        if messageType == "IncomingChatCell" {
+        
+        // Check if message is sent by current user or not. If it is, then set 'isSentByCurrentUser' to true, otherwise set as false
+        if message?.senderId == Api.user.CURRENT_USER?.uid {
+            isSentByCurrentUser = true
+        } else {
+            isSentByCurrentUser = false
+        }
+        
+        if isSentByCurrentUser == false {
             // Setting the avatar view colour background by grabbing user hexcode stored in Firebase and converting to UIColor
             let helper = Helper()
             let avatarColour = helper.hexStringToUIColor(hex: (user?.avatar)!)

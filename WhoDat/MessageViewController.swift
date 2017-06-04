@@ -10,7 +10,7 @@ import UIKit
 import KMPlaceholderTextView
 
 class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
-
+    
     @IBOutlet weak var userCountLabel: UILabel!
     @IBOutlet weak var messageTextInput: UITextView!
     @IBOutlet weak var sendButton: UIButton!
@@ -277,7 +277,7 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         let user = users[indexPath.row]
         var cellIdentifier = ""
         
-        // Check if message is sent by current user or not then assign the cellIdentifier to be used
+        // Check if message is sent by current user or not - if it is, then it's an outgoing message, otherwise it's an incoming message
         if message.senderId == Api.user.CURRENT_USER?.uid {
             cellIdentifier = "OutgoingChatCell"
         } else {
@@ -291,11 +291,6 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         cell.message = message
         cell.user = user
         
-        // Pass message type to cell to set the avatar
-        if cellIdentifier == "IncomingChatCell" {
-            cell.messageType = "IncomingChatCell"
-        }
-        
         return cell
 
     }
@@ -303,12 +298,14 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MessageViewController: UITextViewDelegate {
     
-    // Disable send button if the user has not entered value on message text field
     func textViewDidChange(_ textView: UITextView) {
+        
+        // Add time interval to keyboard input before triggering 'textViewStoppedTyping'
         var timer: Timer? = nil
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.textViewDidEndEditing), userInfo: nil, repeats: false)
         
+        // Disable send button if the user has not entered value on message text field
         configureSendButton()
     }
     
