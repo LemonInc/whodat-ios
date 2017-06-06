@@ -114,10 +114,15 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Move view up by keyboard height when keyboard is shown
     func keyboardWillShow(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        self.view.frame.origin.y = 64
+        
+        if self.view.frame.origin.y == 64 {
+            self.view.frame.origin.y -= keyboardHeight
         }
     }
     
