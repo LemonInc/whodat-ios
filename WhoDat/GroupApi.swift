@@ -76,7 +76,7 @@ class GroupApi {
         
         newGroupRef.setValue(groupData) { (error, reference) in
             if error != nil {
-                print(error)
+                print(error!)
             } else {
                 let groupId = reference.key
                 // SEND GROUPID TO MESSAGEVIEWCONTROLLER
@@ -88,10 +88,22 @@ class GroupApi {
     func observeUserTyping(groupId id: String, onSuccess: @escaping (_ isTyping: Bool) -> Void) {
         GROUP_REF.child(id).child("users").queryOrdered(byChild: "isUserTyping").queryEqual(toValue: true).observe(FIRDataEventType.value, with: { (snapshot) in
             
-            // Set userIsTyping boolean to true if someone's typing (I.e. Firebase snapshot returns true atleast 1 children)
-            var userIsTyping: Bool
+            // Set userIsTyping boolean to true if someone who is not the current user is typing (I.e. Firebase snapshot returns true for atleast 1 children)
+            var userIsTyping = false
             
-            if snapshot.hasChildren() {
+            // Returns the number of snapshot childrens
+            let numberOfChildrens = snapshot.childrenCount
+            
+            if numberOfChildrens == 1 {
+                // If number of snapshots = 1, then check if it's the current user who's typing. If it is, then set userIsTyping to false because we don't want to show elipses when current user is typing.
+                if let currentUserId = Api.user.CURRENT_USER?.uid {
+                    if snapshot.hasChild(currentUserId) {
+                        userIsTyping = false
+                    } else {
+                        userIsTyping = true
+                    }
+                }
+            } else if snapshot.hasChildren() {
                 userIsTyping = true
             } else {
                 userIsTyping = false

@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>IQKeyboardManagerSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>JSQMessagesViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,17 +57,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4DC059E04CBA98AEDDB5C34E02D551E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>681BE6E3D02A43F9BA63777AC435C8FD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7C3A0AB5FB4A55195A2DB508B598929D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>85665C37EF983C1E735F188879FD949D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,7 +82,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>D0B8DF3CB7F9615ECBFD44E9077944CF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D53804E34279A83A61915C6ACA3C0D06</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E80C6E6C31A7ACDD16733158A7F61FEB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

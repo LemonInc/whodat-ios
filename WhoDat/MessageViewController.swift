@@ -11,6 +11,7 @@ import KMPlaceholderTextView
 
 class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    @IBOutlet weak var typingGif: UIImageView!
     @IBOutlet weak var anchorDownButton: UIButton!
     @IBOutlet weak var userCountLabel: UILabel!
     @IBOutlet weak var messageTextInput: UITextView!
@@ -24,6 +25,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setNavigationBarStyle()
         
         // PASS GROUP ID WHEN MAP IS CONFIGURED
         groupId = "Group 1"
@@ -63,6 +66,29 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         UIApplication.shared.statusBarStyle = .lightContent
     }
     
+    // Setting gradient as an image background to the navigation bar
+    func setNavigationBarStyle() {
+        
+        let navBar = self.navigationController?.navigationBar
+        navBar?.isTranslucent = false
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: UIApplication.shared.statusBarFrame.width, height: UIApplication.shared.statusBarFrame.height + self.navigationController!.navigationBar.frame.height)
+        let colorTop = UIColor(red:0.39, green:0.84, blue:0.26, alpha:1.0).cgColor
+        let colorBottom = UIColor(red:0.17, green:0.71, blue:0.45, alpha:1.0).cgColor
+        gradientLayer.colors = [colorTop, colorBottom]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        
+        UIGraphicsBeginImageContext(gradientLayer.bounds.size)
+        gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        navBar?.setBackgroundImage(image, for: UIBarMetrics.default)
+        
+    }
+    
     @IBAction func anchorDownButton_TouchUpInside(_ sender: Any) {
         scrollToLastMessage(animated: true)
     }
@@ -89,14 +115,18 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     // Move view up by keyboard height when keyboard is shown
     func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y -= keyboardSize.height
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
         }
     }
     
     // Move view down by keyboard height when keyboard is hidden
     func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y += keyboardSize.height
+            if self.view.frame.origin.y != 0 {
+                self.view.frame.origin.y += keyboardSize.height
+            }
         }
     }
     
@@ -112,10 +142,11 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func enableSendButton() {
-        sendButton.setTitleColor(UIColor(red:0.05, green:0.08, blue:0.12, alpha:1.0), for: UIControlState.normal)
-        sendButton.backgroundColor = UIColor(red:1.00, green:0.83, blue:0.02, alpha:1.0)
-        sendButton.layer.cornerRadius = 8
         sendButton.layer.borderWidth = 0
+        sendButton.layer.masksToBounds = true
+        sendButton.setTitleColor(UIColor.white, for: UIControlState.normal)
+        sendButton.backgroundColor = UIColor(red:0.33, green:0.81, blue:0.31, alpha:1.0)
+        
         sendButton.isEnabled = true
     }
     
@@ -226,13 +257,13 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
         newMessageRef.setValue(messageData) { (error, reference) in
             if error != nil {
-                print(error)
+                print(error!)
             } else {
                 // When successfully added message to database, also create a one-to-many table (group-messages) to store all message ID's connecting to a specific group ID
                 let groupMessageRef = Api.groupMessages.GROUP_MESSAGES_REF.child(self.groupId).child(newMessageId)
                 groupMessageRef.setValue(true, withCompletionBlock: { (error, reference) in
                     if error != nil {
-                        print(error)
+                        print(error!)
                     } else {
                         // Clear text field and button state
                         self.clear()
@@ -267,7 +298,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 let signInVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
                 self.present(signInVC, animated: true, completion: nil)
             }, onError: { (error) in
-                print(error)
+                print(error!)
             })
             
         }) { (error) in
@@ -278,11 +309,16 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     func showTypingIndicator() {
         Api.group.observeUserTyping(groupId: self.groupId) { (isUserTyping) in
             if isUserTyping == true {
-                
+                self.typingGif.isHidden = false
+                self.typingGif.loadGif(name: "typing")
             } else {
-                
+                self.typingGif.isHidden = true
             }
         }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
     }
     
 }
@@ -319,17 +355,19 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MessageViewController: UITextViewDelegate {
     
+    // Triggers when user starts
     func textViewDidChange(_ textView: UITextView) {
         
         // Add time interval to keyboard input before triggering 'textViewStoppedTyping'
         var timer: Timer? = nil
         timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.textViewDidEndEditing), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.textViewDidEndEditing), userInfo: nil, repeats: false)
         
         // Set user typing status to true when user starts typing
-        let isUserTypingRef = Api.group.GROUP_REF.child(self.groupId).child("users").child((Api.user.CURRENT_USER?.uid)!).child("isUserTyping")
-        isUserTypingRef.setValue(true) { (error, reference) in
-            //print("Started typing")
+        if let currentUserId = Api.user.CURRENT_USER?.uid {
+            let isUserTypingRef = Api.group.GROUP_REF.child(self.groupId).child("users").child(currentUserId).child("isUserTyping")
+            isUserTypingRef.setValue(true) { (error, reference) in
+            }
         }
         
         // Disable send button if the user has not entered value on message text field
@@ -338,11 +376,14 @@ extension MessageViewController: UITextViewDelegate {
     
     // Triggers when user stops typing or when keyboard closes
     func textViewDidEndEditing(_ textView: UITextView) {
+        
         // Set user typing status to false if user stops typing
-        let isUserTypingRef = Api.group.GROUP_REF.child(self.groupId).child("users").child((Api.user.CURRENT_USER?.uid)!).child("isUserTyping")
-        isUserTypingRef.setValue(false) { (error, reference) in
-            //print("Stopped typing")
+        if let currentUserId = Api.user.CURRENT_USER?.uid {
+            let isUserTypingRef = Api.group.GROUP_REF.child(self.groupId).child("users").child(currentUserId).child("isUserTyping")
+                isUserTypingRef.setValue(false) { (error, reference) in
+            }
         }
+        
     }
     
 }

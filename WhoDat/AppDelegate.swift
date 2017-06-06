@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,9 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        // Set navigation bar background colour
-        UINavigationBar.appearance().barTintColor = UIColor(red:0.00, green:0.71, blue:1.00, alpha:1.0)
         
         // Set navigation bar text colour and font
         let textAttributes = [
@@ -31,8 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSFontAttributeName: UIFont(name: "WorkSans-Light", size: 18)!
         ]
         UINavigationBar.appearance().titleTextAttributes = textAttributes
-        
-        //UINavigationBar.appearance().barStyle = .blackOpaque
         
         return true
     }

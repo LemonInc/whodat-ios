@@ -15,5 +15,6 @@ pod 'Firebase/Storage'
 pod 'GoogleSignIn'
 pod 'SDWebImage', '~>3.8'
 pod 'KMPlaceholderTextView', '~> 1.3.0'
+pod 'IQKeyboardManagerSwift'
 
 end
