@@ -10,11 +10,8 @@ target 'WhoDat' do
 pod 'Firebase/Core'
 pod ‘Firebase/Database'
 pod 'Firebase/Auth'
-pod 'JSQMessagesViewController'
 pod 'Firebase/Storage'
-pod 'GoogleSignIn'
-pod 'SDWebImage', '~>3.8'
-pod 'KMPlaceholderTextView', '~> 1.3.0'
-pod 'IQKeyboardManagerSwift'
+pod 'KMPlaceholderTextView', '~> 1.3.0' #Handling UILabel placeholder copy
+pod 'SVProgressHUD' #For progress wheel (i.e on Login)
 
 end

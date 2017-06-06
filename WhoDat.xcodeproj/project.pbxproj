@@ -20,7 +20,6 @@
 		526D4A021EE4B01F00E042E4 /* GifPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D4A011EE4B01F00E042E4 /* GifPlayer.swift */; };
 		526D4A081EE6193600E042E4 /* typing.gif in Resources */ = {isa = PBXBuildFile; fileRef = 526D4A071EE6193600E042E4 /* typing.gif */; };
 		526D4A0A1EE72D5700E042E4 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D4A091EE72D5700E042E4 /* Archive.swift */; };
-		526D4A0E1EE744BA00E042E4 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D4A0D1EE744BA00E042E4 /* KeyboardLayoutConstraint.swift */; };
 		52A59FB61ECF841D00F64743 /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */; };
 		52A59FBA1ED0513500F64743 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A59FB91ED0513500F64743 /* MessageViewController.swift */; };
 		52A59FBE1ED0849A00F64743 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A59FBD1ED0849A00F64743 /* Message.swift */; };
@@ -51,7 +50,6 @@
 		526D4A011EE4B01F00E042E4 /* GifPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifPlayer.swift; sourceTree = "<group>"; };
 		526D4A071EE6193600E042E4 /* typing.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = typing.gif; sourceTree = "<group>"; };
 		526D4A091EE72D5700E042E4 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
-		526D4A0D1EE744BA00E042E4 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
 		52A59FB91ED0513500F64743 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		52A59FBD1ED0849A00F64743 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -108,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				526D4A071EE6193600E042E4 /* typing.gif */,
-				526D4A0D1EE744BA00E042E4 /* KeyboardLayoutConstraint.swift */,
 				526D4A011EE4B01F00E042E4 /* GifPlayer.swift */,
 				5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */,
 				524F10B21EDB917B00E38373 /* Helper.swift */,
@@ -309,7 +306,6 @@
 				524F10B31EDB917B00E38373 /* Helper.swift in Sources */,
 				5225D0261EB79DA300D6A1B4 /* LoginViewController.swift in Sources */,
 				52A59FCD1ED09B3F00F64743 /* AuthService.swift in Sources */,
-				526D4A0E1EE744BA00E042E4 /* KeyboardLayoutConstraint.swift in Sources */,
 				52A59FC41ED08B4400F64743 /* MessageTableViewCell.swift in Sources */,
 				5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */,
 				52A59FC21ED0878500F64743 /* MessageApi.swift in Sources */,

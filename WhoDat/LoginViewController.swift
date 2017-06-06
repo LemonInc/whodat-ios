@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import SVProgressHUD
 
 class LoginViewController: UIViewController {
 
@@ -31,16 +32,25 @@ class LoginViewController: UIViewController {
     @IBAction func anonymousButton_TouchUpInside(_ sender: Any) {
         AuthService.loginAnonymously(onSuccess: {
             
+            // Show progress indicator
+            SVProgressHUD.show(withStatus: "Loading...")
+            
             // Update and increment user count by adding to database
             let groupId = "Group 1"
             Api.group.setUserCount(groupId: groupId, onSuccess: { (group) in
+                
+                // Show progress indicator success
+                SVProgressHUD.showSuccess(withStatus: "Success!")
+                
                 self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
             }, onError: { (error) in
-                print(error!)
+                // Show progress indicator error
+                SVProgressHUD.showError(withStatus: error!)
             })
             
         }) { (error) in
-            print(error!)
+            // Show progress indicator error
+            SVProgressHUD.showError(withStatus: error!)
         }
     }
     

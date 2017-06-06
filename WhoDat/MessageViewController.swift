@@ -273,9 +273,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         // Clear text field and button state
                         self.clear()
                         
-                        // Hides keyboard once finished
-                        self.view.endEditing(true)
-                        
                         self.scrollToLastMessage(animated: false)
                     }
                 })
