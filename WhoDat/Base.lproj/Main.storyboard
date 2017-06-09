@@ -40,6 +40,7 @@
                             <constraint firstItem="Qui-jU-DZT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jA8-6i-xuh"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="JLw-XV-ofw"/>
                     <connections>
                         <outlet property="anonymousButton" destination="Qui-jU-DZT" id="uR2-3J-32G"/>
                         <segue destination="hf2-fa-HFn" kind="showDetail" identifier="messageVCSegue" action="showViewController:sender:" id="F2m-Gd-0DX"/>
@@ -62,7 +63,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="y4V-sW-7Vp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="602"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="601"/>
                                 <color key="backgroundColor" red="0.93333333333333335" green="0.95294117647058818" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IncomingChatCell" rowHeight="80" id="Oe3-nB-gQb" customClass="MessageTableViewCell" customModule="WhoDat" customModuleProvider="target">
@@ -168,24 +169,24 @@
                                 </prototypes>
                             </tableView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1B-r3-86Y">
-                                <rect key="frame" x="325" y="482" width="50" height="50"/>
+                                <rect key="frame" x="325" y="481" width="50" height="50"/>
                                 <state key="normal" image="anchor_down"/>
                                 <connections>
                                     <action selector="anchorDownButton_TouchUpInside:" destination="Ug7-k6-9qu" eventType="touchUpInside" id="xmY-mk-Epk"/>
                                 </connections>
                             </button>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="typing.gif" translatesAutoresizingMaskIntoConstraints="NO" id="uBn-vW-cgw">
-                                <rect key="frame" x="166" y="580" width="44" height="22"/>
+                                <rect key="frame" x="166" y="579" width="44" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="jOh-0I-uC1"/>
                                     <constraint firstAttribute="height" constant="22" id="nhj-Xy-AZb"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BPh-aZ-xDb">
-                                <rect key="frame" x="0.0" y="612" width="375" height="55"/>
+                                <rect key="frame" x="0.0" y="611" width="375" height="56"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2E7-As-YNt" customClass="KMPlaceholderTextView" customModule="KMPlaceholderTextView">
-                                        <rect key="frame" x="20" y="10" width="235" height="35"/>
+                                        <rect key="frame" x="20" y="10" width="235" height="36"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -194,7 +195,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wFY-Id-9Ef" customClass="Button" customModule="WhoDat" customModuleProvider="target">
-                                        <rect key="frame" x="275" y="7" width="80" height="40"/>
+                                        <rect key="frame" x="275" y="8" width="80" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="d27-g6-mX5"/>
                                             <constraint firstAttribute="height" constant="40" id="o39-np-6i4"/>
@@ -302,7 +303,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Su9-L0-ivB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -317,7 +318,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbC-08-ROZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="736.79999999999995" y="36.431784107946029"/>
+            <point key="canvasLocation" x="694" y="36"/>
         </scene>
     </scenes>
     <resources>

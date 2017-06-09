@@ -25,15 +25,16 @@ class LoginViewController: UIViewController {
         // If the user has not logged out, then automatically switch to MessageViewController
         let currentUser = Api.user.CURRENT_USER
         if currentUser != nil {
-            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+            //self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
         }
     }
     
     @IBAction func anonymousButton_TouchUpInside(_ sender: Any) {
+        
+        // Show progress indicator
+        SVProgressHUD.show(withStatus: "Loading...")
+        
         AuthService.loginAnonymously(onSuccess: {
-            
-            // Show progress indicator
-            SVProgressHUD.show(withStatus: "Loading...")
             
             // Update and increment user count by adding to database
             let groupId = "Group 1"

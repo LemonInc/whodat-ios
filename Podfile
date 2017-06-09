@@ -13,5 +13,6 @@ pod 'Firebase/Auth'
 pod 'Firebase/Storage'
 pod 'KMPlaceholderTextView', '~> 1.3.0' #Handling UILabel placeholder copy
 pod 'SVProgressHUD' #For progress wheel (i.e on Login)
+pod 'lottie-ios'
 
 end

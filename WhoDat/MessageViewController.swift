@@ -273,11 +273,18 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         // Clear text field and button state
                         self.clear()
                         
+                        
+                        
                         self.scrollToLastMessage(animated: false)
                     }
                 })
             }
         }
+        
+    }
+    
+    func setUserTypingStatus() {
+        let ref = Api.group.GROUP_REF.child("Group 1").child("users").child((Api.user.CURRENT_USER?.uid)!)
         
     }
     

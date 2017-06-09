@@ -105,17 +105,10 @@
 		5225D0101EB69E2800D6A1B4 /* WhoDat */ = {
 			isa = PBXGroup;
 			children = (
-				526D4A071EE6193600E042E4 /* typing.gif */,
-				526D4A011EE4B01F00E042E4 /* GifPlayer.swift */,
 				5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */,
-				524F10B21EDB917B00E38373 /* Helper.swift */,
-				52A59FBF1ED0875D00F64743 /* Api.swift */,
-				52A59FCC1ED09B3F00F64743 /* AuthService.swift */,
-				52A59FC11ED0878500F64743 /* MessageApi.swift */,
-				524F10B81EDF566100E38373 /* GroupMessagesApi.swift */,
-				52A59FCA1ED0955B00F64743 /* UserApi.swift */,
-				524F10AE1EDAFC3E00E38373 /* GroupApi.swift */,
-				52A59FD01ED1907B00F64743 /* Button.swift */,
+				524F72431EE76E8500FD5A8A /* Other */,
+				526D4A071EE6193600E042E4 /* typing.gif */,
+				524F72421EE76E7000FD5A8A /* Api */,
 				52A59FC51ED08F0900F64743 /* Model */,
 				52A59FC61ED08F4300F64743 /* View */,
 				52A59FC71ED08F6800F64743 /* Controller */,
@@ -127,6 +120,29 @@
 				52A59FB41ECF839000F64743 /* Fonts */,
 			);
 			path = WhoDat;
+			sourceTree = "<group>";
+		};
+		524F72421EE76E7000FD5A8A /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				52A59FBF1ED0875D00F64743 /* Api.swift */,
+				52A59FCC1ED09B3F00F64743 /* AuthService.swift */,
+				52A59FC11ED0878500F64743 /* MessageApi.swift */,
+				524F10B81EDF566100E38373 /* GroupMessagesApi.swift */,
+				52A59FCA1ED0955B00F64743 /* UserApi.swift */,
+				524F10AE1EDAFC3E00E38373 /* GroupApi.swift */,
+			);
+			name = Api;
+			sourceTree = "<group>";
+		};
+		524F72431EE76E8500FD5A8A /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				52A59FD01ED1907B00F64743 /* Button.swift */,
+				524F10B21EDB917B00E38373 /* Helper.swift */,
+				526D4A011EE4B01F00E042E4 /* GifPlayer.swift */,
+			);
+			name = Other;
 			sourceTree = "<group>";
 		};
 		52A59FB41ECF839000F64743 /* Fonts */ = {
