@@ -273,7 +273,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         // Clear text field and button state
                         self.clear()
                         
-                        
+                        self.setUserTypingStatus()
                         
                         self.scrollToLastMessage(animated: false)
                     }
@@ -284,8 +284,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func setUserTypingStatus() {
-        let ref = Api.group.GROUP_REF.child("Group 1").child("users").child((Api.user.CURRENT_USER?.uid)!)
-        
+        let isUsertypingRef = Api.group.GROUP_REF.child("Group 1").child("users").child((Api.user.CURRENT_USER?.uid)!).child("isUserTyping")
+        isUsertypingRef.setValue(false)
     }
     
     // Clear text field and button state
