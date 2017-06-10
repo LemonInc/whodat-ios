@@ -22,6 +22,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     var messages = [Message]()
     var users = [User]()
     var firstLoad = true
+    var userCountNumber: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +49,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         messageTextInput.centerVertically()
         
         configureSendButton()
-        loadGroupDetails()
         loadMessages()
         showTypingIndicator()
         
@@ -60,6 +60,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // Methods to handle when keyboard is shown or hidden to push content up
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        loadGroupDetails()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -304,26 +306,24 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func setUserLoggedOut() {
-        // Update and decrement user count by removing from database
-        Api.group.setUserCount(groupId: self.groupId, onSuccess: { (group) in
-            
-            // Logout user after user count has been updated
+        
+        Api.group.removeUserFromGroup(groupId: self.groupId, onSuccess: {
             AuthService.logout(onSuccess: {
                 // After log out, switch to login screen
                 self.navigationController?.popViewController(animated: true)
             }, onError: { (error) in
                 print(error!)
             })
-            
         }) { (error) in
             print(error!)
         }
+        
     }
     
     @IBAction func logoutButton_TouchUpInside(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
-
+    
     func showTypingIndicator() {
         Api.group.observeUserTyping(groupId: self.groupId) { (isUserTyping) in
             if isUserTyping == true {
@@ -367,7 +367,7 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         cell.user = user
         
         return cell
-
+        
     }
 }
 
@@ -398,7 +398,7 @@ extension MessageViewController: UITextViewDelegate {
         // Set user typing status to false if user stops typing
         if let currentUserId = Api.user.CURRENT_USER?.uid {
             let isUserTypingRef = Api.group.GROUP_REF.child(self.groupId).child("users").child(currentUserId).child("isUserTyping")
-                isUserTypingRef.setValue(false) { (error, reference) in
+            isUserTypingRef.setValue(false) { (error, reference) in
             }
         }
         
