@@ -26,7 +26,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarStyle()
+        // This enables the swipe gesture on navigation bar when custom back button is used, if we don't use custom back button then the swipe works without this.
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         // PASS GROUP ID WHEN MAP IS CONFIGURED
         groupId = "Group 1"
@@ -61,8 +62,16 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        setUserLoggedOut()
+    }
+    
     // Set status bar text colour to white - only applicable for this view
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setNavigationBarStyle()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         UIApplication.shared.statusBarStyle = .lightContent
     }
     
@@ -294,18 +303,14 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         disableSendButton()
     }
     
-    @IBAction func logoutButton_TouchUpInside(_ sender: Any) {
-        
+    func setUserLoggedOut() {
         // Update and decrement user count by removing from database
-        let groupId = "Group 1"
-        Api.group.setUserCount(groupId: groupId, onSuccess: { (group) in
+        Api.group.setUserCount(groupId: self.groupId, onSuccess: { (group) in
             
             // Logout user after user count has been updated
             AuthService.logout(onSuccess: {
                 // After log out, switch to login screen
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let signInVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-                self.present(signInVC, animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
             }, onError: { (error) in
                 print(error!)
             })
@@ -313,6 +318,10 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         }) { (error) in
             print(error!)
         }
+    }
+    
+    @IBAction func logoutButton_TouchUpInside(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
 
     func showTypingIndicator() {

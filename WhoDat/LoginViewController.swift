@@ -19,13 +19,18 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // If the user has not logged out, then automatically switch to MessageViewController
         let currentUser = Api.user.CURRENT_USER
         if currentUser != nil {
-            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+            //self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
         }
     }
     
