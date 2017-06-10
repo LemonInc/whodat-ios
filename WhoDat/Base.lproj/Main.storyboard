@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ybh-La-0sW">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -14,6 +14,39 @@
         </array>
     </customFonts>
     <scenes>
+        <!--Splash View Controller-->
+        <scene sceneID="aJ3-Ne-Csg">
+            <objects>
+                <viewController id="ybh-La-0sW" customClass="SplashViewController" customModule="WhoDat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L9Z-zk-g5Q"/>
+                        <viewControllerLayoutGuide type="bottom" id="4qx-oa-Vdb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iqn-Jw-dMj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="dpe-xX-UXB">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dpe-xX-UXB" secondAttribute="trailing" id="4kO-2v-8Jr"/>
+                            <constraint firstItem="dpe-xX-UXB" firstAttribute="top" secondItem="L9Z-zk-g5Q" secondAttribute="bottom" id="EJ6-dk-Yjp"/>
+                            <constraint firstItem="4qx-oa-Vdb" firstAttribute="top" secondItem="dpe-xX-UXB" secondAttribute="bottom" id="Nm3-PD-aPF"/>
+                            <constraint firstItem="dpe-xX-UXB" firstAttribute="leading" secondItem="iqn-Jw-dMj" secondAttribute="leading" id="wbx-Kb-MhH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="mapVCSegue" id="JS4-Bq-SOP"/>
+                        <segue destination="hf2-fa-HFn" kind="show" identifier="messageVCSegue" id="Zhs-Oa-TSL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Txo-kc-xZu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-959" y="36"/>
+        </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -48,7 +81,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-130.40000000000001" y="35.532233883058474"/>
+            <point key="canvasLocation" x="-119" y="-394"/>
         </scene>
         <!--Loading...-->
         <scene sceneID="pNn-p3-dQj">
@@ -303,7 +336,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Su9-L0-ivB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -324,8 +357,12 @@
     <resources>
         <image name="anchor_down" width="50" height="50"/>
         <image name="back_arrow" width="23" height="16"/>
+        <image name="splash_background.png" width="375" height="667"/>
         <image name="typing.gif" width="88" height="44"/>
         <image name="user_count" width="18" height="18"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Zhs-Oa-TSL"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.19389812961791131" green="0.49599169178673963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

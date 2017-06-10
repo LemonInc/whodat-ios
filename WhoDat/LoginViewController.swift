@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
         // If the user has not logged out, then automatically switch to MessageViewController
         let currentUser = Api.user.CURRENT_USER
         if currentUser != nil {
-            //self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
         }
     }
     
