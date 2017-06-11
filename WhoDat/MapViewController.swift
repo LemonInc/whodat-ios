@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import SVProgressHUD
 
-class LoginViewController: UIViewController {
+class MapViewController: UIViewController {
     
     @IBOutlet weak var anonymousButton: UIButton!
     
@@ -21,6 +21,8 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        UIApplication.shared.isStatusBarHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -30,7 +32,7 @@ class LoginViewController: UIViewController {
         // If the user has not logged out, then automatically switch to MessageViewController
         let currentUser = Api.user.CURRENT_USER
         if currentUser != nil {
-            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+            //self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
         }
     }
     
