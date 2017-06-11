@@ -20,8 +20,6 @@ class GroupApi {
             if let dict = snapshot.value as? [String: Any] {
                 let group = Group.transformGroup(dict: dict)
                 
-                self.GROUP_REF.child(id).child("userCount").setValue(group.users?.count)
-                
                 onSuccess(group)
             }
             

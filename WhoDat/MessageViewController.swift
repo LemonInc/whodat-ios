@@ -191,7 +191,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         Api.group.observeGroup(groupId: groupId) { (group) in
             
             // Set user count value
-            guard let userCount = group.userCount else {
+            guard let userCount = group.users?.count else {
                 return
             }
             self.userCountButton.setTitle(" \(String(userCount))", for: .normal)
@@ -222,9 +222,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         self.scrollToLastMessage(animated: false)
                         self.firstLoad = false
                     } else {
-                        // If this is not first load
-                        
-                        // If the user scrolls to the bottom, set 'scrolledBottom' to true
+                        // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
                         var scrolledToBottom = false
                         if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
                             scrolledToBottom = true
@@ -232,19 +230,25 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         
                         // If user has scrolled to the bottom, then scroll to last message when new message comes in
                         if scrolledToBottom == true {
-                            self.messages.append(message)
-                            self.tableView.reloadData()
                             self.scrollToLastMessage(animated: false)
-                        } else {
-                            self.messages.append(message)
-                            self.tableView.reloadData()
                         }
                     }
+                    
+                    self.messages.append(message)
+                    self.tableView.reloadData()
                     
                 })
             })
         }
         
+    }
+    
+    // Grab the user who sent the corresponding message based on senderId
+    func fetchUser(senderId: String, onSuccess: @escaping () -> Void) {
+        Api.user.observeUser(withId: senderId) { (user) in
+            self.users.append(user)
+            onSuccess()
+        }
     }
     
     // Scroll to last message
@@ -257,14 +261,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 let indexPath = IndexPath(row: numberOfRows-1, section: (numberOfSections-1))
                 self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
             }
-        }
-    }
-    
-    // Grab the user who sent the corresponding message based on senderId
-    func fetchUser(senderId: String, onSuccess: @escaping () -> Void) {
-        Api.user.observeUser(withId: senderId) { (user) in
-            self.users.append(user)
-            onSuccess()
         }
     }
     
@@ -296,7 +292,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                         // Clear text field and button state
                         self.clear()
                         
-                        self.setUserTypingStatus()
+                        self.setUserTypingStatusToFalse()
                         
                         self.scrollToLastMessage(animated: false)
                     }
@@ -306,7 +302,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
-    func setUserTypingStatus() {
+    func setUserTypingStatusToFalse() {
         let isUsertypingRef = Api.group.GROUP_REF.child("Group 1").child("users").child((Api.user.CURRENT_USER?.uid)!).child("isUserTyping")
         isUsertypingRef.setValue(false)
     }
