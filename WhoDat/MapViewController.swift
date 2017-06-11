@@ -13,53 +13,44 @@ import SVProgressHUD
 
 class MapViewController: UIViewController {
     
-    @IBOutlet weak var anonymousButton: UIButton!
+    @IBOutlet weak var startChatButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        styleChatButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        // Show status bar and hide navigation bar
         UIApplication.shared.isStatusBarHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // If the user has not logged out, then automatically switch to MessageViewController
-        let currentUser = Api.user.CURRENT_USER
-        if currentUser != nil {
-            //self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-        }
+    func styleChatButton() {
+        let background = CAGradientLayer().backgroundGradientColor()
+        background.frame = startChatButton.bounds
+        startChatButton.clipsToBounds = true
+        startChatButton.layer.addSublayer(background)
     }
     
-    @IBAction func anonymousButton_TouchUpInside(_ sender: Any) {
+    @IBAction func startChatButton_TouchUpInside(_ sender: Any) {
         
         // Show progress indicator
         SVProgressHUD.show(withStatus: "Loading...")
         
-        AuthService.loginAnonymously(onSuccess: {
-            
-            // Update and increment user count by adding to database
-            let groupId = "Group 1"
-            
-            Api.group.addUserToGroup(groupId: groupId, onSuccess: {
-                // Show progress indicator success
-                SVProgressHUD.showSuccess(withStatus: "Success!")
-                
-                self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-            }, onError: { (error) in
-                // Show progress indicator error
-                SVProgressHUD.showError(withStatus: error!)
-            })
-            
-        }) { (error) in
+        // Update and increment user count by adding to database
+        let groupId = "Group 1"
+        
+        Api.group.addUserToGroup(groupId: groupId, onSuccess: {
+            SVProgressHUD.dismiss()
+            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+        }, onError: { (error) in
             // Show progress indicator error
             SVProgressHUD.showError(withStatus: error!)
-        }
+        })
+        
     }
     
 }

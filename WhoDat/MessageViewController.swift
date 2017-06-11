@@ -1,10 +1,3 @@
-//
-//  MessageViewController.swift
-//  WhoDat
-//
-//  Created by Alan Lau on 20/05/2017.
-//  Copyright © 2017 WotDat. All rights reserved.
-//
 
 import UIKit
 import KMPlaceholderTextView
@@ -76,7 +69,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        setUserLoggedOut()
+        removeUserFromGroup()
     }
     
     // Set status bar text colour to white - only applicable for this view
@@ -94,16 +87,11 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         let navBar = self.navigationController?.navigationBar
         navBar?.isTranslucent = false
         
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: UIApplication.shared.statusBarFrame.width, height: UIApplication.shared.statusBarFrame.height + self.navigationController!.navigationBar.frame.height)
-        let colorTop = UIColor(red:0.39, green:0.84, blue:0.26, alpha:1.0).cgColor
-        let colorBottom = UIColor(red:0.17, green:0.71, blue:0.45, alpha:1.0).cgColor
-        gradientLayer.colors = [colorTop, colorBottom]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        let background = CAGradientLayer().backgroundGradientColor()
+        background.frame = CGRect(x: 0, y: 0, width: UIApplication.shared.statusBarFrame.width, height: UIApplication.shared.statusBarFrame.height + self.navigationController!.navigationBar.frame.height)
         
-        UIGraphicsBeginImageContext(gradientLayer.bounds.size)
-        gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
+        UIGraphicsBeginImageContext(background.bounds.size)
+        background.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -312,19 +300,12 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         disableSendButton()
     }
     
-    func setUserLoggedOut() {
-        
+    func removeUserFromGroup() {
         Api.group.removeUserFromGroup(groupId: self.groupId, onSuccess: {
-            AuthService.logout(onSuccess: {
-                // After log out, switch to login screen
-                self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
-                print(error!)
-            })
+            self.navigationController?.popViewController(animated: true)
         }) { (error) in
             print(error!)
         }
-        
     }
     
     @IBAction func logoutButton_TouchUpInside(_ sender: Any) {

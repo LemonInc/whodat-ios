@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AB0641EEDCBC80050FAD3 /* Gradient.swift */; };
 		5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */; };
 		5225D0171EB69E2800D6A1B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5225D0151EB69E2800D6A1B4 /* Main.storyboard */; };
 		5225D0191EB69E2800D6A1B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5225D0181EB69E2800D6A1B4 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		4374DA0AFE78DD04EECE21BF /* Pods-WhoDat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoDat.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhoDat/Pods-WhoDat.release.xcconfig"; sourceTree = "<group>"; };
+		521AB0641EEDCBC80050FAD3 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		5225D00E1EB69E2800D6A1B4 /* WhoDat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhoDat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5225D0161EB69E2800D6A1B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 		526D4A011EE4B01F00E042E4 /* GifPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifPlayer.swift; sourceTree = "<group>"; };
 		526D4A071EE6193600E042E4 /* typing.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = typing.gif; sourceTree = "<group>"; };
 		526D4A091EE72D5700E042E4 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
+		5293CCE61EEDC8B6001E2DDE /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
 		52A59FB91ED0513500F64743 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		52A59FBD1ED0849A00F64743 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -147,6 +150,7 @@
 				52A59FD01ED1907B00F64743 /* Button.swift */,
 				524F10B21EDB917B00E38373 /* Helper.swift */,
 				526D4A011EE4B01F00E042E4 /* GifPlayer.swift */,
+				521AB0641EEDCBC80050FAD3 /* Gradient.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -164,6 +168,7 @@
 		52A59FB41ECF839000F64743 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				5293CCE61EEDC8B6001E2DDE /* WorkSans-Regular.otf */,
 				52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */,
 			);
 			name = Fonts;
@@ -341,6 +346,7 @@
 				524F10B31EDB917B00E38373 /* Helper.swift in Sources */,
 				524F72491EEB24D300FD5A8A /* SplashViewController.swift in Sources */,
 				5225D0261EB79DA300D6A1B4 /* MapViewController.swift in Sources */,
+				521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */,
 				52A59FCD1ED09B3F00F64743 /* AuthService.swift in Sources */,
 				52A59FC41ED08B4400F64743 /* MessageTableViewCell.swift in Sources */,
 				5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */,

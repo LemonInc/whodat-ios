@@ -24,15 +24,23 @@ class SplashViewController: UIViewController {
         self.view.addSubview(animationView!)
         animationView?.animationSpeed = 1.2
         
-        // After animation finishes, log the user in
         animationView?.play(completion: { (bool) in
-            AuthService.loginAnonymously(onSuccess: {
+            
+            // If the user has not logged out, then automatically switch to MessageViewController, otherwise sign the user in as an anonymous user
+            let currentUser = Api.user.CURRENT_USER
+            if currentUser != nil {
                 self.performSegue(withIdentifier: "mapVCSegue", sender: nil)
-            }) { (error) in
-                // Show progress indicator error
-                SVProgressHUD.showError(withStatus: error!)
+            } else {
+                AuthService.loginAnonymously(onSuccess: {
+                    self.performSegue(withIdentifier: "mapVCSegue", sender: nil)
+                }) { (error) in
+                    // Show progress indicator error
+                    SVProgressHUD.showError(withStatus: error!)
+                }
             }
+            
         })
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
