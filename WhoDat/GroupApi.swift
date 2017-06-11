@@ -21,7 +21,6 @@ class GroupApi {
                 let group = Group.transformGroup(dict: dict)
                 
                 self.GROUP_REF.child(id).child("userCount").setValue(group.users?.count)
-                print(group.userCount)
                 
                 onSuccess(group)
             }

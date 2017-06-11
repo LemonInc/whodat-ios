@@ -13,7 +13,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var typingGif: UIImageView!
     @IBOutlet weak var anchorDownButton: UIButton!
-    @IBOutlet weak var userCountLabel: UILabel!
     @IBOutlet weak var messageTextInput: UITextView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -22,7 +21,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     var messages = [Message]()
     var users = [User]()
     var firstLoad = true
-    var userCountNumber: Int!
+    var userCountButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +31,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // PASS GROUP ID WHEN MAP IS CONFIGURED
         groupId = "Group 1"
+        loadGroupDetails()
         
         // Setting cell row height to be dynamic based on content height
         tableView.dataSource = self
@@ -61,7 +61,17 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        loadGroupDetails()
+        
+    }
+    
+    func setRightNavButton() {
+        userCountButton = UIButton(type: .custom)
+        userCountButton.setImage(UIImage(named: "user_count"), for: .normal)
+        userCountButton.isEnabled = false
+        userCountButton.titleLabel?.font = UIFont(name: "WorkSans-Light", size: 18)
+        userCountButton.adjustsImageWhenHighlighted = false
+        userCountButton.sizeToFit()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: userCountButton)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,6 +83,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         setNavigationBarStyle()
+        setRightNavButton()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         UIApplication.shared.statusBarStyle = .lightContent
     }
@@ -183,7 +194,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             guard let userCount = group.userCount else {
                 return
             }
-            self.userCountLabel.text = String(userCount)
+            self.userCountButton.setTitle(" \(String(userCount))", for: .normal)
+            self.userCountButton.sizeToFit()
             
             // Set navigation title to group location
             guard let location = group.location else {
