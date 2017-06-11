@@ -159,8 +159,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Disable send button if the user has not entered value on message text field
     func configureSendButton() {
-        if let messageText = messageTextInput.text, !messageText.isEmpty {
-            // Enable button if the user has entered something in text field
+        if let _ = messageTextInput.text, !messageTextInput.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty {
+            // Enable button if the user has entered something in text field - excludes empty spaces and lines
             self.enableSendButton()
         } else {
             // Disable button if text field is empty
@@ -173,7 +173,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         sendButton.layer.masksToBounds = true
         sendButton.setTitleColor(UIColor.white, for: UIControlState.normal)
         sendButton.backgroundColor = UIColor(red:0.33, green:0.81, blue:0.31, alpha:1.0)
-        
         sendButton.isEnabled = true
     }
     
@@ -277,7 +276,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         let newMessageId = messageRef.childByAutoId().key
         let newMessageRef = messageRef.child(newMessageId)
         
-        let messageData = ["messageText": messageTextInput.text!, "senderId": currentUserId]
+        let messageData = ["messageText": messageTextInput.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), "senderId": currentUserId]
         
         newMessageRef.setValue(messageData) { (error, reference) in
             if error != nil {
