@@ -59,7 +59,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("appear")
+        
     }
     
     func setRightNavButton() {
@@ -206,7 +206,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             // After grabbing all message ID's, then grab the message details from the messages table
             Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
                 
-                print(message.messageText)
+                //print(message.messageText)
                 
                 // Also grab the user detail corresponding to the message sender ID
                 self.fetchUser(senderId: message.senderId!, onSuccess: {
@@ -379,6 +379,7 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Pass the current indexPath.row message data to MessageTableViewCell for use
         cell.message = message
+        //print(message.messageText)
         cell.user = user
         
         cell.layoutIfNeeded()

@@ -222,7 +222,7 @@
                                 </connections>
                             </button>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="typing.gif" translatesAutoresizingMaskIntoConstraints="NO" id="uBn-vW-cgw">
-                                <rect key="frame" x="166" y="580" width="44" height="22"/>
+                                <rect key="frame" x="165.5" y="580" width="44" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="jOh-0I-uC1"/>
                                     <constraint firstAttribute="height" constant="22" id="nhj-Xy-AZb"/>
@@ -341,7 +341,7 @@
         <image name="anchor_down" width="50" height="50"/>
         <image name="back_arrow" width="23" height="16"/>
         <image name="splash_background.png" width="375" height="667"/>
-        <image name="typing.gif" width="88" height="44"/>
+        <image name="typing.gif" width="44" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="L1o-aD-f0V"/>
