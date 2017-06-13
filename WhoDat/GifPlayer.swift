@@ -193,7 +193,7 @@ extension UIImage {
             }
         }
         
-        // Heyhey
+        // Animation speed
         let animation = UIImage.animatedImage(with: frames,
                                               duration: Double(duration) / 2500.0)
         

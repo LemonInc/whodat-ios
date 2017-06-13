@@ -18,8 +18,6 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         styleChatButton()
-        
-        print("map appears")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,8 +36,6 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func startChatButton_TouchUpInside(_ sender: Any) {
-        
-        print("pressed")
         
         // Show progress indicator
         SVProgressHUD.show(withStatus: "Loading...")
