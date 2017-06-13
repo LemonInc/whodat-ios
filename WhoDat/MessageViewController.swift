@@ -1,6 +1,7 @@
 
 import UIKit
 import KMPlaceholderTextView
+import AVFoundation
 
 class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
@@ -15,6 +16,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     var users = [User]()
     var firstLoad = true
     var userCountButton: UIButton!
+    var player: AVAudioPlayer = AVAudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +27,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // PASS GROUP ID WHEN MAP IS CONFIGURED
         groupId = "Group 1"
         loadGroupDetails()
+        
+        loadMessages()
         
         // Setting cell row height to be dynamic based on content height
         tableView.dataSource = self
@@ -42,7 +46,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         messageTextInput.centerVertically()
         
         configureSendButton()
-        loadMessages()
         showTypingIndicator()
         
         // Tap gesture to hide keyboard when tableview's pressed
@@ -53,8 +56,10 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // Methods to handle when keyboard is shown or hidden to push content up
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("appear")
     }
     
     func setRightNavButton() {
@@ -201,6 +206,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             // After grabbing all message ID's, then grab the message details from the messages table
             Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
                 
+                print(message.messageText)
+                
                 // Also grab the user detail corresponding to the message sender ID
                 self.fetchUser(senderId: message.senderId!, onSuccess: {
                     
@@ -253,6 +260,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func sendButton_TouchUpInside(_ sender: Any) {
         
+        playSound()
+        
         // Check for current User ID
         guard let currentUser = Api.user.CURRENT_USER else {
             return
@@ -287,6 +296,24 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
         
+    }
+    
+    func playSound() {
+        
+        guard let url = Bundle.main.url(forResource: "send", withExtension: ".aiff") else {
+            print("error")
+            return
+        }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: url)
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
     func setUserTypingStatusToFalse() {
@@ -353,6 +380,8 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         // Pass the current indexPath.row message data to MessageTableViewCell for use
         cell.message = message
         cell.user = user
+        
+        cell.layoutIfNeeded()
         
         return cell
         
