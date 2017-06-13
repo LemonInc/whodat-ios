@@ -8,6 +8,10 @@
 
 import UIKit
 import Firebase
+import GoogleMaps
+
+//API Key
+let mapsAPIKey = "AIzaSyDKV76NkXPHgo0ZJGUwBEqcojeosXljOpk"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSFontAttributeName: UIFont(name: "WorkSans-Light", size: 18)!
         ]
         UINavigationBar.appearance().titleTextAttributes = textAttributes
+        
+        // Get GoogleMaps API
+        GMSServices.provideAPIKey(mapsAPIKey)
         
         return true
     }

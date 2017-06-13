@@ -88,6 +88,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="JLw-XV-ofw"/>
                     <connections>
+                        <outlet property="chatBtn" destination="FWS-r0-Mlf" id="L9N-Cr-Ako"/>
                         <outlet property="startChatButton" destination="FWS-r0-Mlf" id="5qS-an-hUn"/>
                         <segue destination="Ug7-k6-9qu" kind="show" identifier="messageVCSegue" id="L1o-aD-f0V"/>
                     </connections>
@@ -120,7 +121,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QSf-jx-UTc">
-                                                    <rect key="frame" x="20" y="15" width="91" height="65"/>
+                                                    <rect key="frame" x="20" y="15" width="88" height="65"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gs2-03-7Io">
                                                             <rect key="frame" x="15" y="17" width="6" height="6"/>
@@ -136,12 +137,12 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIj-vw-tjs">
-                                                            <rect key="frame" x="29" y="10" width="47" height="45"/>
+                                                            <rect key="frame" x="29" y="10" width="44" height="45"/>
                                                             <attributedString key="attributedText">
                                                                 <fragment content="Label">
                                                                     <attributes>
                                                                         <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        <font key="NSFont" size="18" name="WorkSans-Light"/>
+                                                                        <font key="NSFont" metaFont="system" size="18"/>
                                                                         <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1000000000000001" tighteningFactorForTruncation="0.0"/>
                                                                     </attributes>
                                                                 </fragment>
