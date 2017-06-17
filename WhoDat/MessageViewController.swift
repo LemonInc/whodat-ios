@@ -24,12 +24,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // This enables the swipe gesture on navigation bar when custom back button is used, if we don't use custom back button then the swipe works without this.
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-        // PASS GROUP ID WHEN MAP IS CONFIGURED
-        groupId = "Group 1"
-        loadGroupDetails()
-        
-        loadMessages()
-        
         // Setting cell row height to be dynamic based on content height
         tableView.dataSource = self
         tableView.delegate = self
@@ -46,7 +40,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         messageTextInput.centerVertically()
         
         configureSendButton()
-        showTypingIndicator()
         
         // Tap gesture to hide keyboard when tableview's pressed
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -56,11 +49,17 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // Methods to handle when keyboard is shown or hidden to push content up
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-
+        
+        // PASS GROUP ID WHEN MAP IS CONFIGURED
+        groupId = "Group 1"
+        
+        showTypingIndicator()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        loadGroupDetails()
+        loadMessages()
     }
     
     func setRightNavButton() {
@@ -207,42 +206,74 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             // After grabbing all message ID's, then grab the message details from the messages table
             Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
                 
-                // Also grab the user detail corresponding to the message sender ID
-                self.fetchUser(senderId: message.senderId!, onSuccess: {
-                    
-                    // Scroll to the bottom upon first load
-                    if self.firstLoad == true {
-                        self.scrollToLastMessage(animated: false)
-                        self.firstLoad = false
-                    } else {
-                        // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
-                        var scrolledToBottom = false
-                        if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
-                            scrolledToBottom = true
-                        }
-                        
-                        // If user has scrolled to the bottom, then scroll to last message when new message comes in
-                        if scrolledToBottom == true {
-                            self.scrollToLastMessage(animated: false)
-                        }
+                self.messages.append(message)
+                
+                // Scroll to the bottom upon first load
+                if self.firstLoad == true {
+                    self.scrollToLastMessage(animated: false)
+                    self.firstLoad = false
+                } else {
+                    // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
+                    var scrolledToBottom = false
+                    if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
+                        scrolledToBottom = true
                     }
                     
-                    self.messages.append(message)
+                    // If user has scrolled to the bottom, then scroll to last message when new message comes in
+                    if scrolledToBottom == true {
+                        self.scrollToLastMessage(animated: false)
+                    }
+                }
+                
+                DispatchQueue.main.async {
                     self.tableView.reloadData()
-                    
-                })
+                }
+                
             })
         }
         
     }
     
-    // Grab the user who sent the corresponding message based on senderId
-    func fetchUser(senderId: String, onSuccess: @escaping () -> Void) {
-        Api.user.observeUser(withId: senderId) { (user) in
-            self.users.append(user)
-            onSuccess()
-        }
-    }
+    //    // Grab all messages from database and assign to local messages array
+    //    func loadMessages() {
+    //
+    //        // Grab all messages from assocated group ID from group-messages table
+    //        Api.groupMessages.observeGroupMessages(groupId: self.groupId) { (messageId) in
+    //
+    //            // After grabbing all message ID's, then grab the message details from the messages table
+    //            Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
+    //
+    //                self.messages.append(message)
+    //
+    //                // Also grab the user detail corresponding to the message sender ID
+    //                self.fetchUser(senderId: message.senderId!, onSuccess: {
+    //
+    //                    // Scroll to the bottom upon first load
+    //                    if self.firstLoad == true {
+    //                        self.scrollToLastMessage(animated: false)
+    //                        self.firstLoad = false
+    //                    } else {
+    //                        // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
+    //                        var scrolledToBottom = false
+    //                        if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
+    //                            scrolledToBottom = true
+    //                        }
+    //
+    //                        // If user has scrolled to the bottom, then scroll to last message when new message comes in
+    //                        if scrolledToBottom == true {
+    //                            self.scrollToLastMessage(animated: false)
+    //                        }
+    //                    }
+    //
+    //                    DispatchQueue.main.async {
+    //                        self.tableView.reloadData()
+    //                    }
+    //
+    //                })
+    //            })
+    //        }
+    //
+    //    }
     
     // Scroll to last message
     func scrollToLastMessage(animated: Bool) {
@@ -363,7 +394,6 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let message = messages[indexPath.row]
-        let user = users[indexPath.row]
         var cellIdentifier = ""
         
         // Check if message is sent by current user or not - if it is, then it's an outgoing message, otherwise it's an incoming message
@@ -378,9 +408,6 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Pass the current indexPath.row message data to MessageTableViewCell for use
         cell.message = message
-        cell.user = user
-        
-        cell.layoutIfNeeded()
         
         return cell
         

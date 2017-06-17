@@ -9,7 +9,7 @@
 import UIKit
 
 class MessageTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var avatar: UIView!
     @IBOutlet weak var messageTextLabel: UILabel!
     @IBOutlet weak var backgroundBubble: UIView!
@@ -23,11 +23,11 @@ class MessageTableViewCell: UITableViewCell {
         }
     }
     
-    var user: User? {
-        didSet {
-            updateAvatar()
-        }
-    }
+    //    var user: User? {
+    //        didSet {
+    //            updateAvatar()
+    //        }
+    //    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,15 +43,22 @@ class MessageTableViewCell: UITableViewCell {
         backgroundBubble.addConstraint(widthConstraint)
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
     func updateView() {
-        messageTextLabel.text = message?.messageText
+        
+        // Grab the user who sent the corresponding message based on senderId
+        Api.user.observeUser(withId: (message?.senderId)!) { (user) in
+            print(user.userId)
+            self.updateAvatar(user: user)
+        }
+        
+        self.messageTextLabel.text = self.message?.messageText
+        
     }
     
-    func updateAvatar() {
+    
+    
+    func updateAvatar(user: User) {
         
         // Check if message is sent by current user or not. If it is, then set 'isSentByCurrentUser' to true, otherwise set as false
         if message?.senderId == Api.user.CURRENT_USER?.uid {
@@ -63,9 +70,9 @@ class MessageTableViewCell: UITableViewCell {
         if isSentByCurrentUser == false {
             // Setting the avatar view colour background by grabbing user hexcode stored in Firebase and converting to UIColor
             let helper = Helper()
-            let avatarColour = helper.hexStringToUIColor(hex: (user?.avatar)!)
+            let avatarColour = helper.hexStringToUIColor(hex: (user.avatar)!)
             avatar.backgroundColor = avatarColour
         }
     }
-
+    
 }
