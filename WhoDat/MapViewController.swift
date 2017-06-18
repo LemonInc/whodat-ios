@@ -35,6 +35,22 @@ class MapViewController: UIViewController {
         startChatButton.layer.addSublayer(background)
     }
     
+    @IBAction func loginButton_TouchUpInside(_ sender: Any) {
+        AuthService.loginAnonymously(onSuccess: {
+            print("logged in")
+        }) { (error) in
+            print(error)
+        }
+    }
+    
+    @IBAction func logoutButton_TouchUpInside(_ sender: Any) {
+        AuthService.logout(onSuccess: {
+            print("logged out")
+        }) { (error) in
+            print(error)
+        }
+    }
+    
     @IBAction func startChatButton_TouchUpInside(_ sender: Any) {
         
         // Show progress indicator

@@ -15,8 +15,8 @@ class UserApi {
     var USER_REF = FIRDatabase.database().reference().child("users")
     
     // Grab user based on user ID
-    func observeUser(withId userId: String, onSuccess: @escaping (User) -> Void) {
-        USER_REF.child(userId).observe(.value, with: { (snapshot) in
+    func observeUser(userId: String, onSuccess: @escaping (User) -> Void) {
+        USER_REF.child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
             // Grab the user data snapshot from Firebase
             if let dict = snapshot.value as? [String: Any] {
                 let user = User.transformUser(dict: dict)

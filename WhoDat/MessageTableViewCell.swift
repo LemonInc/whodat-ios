@@ -23,12 +23,6 @@ class MessageTableViewCell: UITableViewCell {
         }
     }
     
-    //    var user: User? {
-    //        didSet {
-    //            updateAvatar()
-    //        }
-    //    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -46,9 +40,8 @@ class MessageTableViewCell: UITableViewCell {
     
     func updateView() {
         
-        // Grab the user who sent the corresponding message based on senderId
-        Api.user.observeUser(withId: (message?.senderId)!) { (user) in
-            print(user.userId)
+        // Grab the user who sent the corresponding message based on senderId then update the message avatar
+        Api.user.observeUser(userId: (message?.senderId)!) { (user) in
             self.updateAvatar(user: user)
         }
         

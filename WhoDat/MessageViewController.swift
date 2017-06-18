@@ -13,7 +13,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var groupId: String!
     var messages = [Message]()
-    var users = [User]()
     var firstLoad = true
     var userCountButton: UIButton!
     var player: AVAudioPlayer = AVAudioPlayer()
@@ -234,46 +233,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
-    //    // Grab all messages from database and assign to local messages array
-    //    func loadMessages() {
-    //
-    //        // Grab all messages from assocated group ID from group-messages table
-    //        Api.groupMessages.observeGroupMessages(groupId: self.groupId) { (messageId) in
-    //
-    //            // After grabbing all message ID's, then grab the message details from the messages table
-    //            Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
-    //
-    //                self.messages.append(message)
-    //
-    //                // Also grab the user detail corresponding to the message sender ID
-    //                self.fetchUser(senderId: message.senderId!, onSuccess: {
-    //
-    //                    // Scroll to the bottom upon first load
-    //                    if self.firstLoad == true {
-    //                        self.scrollToLastMessage(animated: false)
-    //                        self.firstLoad = false
-    //                    } else {
-    //                        // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
-    //                        var scrolledToBottom = false
-    //                        if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
-    //                            scrolledToBottom = true
-    //                        }
-    //
-    //                        // If user has scrolled to the bottom, then scroll to last message when new message comes in
-    //                        if scrolledToBottom == true {
-    //                            self.scrollToLastMessage(animated: false)
-    //                        }
-    //                    }
-    //
-    //                    DispatchQueue.main.async {
-    //                        self.tableView.reloadData()
-    //                    }
-    //
-    //                })
-    //            })
-    //        }
-    //
-    //    }
     
     // Scroll to last message
     func scrollToLastMessage(animated: Bool) {
@@ -290,7 +249,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func sendButton_TouchUpInside(_ sender: Any) {
         
-        playSound()
+        //playSound()
         
         // Check for current User ID
         guard let currentUser = Api.user.CURRENT_USER else {
@@ -408,6 +367,8 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Pass the current indexPath.row message data to MessageTableViewCell for use
         cell.message = message
+        
+        self.tableView.layoutIfNeeded()
         
         return cell
         
