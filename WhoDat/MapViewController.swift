@@ -14,6 +14,7 @@ import SVProgressHUD
 class MapViewController: UIViewController {
     
     @IBOutlet weak var startChatButton: UIButton!
+    var groupId = "Group 1"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,22 +52,19 @@ class MapViewController: UIViewController {
         }
     }
     
+    // Pass groupId to MessageViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "messageVCSegue" {
+            print("Segue")
+            let messageVC = segue.destination as! MessageViewController
+            messageVC.groupId = self.groupId
+        }
+    }
+    
     @IBAction func startChatButton_TouchUpInside(_ sender: Any) {
-        
-        // Show progress indicator
-        SVProgressHUD.show(withStatus: "Loading...")
-        
         // Update and increment user count by adding to database
         let groupId = "Group 1"
-        
-        Api.group.addUserToGroup(groupId: groupId, onSuccess: {
-            SVProgressHUD.dismiss()
-            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-        }, onError: { (error) in
-            // Show progress indicator error
-            SVProgressHUD.showError(withStatus: error!)
-        })
-        
+        self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
     }
     
 }

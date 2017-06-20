@@ -19,7 +19,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // This enables the swipe gesture on navigation bar when custom back button is used, if we don't use custom back button then the swipe works without this.
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
@@ -49,14 +48,23 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
+        // Method to handle when app comes to foreground (I.e. unlock screen and app appears)
+        NotificationCenter.default.addObserver(self, selector: #selector(MessageViewController.addUserToGroup), name:
+            NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        
         // PASS GROUP ID WHEN MAP IS CONFIGURED
-        groupId = "Group 1"
+        //groupId = "Group 1"
         
         showTypingIndicator()
         
     }
     
+    func addUserToGroup() {
+        Api.group.addUserToGroup(groupId: self.groupId)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
+        addUserToGroup()
         loadGroupDetails()
         loadMessages()
     }
@@ -143,7 +151,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     // Move view down by keyboard height when keyboard is hidden
     func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0 {
+            if self.view.frame.origin.y != 64 {
                 self.view.frame.origin.y += keyboardSize.height
             }
         }
@@ -233,7 +241,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
-    
     // Scroll to last message
     func scrollToLastMessage(animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
@@ -249,7 +256,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func sendButton_TouchUpInside(_ sender: Any) {
         
-        //playSound()
+        playSound()
         
         // Check for current User ID
         guard let currentUser = Api.user.CURRENT_USER else {
@@ -295,7 +302,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOf: url)
