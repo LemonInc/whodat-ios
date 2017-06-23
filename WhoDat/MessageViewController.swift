@@ -10,6 +10,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var messageTextInput: UITextView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     var groupId: String!
     var messages = [Message]()
@@ -51,9 +52,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // Method to handle when app comes to foreground (I.e. unlock screen and app appears)
         NotificationCenter.default.addObserver(self, selector: #selector(MessageViewController.addUserToGroup), name:
             NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        
-        // PASS GROUP ID WHEN MAP IS CONFIGURED
-        //groupId = "Group 1"
         
         showTypingIndicator()
         
@@ -136,24 +134,54 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Move view up by keyboard height when keyboard is shown
     func keyboardWillShow(_ notification: NSNotification) {
+        
+        // Get keyboard height
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
-        self.view.frame.origin.y = 64
+        // Grab users scroll position
+        let currentScrollPosition = Int(tableView.contentOffset.y)
         
-        if self.view.frame.origin.y == 64 {
-            self.view.frame.origin.y -= keyboardHeight
+        // Set bottom constraint to match keyboard height so tableview and input moves up
+        UIView.animate(withDuration: 0.1) {
+            self.bottomConstraint.constant = keyboardHeight
         }
+        
+        // Calculate and set the scroll position of the last message so it feels as if the tableview is pushed up
+        let bottomScrollPosition = Int(keyboardHeight) + currentScrollPosition
+        tableView.setContentOffset(CGPoint(x: 0, y: bottomScrollPosition), animated: true)
     }
     
     // Move view down by keyboard height when keyboard is hidden
     func keyboardWillHide(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 64 {
-                self.view.frame.origin.y += keyboardSize.height
+        
+        // Get keyboard height
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        // Grab users scroll position
+        let currentScrollPosition = Int(tableView.contentOffset.y)
+        
+        // Calculate and set the scroll position of the last message so it feels as if the tableview pushes down, use 0 if scroll position is a negative
+        var bottomScrollPosition: Int = 0
+        
+        if ((currentScrollPosition - Int(keyboardHeight)) >= 0) {
+            bottomScrollPosition = currentScrollPosition - Int(keyboardHeight)
+        } else {
+            bottomScrollPosition = 0
+        }
+        
+        UIView.animate(withDuration: 0.1) {
+            self.bottomConstraint.constant = 0
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.tableView.setContentOffset(CGPoint(x: 0, y: bottomScrollPosition), animated: false)
             }
+            
         }
     }
     
@@ -295,7 +323,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func playSound() {
-        
         guard let url = Bundle.main.url(forResource: "send", withExtension: ".aiff") else {
             print("error")
             return
@@ -413,19 +440,6 @@ extension MessageViewController: UITextViewDelegate {
             }
         }
         
-    }
-    
-}
-
-extension UITextView {
-    
-    // Center vertically on text view input
-    func centerVertically() {
-        let fittingSize = CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
-        let size = sizeThatFits(fittingSize)
-        let topOffset = (bounds.size.height - size.height * zoomScale) / 2
-        let positiveTopOffset = max(1, topOffset)
-        contentOffset.y = -positiveTopOffset
     }
     
 }

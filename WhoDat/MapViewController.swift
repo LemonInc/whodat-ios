@@ -55,7 +55,6 @@ class MapViewController: UIViewController {
     // Pass groupId to MessageViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "messageVCSegue" {
-            print("Segue")
             let messageVC = segue.destination as! MessageViewController
             messageVC.groupId = self.groupId
         }
