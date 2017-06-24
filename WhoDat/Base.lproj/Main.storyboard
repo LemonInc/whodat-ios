@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -80,7 +81,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZEy-GO-uyq">
-                                <rect key="frame" x="163" y="303.5" width="48" height="60"/>
+                                <rect key="frame" x="163" y="304" width="48" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xtj-hJ-fTB">
                                         <rect key="frame" x="0.0" y="0.0" width="48" height="30"/>
@@ -98,17 +99,29 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="bdn-fO-ffu">
+                                <rect key="frame" x="67" y="132" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="P6t-3x-RCY"/>
+                                    <constraint firstAttribute="height" constant="128" id="pcd-UB-Oxf"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="bdn-fO-ffu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="68" id="AKz-9h-CPk"/>
                             <constraint firstItem="ZEy-GO-uyq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="GJd-6O-ooJ"/>
                             <constraint firstItem="ZEy-GO-uyq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Lhb-NE-lQ7"/>
                             <constraint firstItem="FWS-r0-Mlf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZOA-2Y-cgo"/>
+                            <constraint firstItem="bdn-fO-ffu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="51" id="doJ-Pk-Ri5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bdn-fO-ffu" secondAttribute="trailing" constant="52" id="lmO-sw-6bD"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FWS-r0-Mlf" secondAttribute="bottom" constant="30" id="qDw-NM-z6g"/>
+                            <constraint firstItem="ZEy-GO-uyq" firstAttribute="top" secondItem="bdn-fO-ffu" secondAttribute="bottom" constant="44" id="t7r-rK-RtY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="JLw-XV-ofw"/>
                     <connections>
+                        <outlet property="image" destination="bdn-fO-ffu" id="Vle-K3-Tjr"/>
                         <outlet property="startChatButton" destination="FWS-r0-Mlf" id="5qS-an-hUn"/>
                         <segue destination="Ug7-k6-9qu" kind="show" identifier="messageVCSegue" id="L1o-aD-f0V"/>
                     </connections>
@@ -341,7 +354,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Su9-L0-ivB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>

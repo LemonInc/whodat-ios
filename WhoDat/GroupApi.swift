@@ -26,13 +26,15 @@ class GroupApi {
         })
     }
     
-    func addUserToGroup(groupId: String) {
+    func addUserToGroup(groupId: String, onSuccess: @escaping () -> Void) {
         let ref = GROUP_REF.child(groupId).child("users").child((Api.user.CURRENT_USER?.uid)!)
         
         // Remove user from group if user disconnects (Closes app or if app crashes)
         ref.onDisconnectRemoveValue()
         
         ref.setValue(true)
+        
+        onSuccess()
     }
     
     func removeUserFromGroup(groupId: String, onSuccess: @escaping () -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {

@@ -35,6 +35,8 @@
 		52A59FD11ED1907B00F64743 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A59FD01ED1907B00F64743 /* Button.swift */; };
 		52D2FE7C1EEB379E0005D524 /* splash_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 52D2FE7B1EEB379E0005D524 /* splash_animation.json */; };
 		52D2FE7E1EEBF6E30005D524 /* splash_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D2FE7D1EEBF6E30005D524 /* splash_background.png */; };
+		52F39E8D1EFDE345008C31B3 /* send_button.json in Resources */ = {isa = PBXBuildFile; fileRef = 52F39E8C1EFDE345008C31B3 /* send_button.json */; };
+		52F39E8F1EFDE756008C31B3 /* play_button.json in Resources */ = {isa = PBXBuildFile; fileRef = 52F39E8E1EFDE756008C31B3 /* play_button.json */; };
 		F757ED6A73AEDE421E136355 /* Pods_WhoDat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2904529351EF65C602544E /* Pods_WhoDat.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +73,8 @@
 		52A59FD01ED1907B00F64743 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		52D2FE7B1EEB379E0005D524 /* splash_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_animation.json; sourceTree = "<group>"; };
 		52D2FE7D1EEBF6E30005D524 /* splash_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_background.png; sourceTree = "<group>"; };
+		52F39E8C1EFDE345008C31B3 /* send_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = send_button.json; sourceTree = "<group>"; };
+		52F39E8E1EFDE756008C31B3 /* play_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = play_button.json; sourceTree = "<group>"; };
 		A17D40064ACB9CC762E701E0 /* Pods-WhoDat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoDat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhoDat/Pods-WhoDat.debug.xcconfig"; sourceTree = "<group>"; };
 		AC2904529351EF65C602544E /* Pods_WhoDat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhoDat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -103,6 +107,15 @@
 			name = Sound;
 			sourceTree = "<group>";
 		};
+		521EC9241EFF1EF700E3C5E1 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				524F10B81EDF566100E38373 /* GroupMessagesApi.swift */,
+				526D4A091EE72D5700E042E4 /* Archive.swift */,
+			);
+			name = Archive;
+			sourceTree = "<group>";
+		};
 		5225D0051EB69E2800D6A1B4 = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +137,7 @@
 		5225D0101EB69E2800D6A1B4 /* WhoDat */ = {
 			isa = PBXGroup;
 			children = (
+				521EC9241EFF1EF700E3C5E1 /* Archive */,
 				521AB0661EF054C50050FAD3 /* Sound */,
 				524F724A1EEB255F00FD5A8A /* Animation */,
 				5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */,
@@ -148,7 +162,6 @@
 				52A59FBF1ED0875D00F64743 /* Api.swift */,
 				52A59FCC1ED09B3F00F64743 /* AuthService.swift */,
 				52A59FC11ED0878500F64743 /* MessageApi.swift */,
-				524F10B81EDF566100E38373 /* GroupMessagesApi.swift */,
 				52A59FCA1ED0955B00F64743 /* UserApi.swift */,
 				524F10AE1EDAFC3E00E38373 /* GroupApi.swift */,
 			);
@@ -169,6 +182,8 @@
 		524F724A1EEB255F00FD5A8A /* Animation */ = {
 			isa = PBXGroup;
 			children = (
+				52F39E8E1EFDE756008C31B3 /* play_button.json */,
+				52F39E8C1EFDE345008C31B3 /* send_button.json */,
 				521AB0711EF0666C0050FAD3 /* typing.gif */,
 				52D2FE7D1EEBF6E30005D524 /* splash_background.png */,
 				52D2FE7B1EEB379E0005D524 /* splash_animation.json */,
@@ -209,7 +224,6 @@
 				524F72481EEB24D300FD5A8A /* SplashViewController.swift */,
 				5225D0251EB79DA300D6A1B4 /* MapViewController.swift */,
 				52A59FB91ED0513500F64743 /* MessageViewController.swift */,
-				526D4A091EE72D5700E042E4 /* Archive.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -291,6 +305,8 @@
 				521AB0681EF054CF0050FAD3 /* send.aiff in Resources */,
 				5225D01C1EB69E2800D6A1B4 /* LaunchScreen.storyboard in Resources */,
 				52D2FE7E1EEBF6E30005D524 /* splash_background.png in Resources */,
+				52F39E8D1EFDE345008C31B3 /* send_button.json in Resources */,
+				52F39E8F1EFDE756008C31B3 /* play_button.json in Resources */,
 				52D2FE7C1EEB379E0005D524 /* splash_animation.json in Resources */,
 				5225D0241EB69E8900D6A1B4 /* GoogleService-Info.plist in Resources */,
 				5225D0191EB69E2800D6A1B4 /* Assets.xcassets in Resources */,

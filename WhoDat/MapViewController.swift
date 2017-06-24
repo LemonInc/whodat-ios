@@ -1,23 +1,28 @@
-//
-//  LoginViewController.swift
-//  WhoDat
-//
-//  Created by Alan Lau on 01/05/2017.
-//  Copyright © 2017 WotDat. All rights reserved.
-//
 
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import SVProgressHUD
+import Lottie
 
 class MapViewController: UIViewController {
     
+    @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var startChatButton: UIButton!
-    var groupId = "Group 1"
+    let groupId = "Group 1"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let animationView = LAAnimationView.animationNamed("splash_animation")
+        animationView?.frame = CGRect(x: 0, y: 0, width: self.image.frame.size.width, height: self.image.frame.size.height)
+        animationView?.contentMode = .scaleAspectFill
+        animationView?.center = self.image.center
+        animationView?.loopAnimation = true
+        self.view.addSubview(animationView!)
+        animationView?.animationSpeed = 1
+        animationView?.play()
+        
         styleChatButton()
     }
     
@@ -61,9 +66,10 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func startChatButton_TouchUpInside(_ sender: Any) {
-        // Update and increment user count by adding to database
-        let groupId = "Group 1"
-        self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+        // Update and increment user count
+        Api.group.addUserToGroup(groupId: self.groupId) { 
+            self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+        }
     }
     
 }

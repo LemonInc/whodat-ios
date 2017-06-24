@@ -55,18 +55,16 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(MessageViewController.addUserToGroup), name:
             NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
+        loadGroupDetails()
+        loadMessages()
         showTypingIndicator()
         
     }
     
     func addUserToGroup() {
-        Api.group.addUserToGroup(groupId: self.groupId)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        addUserToGroup()
-        loadGroupDetails()
-        loadMessages()
+        Api.group.addUserToGroup(groupId: self.groupId) { 
+            return
+        }
     }
     
     func setRightNavButton() {
@@ -249,38 +247,34 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Grab all messages from database and assign to local messages array
     func loadMessages() {
-        
-        // Grab all messages from assocated group ID from group-messages table
-        Api.groupMessages.observeGroupMessages(groupId: self.groupId) { (messageId) in
             
-            // After grabbing all message ID's, then grab the message details from the messages table
-            Api.message.observeMessages(messageId: messageId, onSuccess: { (message) in
+        // After grabbing all message ID's, then grab the message details from the messages table
+        Api.message.observeMessages(groupId: self.groupId, onSuccess: { (message) in
+            
+            self.messages.append(message)
+            
+            // Scroll to the bottom upon first load
+            if self.firstLoad == true {
+                self.scrollToLastMessage(animated: false)
+                self.firstLoad = false
+            } else {
+                // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
+                var scrolledToBottom = false
+                if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
+                    scrolledToBottom = true
+                }
                 
-                self.messages.append(message)
-                
-                // Scroll to the bottom upon first load
-                if self.firstLoad == true {
+                // If user has scrolled to the bottom, then scroll to last message when new message comes in
+                if scrolledToBottom == true {
                     self.scrollToLastMessage(animated: false)
-                    self.firstLoad = false
-                } else {
-                    // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
-                    var scrolledToBottom = false
-                    if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
-                        scrolledToBottom = true
-                    }
-                    
-                    // If user has scrolled to the bottom, then scroll to last message when new message comes in
-                    if scrolledToBottom == true {
-                        self.scrollToLastMessage(animated: false)
-                    }
                 }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            })
-        }
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+        })
         
     }
     
@@ -299,7 +293,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func sendButton_TouchUpInside(_ sender: Any) {
         
-        playSound()
+        
         
         // Check for current User ID
         guard let currentUser = Api.user.CURRENT_USER else {
@@ -310,7 +304,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // Create a unique ID for each message and assign the message values to the database
         let messageRef = Api.message.MESSAGE_REF
         let newMessageId = messageRef.childByAutoId().key
-        let newMessageRef = messageRef.child(newMessageId)
+        let newMessageRef = Api.message.MESSAGE_REF.child(self.groupId).child(newMessageId)
         
         let messageData = ["messageText": messageTextInput.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), "senderId": currentUserId]
         
@@ -318,20 +312,11 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             if error != nil {
                 print(error!)
             } else {
-                // When successfully added message to database, also create a one-to-many table (group-messages) to store all message ID's connecting to a specific group ID
-                let groupMessageRef = Api.groupMessages.GROUP_MESSAGES_REF.child(self.groupId).child(newMessageId)
-                groupMessageRef.setValue(true, withCompletionBlock: { (error, reference) in
-                    if error != nil {
-                        print(error!)
-                    } else {
-                        // Clear text field and button state
-                        self.clear()
-                        
-                        self.setUserTypingStatusToFalse()
-                        
-                        self.scrollToLastMessage(animated: false)
-                    }
-                })
+                // Clear text field and button state after message is stored in database
+                self.playSound()
+                self.clear()
+                self.setUserTypingStatusToFalse()
+                self.scrollToLastMessage(animated: false)
             }
         }
         
