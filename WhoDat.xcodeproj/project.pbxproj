@@ -509,6 +509,8 @@
 			baseConfigurationReference = A17D40064ACB9CC762E701E0 /* Pods-WhoDat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_ACTIVITY_MODE = "";
+				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				DEVELOPMENT_TEAM = LXZLY68SP7;
 				INFOPLIST_FILE = WhoDat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -523,6 +525,7 @@
 			baseConfigurationReference = 4374DA0AFE78DD04EECE21BF /* Pods-WhoDat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = LXZLY68SP7;
 				INFOPLIST_FILE = WhoDat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

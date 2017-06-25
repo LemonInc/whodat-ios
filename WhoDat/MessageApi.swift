@@ -19,22 +19,9 @@ class MessageApi {
             // Grab the newly added message data snapshot from Firebase and add to local 'messages' JSQ array
             if let dict = snapshot.value as? [String: Any] {
                 let message = Message.transformMessage(dict: dict)
-                print(message)
                 onSuccess(message)
             }
         })
     }
-    
-    // Grab the message details based on messageId passed in
-    func observeMessages2(messageId: String, onSuccess: @escaping (Message) -> Void) {
-        MESSAGE_REF.child(messageId).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            // Grab the newly added message data snapshot from Firebase and add to local 'messages' JSQ array
-            if let dict = snapshot.value as? [String: Any] {
-                let message = Message.transformMessage(dict: dict)
-                onSuccess(message)
-            }
-            
-        })
-    }
+
 }

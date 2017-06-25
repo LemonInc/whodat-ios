@@ -22,17 +22,18 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // This enables the swipe gesture on navigation bar when custom back button is used, if we don't use custom back button then the swipe works without this.
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
+        loadGroupDetails()
+        loadMessages()
+        setUpView()
+        showTypingIndicator()
+    }
+    
+    func setUpView() {
         // Setting cell row height to be dynamic based on content height
         tableView.dataSource = self
         tableView.delegate = self
         tableView.estimatedRowHeight = 78
         tableView.rowHeight = UITableViewAutomaticDimension
-        
-        // Disable send button by default
-        sendButton.isEnabled = false
         
         // Set delegate of text input so we can utilise textViewDidChange method
         messageTextInput.delegate = self
@@ -51,14 +52,12 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
+        // This enables the swipe gesture on navigation bar when custom back button is used, if we don't use custom back button then the swipe works without this.
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
         // Method to handle when app comes to foreground (I.e. unlock screen and app appears)
         NotificationCenter.default.addObserver(self, selector: #selector(MessageViewController.addUserToGroup), name:
             NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        
-        loadGroupDetails()
-        loadMessages()
-        showTypingIndicator()
-        
     }
     
     func addUserToGroup() {
@@ -67,7 +66,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func setRightNavButton() {
+    func setUserCountButton() {
         userCountButton = UIButton(type: .custom)
         userCountButton.setImage(UIImage(named: "user_count"), for: .normal)
         userCountButton.isEnabled = false
@@ -86,7 +85,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         setNavigationBarStyle()
-        setRightNavButton()
+        setUserCountButton()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         UIApplication.shared.statusBarStyle = .lightContent
     }
@@ -200,6 +199,9 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Disable send button if the user has not entered value on message text field
     func configureSendButton() {
+        // Disable send button by default
+        sendButton.isEnabled = false
+        
         if let _ = messageTextInput.text, !messageTextInput.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty {
             // Enable button if the user has entered something in text field - excludes empty spaces and lines
             self.enableSendButton()
@@ -292,9 +294,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func sendButton_TouchUpInside(_ sender: Any) {
-        
-        
-        
+
         // Check for current User ID
         guard let currentUser = Api.user.CURRENT_USER else {
             return
@@ -358,7 +358,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @IBAction func logoutButton_TouchUpInside(_ sender: Any) {
+    @IBAction func backButton_TouchUpInside(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
