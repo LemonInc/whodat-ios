@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -41,13 +40,60 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <segue destination="hf2-fa-HFn" kind="show" identifier="mapVCSegue" id="cER-aB-0bz"/>
+                        <segue destination="hf2-fa-HFn" kind="show" identifier="loginVCSegue" id="cER-aB-0bz"/>
                         <segue destination="Ug7-k6-9qu" kind="show" identifier="messageVCSegue" id="ncS-vu-Ndq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Txo-kc-xZu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-959" y="36"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="1XZ-sC-dCH">
+            <objects>
+                <viewController id="TYM-uE-954" customClass="LoginViewController" customModule="WhoDat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cIz-YJ-jca"/>
+                        <viewControllerLayoutGuide type="bottom" id="DLF-ty-d0g"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JmI-ua-SCb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="umV-xQ-1EA">
+                                <rect key="frame" x="163" y="303.5" width="48" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xac-ON-T9e">
+                                        <rect key="frame" x="0.0" y="0.0" width="48" height="30"/>
+                                        <state key="normal" title="Login"/>
+                                        <connections>
+                                            <action selector="loginButton_TouchUpInside:" destination="TYM-uE-954" eventType="touchUpInside" id="RgO-HX-E0A"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bM6-rE-zZs">
+                                        <rect key="frame" x="0.0" y="30" width="48" height="30"/>
+                                        <state key="normal" title="Logout"/>
+                                        <connections>
+                                            <action selector="logoutButton_TouchUpInside:" destination="TYM-uE-954" eventType="touchUpInside" id="Npf-F8-QAZ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="umV-xQ-1EA" firstAttribute="centerY" secondItem="JmI-ua-SCb" secondAttribute="centerY" id="7ra-jC-E4L"/>
+                            <constraint firstItem="umV-xQ-1EA" firstAttribute="centerX" secondItem="JmI-ua-SCb" secondAttribute="centerX" id="9T0-9o-xt4"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="9IJ-k6-cl7"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="mapVCSegue" id="gkI-KY-noY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="22o-ed-a36" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="622" y="-395"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -80,55 +126,22 @@
                                     <action selector="startChatButton_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QeL-cs-31W"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZEy-GO-uyq">
-                                <rect key="frame" x="163" y="304" width="48" height="60"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xtj-hJ-fTB">
-                                        <rect key="frame" x="0.0" y="0.0" width="48" height="30"/>
-                                        <state key="normal" title="Log in"/>
-                                        <connections>
-                                            <action selector="loginButton_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y84-0f-Xkj"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0nc-T0-DM2">
-                                        <rect key="frame" x="0.0" y="30" width="48" height="30"/>
-                                        <state key="normal" title="Logout"/>
-                                        <connections>
-                                            <action selector="logoutButton_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RTu-sg-kRy"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="bdn-fO-ffu">
-                                <rect key="frame" x="67" y="132" width="240" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="P6t-3x-RCY"/>
-                                    <constraint firstAttribute="height" constant="128" id="pcd-UB-Oxf"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bdn-fO-ffu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="68" id="AKz-9h-CPk"/>
-                            <constraint firstItem="ZEy-GO-uyq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="GJd-6O-ooJ"/>
-                            <constraint firstItem="ZEy-GO-uyq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Lhb-NE-lQ7"/>
                             <constraint firstItem="FWS-r0-Mlf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZOA-2Y-cgo"/>
-                            <constraint firstItem="bdn-fO-ffu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="51" id="doJ-Pk-Ri5"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="bdn-fO-ffu" secondAttribute="trailing" constant="52" id="lmO-sw-6bD"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FWS-r0-Mlf" secondAttribute="bottom" constant="30" id="qDw-NM-z6g"/>
-                            <constraint firstItem="ZEy-GO-uyq" firstAttribute="top" secondItem="bdn-fO-ffu" secondAttribute="bottom" constant="44" id="t7r-rK-RtY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="JLw-XV-ofw"/>
                     <connections>
-                        <outlet property="image" destination="bdn-fO-ffu" id="Vle-K3-Tjr"/>
                         <outlet property="startChatButton" destination="FWS-r0-Mlf" id="5qS-an-hUn"/>
                         <segue destination="Ug7-k6-9qu" kind="show" identifier="messageVCSegue" id="L1o-aD-f0V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="762" y="-395"/>
+            <point key="canvasLocation" x="1375" y="-395"/>
         </scene>
         <!--Loading...-->
         <scene sceneID="pNn-p3-dQj">
@@ -347,11 +360,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YMU-Ka-5fq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1676" y="36.431784107946029"/>
+            <point key="canvasLocation" x="2290" y="36"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="97Y-eY-4a2">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbC-08-ROZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
@@ -364,10 +378,9 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Lwi-9v-39W"/>
+                        <segue destination="TYM-uE-954" kind="relationship" relationship="rootViewController" id="ThT-jD-7nr"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dbC-08-ROZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-97" y="-395"/>
         </scene>

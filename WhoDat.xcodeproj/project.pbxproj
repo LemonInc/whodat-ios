@@ -16,6 +16,7 @@
 		5225D0241EB69E8900D6A1B4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5225D0231EB69E8900D6A1B4 /* GoogleService-Info.plist */; };
 		5225D0261EB79DA300D6A1B4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225D0251EB79DA300D6A1B4 /* MapViewController.swift */; };
 		523D6E7B1F02D835002FC4A9 /* typing.gif in Resources */ = {isa = PBXBuildFile; fileRef = 523D6E7A1F02D835002FC4A9 /* typing.gif */; };
+		523D6E7D1F02D8E1002FC4A9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523D6E7C1F02D8E1002FC4A9 /* LoginViewController.swift */; };
 		524F10AF1EDAFC3E00E38373 /* GroupApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F10AE1EDAFC3E00E38373 /* GroupApi.swift */; };
 		524F10B11EDB0A7D00E38373 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F10B01EDB0A7D00E38373 /* Group.swift */; };
 		524F10B31EDB917B00E38373 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F10B21EDB917B00E38373 /* Helper.swift */; };
@@ -53,6 +54,7 @@
 		5225D0231EB69E8900D6A1B4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5225D0251EB79DA300D6A1B4 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		523D6E7A1F02D835002FC4A9 /* typing.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = typing.gif; sourceTree = "<group>"; };
+		523D6E7C1F02D8E1002FC4A9 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		524F10AE1EDAFC3E00E38373 /* GroupApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupApi.swift; sourceTree = "<group>"; };
 		524F10B01EDB0A7D00E38373 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		524F10B21EDB917B00E38373 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				524F72481EEB24D300FD5A8A /* SplashViewController.swift */,
 				5225D0251EB79DA300D6A1B4 /* MapViewController.swift */,
 				52A59FB91ED0513500F64743 /* MessageViewController.swift */,
+				523D6E7C1F02D8E1002FC4A9 /* LoginViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */,
 				52A59FCD1ED09B3F00F64743 /* AuthService.swift in Sources */,
 				52A59FC41ED08B4400F64743 /* MessageTableViewCell.swift in Sources */,
+				523D6E7D1F02D8E1002FC4A9 /* LoginViewController.swift in Sources */,
 				5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */,
 				52A59FC21ED0878500F64743 /* MessageApi.swift in Sources */,
 				524F10B91EDF566100E38373 /* GroupMessagesApi.swift in Sources */,

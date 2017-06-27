@@ -14,15 +14,6 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let animationView = LAAnimationView.animationNamed("splash_animation")
-        animationView?.frame = CGRect(x: 0, y: 0, width: self.image.frame.size.width, height: self.image.frame.size.height)
-        animationView?.contentMode = .scaleAspectFill
-        animationView?.center = self.image.center
-        animationView?.loopAnimation = true
-        self.view.addSubview(animationView!)
-        animationView?.animationSpeed = 1
-        animationView?.play()
-        
         styleChatButton()
     }
     
@@ -39,22 +30,6 @@ class MapViewController: UIViewController {
         background.frame = startChatButton.bounds
         startChatButton.clipsToBounds = true
         startChatButton.layer.addSublayer(background)
-    }
-    
-    @IBAction func loginButton_TouchUpInside(_ sender: Any) {
-        AuthService.loginAnonymously(onSuccess: {
-            print("logged in")
-        }) { (error) in
-            print(error)
-        }
-    }
-    
-    @IBAction func logoutButton_TouchUpInside(_ sender: Any) {
-        AuthService.logout(onSuccess: {
-            print("logged out")
-        }) { (error) in
-            print(error)
-        }
     }
     
     // Pass groupId to MessageViewController

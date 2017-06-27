@@ -29,10 +29,10 @@ class SplashViewController: UIViewController {
             // If the user has not logged out, then automatically switch to MessageViewController, otherwise sign the user in as an anonymous user
             let currentUser = Api.user.CURRENT_USER
             if currentUser != nil {
-                self.performSegue(withIdentifier: "mapVCSegue", sender: nil)
+                self.performSegue(withIdentifier: "loginVCSegue", sender: nil)
             } else {
                 AuthService.loginAnonymously(onSuccess: {
-                    self.performSegue(withIdentifier: "mapVCSegue", sender: nil)
+                    self.performSegue(withIdentifier: "loginVCSegue", sender: nil)
                 }) { (error) in
                     // Show progress indicator error
                     SVProgressHUD.showError(withStatus: error!)
