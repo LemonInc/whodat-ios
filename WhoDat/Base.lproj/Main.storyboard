@@ -61,7 +61,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="umV-xQ-1EA">
-                                <rect key="frame" x="163" y="303.5" width="48" height="60"/>
+                                <rect key="frame" x="163" y="304" width="48" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xac-ON-T9e">
                                         <rect key="frame" x="0.0" y="0.0" width="48" height="30"/>
@@ -88,7 +88,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="9IJ-k6-cl7"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="mapVCSegue" id="gkI-KY-noY"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="mapVCSegue" action="showViewController:sender:" id="gkI-KY-noY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="22o-ed-a36" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -365,10 +365,9 @@
         <!--Navigation Controller-->
         <scene sceneID="97Y-eY-4a2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dbC-08-ROZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Su9-L0-ivB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -381,6 +380,7 @@
                         <segue destination="TYM-uE-954" kind="relationship" relationship="rootViewController" id="ThT-jD-7nr"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbC-08-ROZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-97" y="-395"/>
         </scene>
