@@ -134,7 +134,9 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     // Move view up by keyboard height when keyboard is shown
     func keyboardWillShow(_ notification: NSNotification) {
         
-        self.keyboardShown += 1
+        // Get screen height
+        let screenSize: CGRect = UIScreen.main.bounds
+        let screenHeight = screenSize.height
         
         // Get keyboard height
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
@@ -142,24 +144,37 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
-        // Grab users scroll position
-        let currentScrollPosition = Int(self.tableView.contentOffset.y)
+        // Get input field and navigation bar height
+        let inputFieldHeight = 65
+        let navigationBarHeight = UIApplication.shared.statusBarFrame.height + self.navigationController!.navigationBar.frame.height
         
-        // Set bottom constraint to match keyboard height so tableview and input moves up
-        UIView.animate(withDuration: 0.1) {
-            self.bottomConstraint.constant = keyboardHeight
+        // Calculate tableview height when keyboard is shown
+        let pushedUpTableViewHeight = Int(screenHeight) - Int(keyboardHeight) - inputFieldHeight - Int(navigationBarHeight)
+        print(pushedUpTableViewHeight)
+        
+        // Only push view up if messages exist and the last cell will be hidden when keyboard is shown
+        if messages.count > 0 {
+            // Get last cell height
+            let indexpath = NSIndexPath(row: messages.count - 1, section: 0)
+            let rect = self.tableView.rectForRow(at: indexpath as IndexPath)
+            let lastCellHeight = rect.size.height
             
-            // Calculate and set the scroll position of the last message so it feels as if the tableview is pushed up
-            var bottomScrollPosition: Int = 0
-            if self.keyboardShown == 1 {
-                bottomScrollPosition = Int(keyboardHeight) + currentScrollPosition
-                self.initialKeyboardHeight = Int(keyboardHeight)
+            // Get last cell position
+            let lastCellStartPosition = self.tableView.convert(rect, to: tableView.superview)
+            let lastCellPosition = Int(lastCellStartPosition.origin.y + lastCellHeight)
+            
+            if lastCellPosition > pushedUpTableViewHeight {
+                self.view.frame.origin.y = 64
+                
+                if self.view.frame.origin.y == 64 {
+                    self.view.frame.origin.y -= keyboardHeight
+                }
             } else {
-                bottomScrollPosition = currentScrollPosition - self.initialKeyboardHeight + Int(keyboardHeight)
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.bottomConstraint.constant = keyboardHeight
+                })
             }
             
-            self.tableView.setContentOffset(CGPoint(x: 0, y: bottomScrollPosition), animated: true)
-            self.tableView.layoutIfNeeded()
         }
         
     }
@@ -167,33 +182,14 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     // Move view down by keyboard height when keyboard is hidden
     func keyboardWillHide(_ notification: NSNotification) {
         
-        self.keyboardShown = 0
-        
-        // Get keyboard height
-        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
-        let keyboardRectangle = keyboardFrame.cgRectValue
-        let keyboardHeight = keyboardRectangle.height
-        
-        // Grab users scroll position
-        let currentScrollPosition = Int(tableView.contentOffset.y)
-        
-        // Calculate and set the scroll position of the last message so it feels as if the tableview pushes down, use 0 if scroll position is a negative
-        var bottomScrollPosition: Int = 0
-        
-        if ((currentScrollPosition - Int(keyboardHeight)) >= 0) {
-            bottomScrollPosition = currentScrollPosition - Int(keyboardHeight)
-        } else {
-            bottomScrollPosition = 0
-        }
-        
-        UIView.animate(withDuration: 0.1) {
-            self.bottomConstraint.constant = 0
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.tableView.setContentOffset(CGPoint(x: 0, y: bottomScrollPosition), animated: false)
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 64 {
+                self.view.frame.origin.y += keyboardSize.height
+            } else {
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.bottomConstraint.constant = 0
+                })
             }
-            
         }
     }
     
