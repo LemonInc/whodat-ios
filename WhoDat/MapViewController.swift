@@ -17,12 +17,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var userLongitude: Double? = nil
     var userLatitude: Double? = nil
     var userLocationName: String? = ""
+    var groups = [Group]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         styleChatButton()
         setupMapView()
-        addAnnotation()
+        loadGroups()
+        
+        let theLocation: MKUserLocation = mapView.userLocation
+        theLocation.title = "I'm here!"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,6 +35,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // Show status bar and hide navigation bar
         UIApplication.shared.isStatusBarHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    func loadGroups() {
+        Api.group.observeGroups { (group) in
+            self.groups.append(group)
+            self.addAnnotation(latitude: group.latitude!, longitude: group.longitude!)
+        }
     }
     
     func setupMapView() {
@@ -47,10 +58,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.tintColor = UIColor(red:0.00, green:0.71, blue:1.00, alpha:1.0)
     }
     
-    func addAnnotation() {
-        let pinLocation = CLLocationCoordinate2D(latitude: 51.5045886, longitude: -0.0196720)
+    func addAnnotation(latitude: Double, longitude: Double) {
+        let pinLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let annotation = MKPointAnnotation()
-        annotation.title = "Annotation Title"
+        annotation.title = " "
         annotation.coordinate = pinLocation
         mapView.addAnnotation(annotation)
     }
@@ -96,26 +107,32 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             onSuccess()
         })
     }
-    
+
     // Handling of annotation
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if !(annotation is MKPointAnnotation) {
+        
+        if annotation.isEqual(mapView.userLocation) {
             return nil
         }
-        
-        let annotationIdentifier = "AnnotationIdentifier"
-        
+
+        // For better performance, always try to reuse existing annotations.
+        let annotationIdentifier = "pin"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-        
+
+        // If there’s no reusable annotation view available, initialize a new one.
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView!.canShowCallout = true
+            //annotationView!.canShowCallout = true
         } else {
             annotationView!.annotation = annotation
         }
         
         annotationView!.image = UIImage(named: "hotspot")
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("selected")
     }
     
     func styleChatButton() {
@@ -138,9 +155,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         getLocationDetails(location: self.userLocation!) {
             Api.group.createGroup(location: self.userLocationName!, longitude: self.userLongitude!, latitude: self.userLatitude!, onSuccess: { (groupId) in
                 // Update and increment user count then show messageViewController
-                Api.group.addUserToGroup(groupId: self.groupId) {
-                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-                }
+//                Api.group.addUserToGroup(groupId: self.groupId) {
+//                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+//                }
             }) { (error) in
                 print(error!)
             }

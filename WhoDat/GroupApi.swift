@@ -25,6 +25,17 @@ class GroupApi {
         })
     }
     
+    func observeGroups(onSuccess: @escaping (Group) -> Void) {
+        GROUP_REF.observe(.childAdded, with: { (snapshot) in
+            // Grab the newly added group snapshot from Firebase
+            if let dict = snapshot.value as? [String: Any] {
+                let group = Group.transformGroup(dict: dict)
+                print(group.location)
+                onSuccess(group)
+            }
+        })
+    }
+    
     func addUserToGroup(groupId: String, onSuccess: @escaping () -> Void) {
         let ref = GROUP_REF.child(groupId).child("users").child((Api.user.CURRENT_USER?.uid)!)
         
