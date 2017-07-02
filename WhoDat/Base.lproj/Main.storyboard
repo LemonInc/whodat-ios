@@ -108,7 +108,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWS-r0-Mlf">
-                                <rect key="frame" x="105" y="587" width="165" height="50"/>
+                                <rect key="frame" x="105" y="567" width="165" height="50"/>
                                 <color key="backgroundColor" red="0.33333333333333331" green="0.80784313725490198" blue="0.31372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="165" id="1Z6-sp-WYH"/>
@@ -130,11 +130,12 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="FWS-r0-Mlf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZOA-2Y-cgo"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FWS-r0-Mlf" secondAttribute="bottom" constant="30" id="qDw-NM-z6g"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FWS-r0-Mlf" secondAttribute="bottom" constant="50" id="qDw-NM-z6g"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="JLw-XV-ofw"/>
                     <connections>
+                        <outlet property="chatBtn" destination="FWS-r0-Mlf" id="L9N-Cr-Ako"/>
                         <outlet property="startChatButton" destination="FWS-r0-Mlf" id="5qS-an-hUn"/>
                         <segue destination="Ug7-k6-9qu" kind="show" identifier="messageVCSegue" id="L1o-aD-f0V"/>
                     </connections>
@@ -167,7 +168,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QSf-jx-UTc">
-                                                    <rect key="frame" x="20" y="15" width="91" height="65"/>
+                                                    <rect key="frame" x="20" y="15" width="88" height="65"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gs2-03-7Io">
                                                             <rect key="frame" x="15" y="17" width="6" height="6"/>
@@ -183,12 +184,12 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIj-vw-tjs">
-                                                            <rect key="frame" x="29" y="10" width="47" height="45"/>
+                                                            <rect key="frame" x="29" y="10" width="44" height="45"/>
                                                             <attributedString key="attributedText">
                                                                 <fragment content="Label">
                                                                     <attributes>
                                                                         <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        <font key="NSFont" size="18" name="WorkSans-Light"/>
+                                                                        <font key="NSFont" metaFont="system" size="18"/>
                                                                         <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1000000000000001" tighteningFactorForTruncation="0.0"/>
                                                                     </attributes>
                                                                 </fragment>

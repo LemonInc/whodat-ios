@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1841EA041EF066FC0090A984 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1841EA031EF066FC0090A984 /* CoreLocation.framework */; };
 		521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AB0641EEDCBC80050FAD3 /* Gradient.swift */; };
 		521AB0681EF054CF0050FAD3 /* send.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 521AB0671EF054CF0050FAD3 /* send.aiff */; };
 		5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1841EA031EF066FC0090A984 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4374DA0AFE78DD04EECE21BF /* Pods-WhoDat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoDat.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhoDat/Pods-WhoDat.release.xcconfig"; sourceTree = "<group>"; };
 		521AB0641EEDCBC80050FAD3 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		521AB0671EF054CF0050FAD3 /* send.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = send.aiff; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1841EA041EF066FC0090A984 /* CoreLocation.framework in Frameworks */,
 				F757ED6A73AEDE421E136355 /* Pods_WhoDat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +99,7 @@
 		088C36E66C5B68DE7F271ACA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1841EA031EF066FC0090A984 /* CoreLocation.framework */,
 				AC2904529351EF65C602544E /* Pods_WhoDat.framework */,
 			);
 			name = Frameworks;
@@ -332,7 +336,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A30F805459C16C20A77B016A /* [CP] Embed Pods Frameworks */ = {
