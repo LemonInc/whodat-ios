@@ -41,24 +41,19 @@ class GroupApi {
         onSuccess()
     }
     
-    func createGroup() {
+    func createGroup(location: String, longitude: Double, latitude: Double, onSuccess: @escaping (String) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
         
         // Create a unique ID for each group and assign the group details to it
         let newGroupRef = Api.group.GROUP_REF.childByAutoId()
         
-        let location = "Canary Wharf"
-        let longitute = 37.760122
-        let latitute = -122.468158
-        
-        let groupData = ["location": location, "longitute": longitute, "latitude": latitute] as [String : Any]
+        let groupData = ["location": location, "longitude": longitude, "latitude": latitude] as [String : Any]
         
         newGroupRef.setValue(groupData) { (error, reference) in
             if error != nil {
                 print(error!)
             } else {
                 let groupId = reference.key
-                // SEND GROUPID TO MESSAGEVIEWCONTROLLER
-                // SEGUE TO MESSAGEVIEWCONTROLLER
+                onSuccess(groupId)
             }
         }
     }

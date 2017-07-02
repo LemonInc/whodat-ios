@@ -107,6 +107,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="jr8-sc-8Z4">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWS-r0-Mlf">
                                 <rect key="frame" x="105" y="567" width="165" height="50"/>
                                 <color key="backgroundColor" red="0.33333333333333331" green="0.80784313725490198" blue="0.31372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -129,20 +132,24 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="jr8-sc-8Z4" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="3F8-bi-1IO"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jr8-sc-8Z4" secondAttribute="bottom" id="GGM-en-My3"/>
+                            <constraint firstItem="jr8-sc-8Z4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OFn-LW-J8E"/>
+                            <constraint firstAttribute="trailing" secondItem="jr8-sc-8Z4" secondAttribute="trailing" id="U2L-bZ-tJo"/>
                             <constraint firstItem="FWS-r0-Mlf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZOA-2Y-cgo"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FWS-r0-Mlf" secondAttribute="bottom" constant="50" id="qDw-NM-z6g"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="JLw-XV-ofw"/>
                     <connections>
-                        <outlet property="chatBtn" destination="FWS-r0-Mlf" id="L9N-Cr-Ako"/>
-                        <outlet property="startChatButton" destination="FWS-r0-Mlf" id="5qS-an-hUn"/>
+                        <outlet property="mapView" destination="jr8-sc-8Z4" id="FiA-nG-4LD"/>
+                        <outlet property="startChatButton" destination="FWS-r0-Mlf" id="KrN-WA-87k"/>
                         <segue destination="Ug7-k6-9qu" kind="show" identifier="messageVCSegue" id="L1o-aD-f0V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1375" y="-395"/>
+            <point key="canvasLocation" x="1373.5999999999999" y="-395.35232383808096"/>
         </scene>
         <!--Loading...-->
         <scene sceneID="pNn-p3-dQj">
@@ -368,7 +375,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hf2-fa-HFn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Su9-L0-ivB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Su9-L0-ivB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
