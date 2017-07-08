@@ -18,11 +18,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var userLatitude: Double? = nil
     var userLocationName: String? = ""
     var groups = [Group]()
+    var selectedAnnotation: Group?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         styleChatButton()
         setupMapView()
+        setUserTrackingButton()
         loadGroups()
         
         let theLocation: MKUserLocation = mapView.userLocation
@@ -35,6 +37,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // Show status bar and hide navigation bar
         UIApplication.shared.isStatusBarHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true)
     }
     
     func loadGroups() {
@@ -44,7 +48,34 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
+    func setUserTrackingButton() {
+        
+        // Mapkit tracking button
+        let trackingButton: MKUserTrackingBarButtonItem = MKUserTrackingBarButtonItem.init(mapView: mapView)
+        trackingButton.customView?.tintColor = UIColor(red:0.01, green:0.81, blue:0.37, alpha:1.0)
+        trackingButton.customView?.frame.size = CGSize(width: 50, height: 50)
+        
+        // Need to use toolbar to show item on page rather than on navigation bar
+        let toolBarFrame = CGRect(origin: CGPoint(x: 0, y: 0) , size: CGSize(width: 50, height: 50))
+        let toolbar = UIToolbar.init(frame: toolBarFrame)
+        toolbar.barTintColor = UIColor.white
+        toolbar.isTranslucent = true
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        toolbar.items = [flex, trackingButton, flex]
+        
+        // Need to implement this rounded view in order to get the box to look consistent with MKUserTrackingButton API. Origin is set by frame size - button size - margin
+        let origin = CGPoint(x: self.view.frame.size.width - 85, y: 60)
+        let roundedSquare: UIView = UIView(frame: CGRect(origin: origin, size: CGSize(width: 50, height: 50)))
+        roundedSquare.backgroundColor = UIColor.white
+        roundedSquare.layer.cornerRadius = 5
+        roundedSquare.layer.masksToBounds = true
+        
+        roundedSquare.addSubview(toolbar)
+        mapView.addSubview(roundedSquare)
+    }
+    
     func setupMapView() {
+        
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
@@ -53,6 +84,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.delegate = self
         mapView.mapType = MKMapType.standard
         mapView.showsUserLocation = true
+        mapView.showsCompass = false
         
         // Colour of pulse and user icon
         mapView.tintColor = UIColor(red:0.00, green:0.71, blue:1.00, alpha:1.0)
@@ -81,6 +113,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // Set region using location and span
         let region: MKCoordinateRegion = MKCoordinateRegionMake(userLocation2D, span)
         mapView.setRegion(region, animated: true)
+        
+        manager.stopUpdatingLocation()
     }
     
     func getLocationDetails(location: CLLocation, onSuccess: @escaping () -> Void) {
@@ -107,18 +141,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             onSuccess()
         })
     }
-
+    
     // Handling of annotation
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation.isEqual(mapView.userLocation) {
             return nil
         }
-
+        
         // For better performance, always try to reuse existing annotations.
         let annotationIdentifier = "pin"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-
+        
         // If there’s no reusable annotation view available, initialize a new one.
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
@@ -132,7 +166,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("selected")
+        self.selectedAnnotation = view.annotation as? Group
     }
     
     func styleChatButton() {
@@ -155,9 +189,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         getLocationDetails(location: self.userLocation!) {
             Api.group.createGroup(location: self.userLocationName!, longitude: self.userLongitude!, latitude: self.userLatitude!, onSuccess: { (groupId) in
                 // Update and increment user count then show messageViewController
-//                Api.group.addUserToGroup(groupId: self.groupId) {
-//                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-//                }
+                //                Api.group.addUserToGroup(groupId: self.groupId) {
+                //                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+                //                }
             }) { (error) in
                 print(error!)
             }

@@ -164,7 +164,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="y4V-sW-7Vp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="602"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="612"/>
                                 <color key="backgroundColor" red="0.93333333333333335" green="0.95294117647058818" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IncomingChatCell" rowHeight="80" id="Oe3-nB-gQb" customClass="MessageTableViewCell" customModule="WhoDat" customModuleProvider="target">
@@ -346,7 +346,7 @@
                             <constraint firstItem="BPh-aZ-xDb" firstAttribute="leading" secondItem="pee-41-b8l" secondAttribute="leading" id="atw-c5-syg"/>
                             <constraint firstAttribute="trailing" secondItem="BPh-aZ-xDb" secondAttribute="trailing" id="ceK-4c-bZl"/>
                             <constraint firstItem="y4V-sW-7Vp" firstAttribute="leading" secondItem="pee-41-b8l" secondAttribute="leading" id="dm1-VU-n3i"/>
-                            <constraint firstItem="BPh-aZ-xDb" firstAttribute="top" secondItem="y4V-sW-7Vp" secondAttribute="bottom" constant="10" id="l2Z-XK-UMH"/>
+                            <constraint firstItem="BPh-aZ-xDb" firstAttribute="top" secondItem="y4V-sW-7Vp" secondAttribute="bottom" id="l2Z-XK-UMH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Loading..." id="RvK-rf-b9Y">
