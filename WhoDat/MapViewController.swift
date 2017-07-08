@@ -189,9 +189,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         getLocationDetails(location: self.userLocation!) {
             Api.group.createGroup(location: self.userLocationName!, longitude: self.userLongitude!, latitude: self.userLatitude!, onSuccess: { (groupId) in
                 // Update and increment user count then show messageViewController
-                //                Api.group.addUserToGroup(groupId: self.groupId) {
-                //                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-                //                }
+                Api.group.addUserToGroup(groupId: self.groupId) {
+                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+                }
             }) { (error) in
                 print(error!)
             }

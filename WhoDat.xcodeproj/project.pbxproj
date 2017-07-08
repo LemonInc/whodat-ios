@@ -64,6 +64,7 @@
 		524F72481EEB24D300FD5A8A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		526D4A011EE4B01F00E042E4 /* GifPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifPlayer.swift; sourceTree = "<group>"; };
 		526D4A091EE72D5700E042E4 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
+		527F02E91F113EEA007804EF /* WhoDat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhoDat.entitlements; sourceTree = "<group>"; };
 		5293CCE61EEDC8B6001E2DDE /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
 		52A59FB91ED0513500F64743 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +144,7 @@
 		5225D0101EB69E2800D6A1B4 /* WhoDat */ = {
 			isa = PBXGroup;
 			children = (
+				527F02E91F113EEA007804EF /* WhoDat.entitlements */,
 				521EC9241EFF1EF700E3C5E1 /* Archive */,
 				521AB0661EF054C50050FAD3 /* Sound */,
 				524F724A1EEB255F00FD5A8A /* Animation */,
@@ -279,8 +281,13 @@
 				TargetAttributes = {
 					5225D00D1EB69E2800D6A1B4 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = LXZLY68SP7;
+						DevelopmentTeam = V8LH24637C;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -517,12 +524,13 @@
 			baseConfigurationReference = A17D40064ACB9CC762E701E0 /* Pods-WhoDat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WhoDat/WhoDat.entitlements;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
-				DEVELOPMENT_TEAM = LXZLY68SP7;
+				DEVELOPMENT_TEAM = V8LH24637C;
 				INFOPLIST_FILE = WhoDat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.LemonInc.WhoDat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LemonIncLtd.WhoDat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -533,11 +541,12 @@
 			baseConfigurationReference = 4374DA0AFE78DD04EECE21BF /* Pods-WhoDat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WhoDat/WhoDat.entitlements;
 				DEBUG_ACTIVITY_MODE = "";
-				DEVELOPMENT_TEAM = LXZLY68SP7;
+				DEVELOPMENT_TEAM = V8LH24637C;
 				INFOPLIST_FILE = WhoDat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.LemonInc.WhoDat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LemonIncLtd.WhoDat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
