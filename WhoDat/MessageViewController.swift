@@ -240,7 +240,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             self.navigationItem.title = location
-        }
+        } 
     }
     
     // Grab all messages from database and assign to local messages array
