@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -14,6 +15,112 @@
         </array>
     </customFonts>
     <scenes>
+        <!--Walkthrough View Controller-->
+        <scene sceneID="4OT-oF-TWA">
+            <objects>
+                <pageViewController storyboardIdentifier="WalkthroughViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="0Ed-Er-8jk" customClass="WalkthroughViewController" customModule="WhoDat" customModuleProvider="target" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="drL-he-pfM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2518" y="36"/>
+        </scene>
+        <!--Walkthrough Content View Controller-->
+        <scene sceneID="AIT-Ct-VuR">
+            <objects>
+                <viewController storyboardIdentifier="WalkthroughContentViewController" id="mJH-gQ-9Zi" customClass="WalkthroughContentViewController" customModule="WhoDat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NK6-pU-dKO"/>
+                        <viewControllerLayoutGuide type="bottom" id="kQ0-F4-ywF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9iy-3p-J4C">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="londontest.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="dWj-Yi-imN">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="dWj-Yi-imN" secondAttribute="height" multiplier="1:1" id="8YY-xj-gnf"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat with anyone nearby" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zyc-ZA-E2p">
+                                <rect key="frame" x="30" y="415" width="315" height="30.5"/>
+                                <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oIJ-5N-h4g">
+                                <rect key="frame" x="30" y="450.5" width="315" height="73.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="KqH-OX-Zxl"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="See what everyone around you are talking about, never miss what's happening">
+                                        <attributes>
+                                            <color key="NSColor" red="0.050980392156862744" green="0.078431372549019607" blue="0.12156862745098039" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="16" name="WorkSans-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.3" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <color key="highlightedColor" red="1" green="0.078431372549019607" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FC2-5d-whz">
+                                <rect key="frame" x="48" y="549" width="280" height="50"/>
+                                <color key="backgroundColor" red="0.33333333329999998" green="0.80784313730000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="qES-gA-Oqu"/>
+                                    <constraint firstAttribute="height" constant="50" id="whJ-Zw-jSp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="18"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Next"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="nextButton_TouchUpInside:" destination="mJH-gQ-9Zi" eventType="touchUpInside" id="5v2-oD-M8o"/>
+                                    <action selector="startChatButton_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IJt-Xl-qIa"/>
+                                </connections>
+                            </button>
+                            <pageControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="Zj2-ns-aGC">
+                                <rect key="frame" x="176" y="619" width="23" height="37"/>
+                                <color key="pageIndicatorTintColor" red="0.7803921568627451" green="0.80392156862745101" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="currentPageIndicatorTintColor" red="0.20392156862745098" green="0.72941176470588232" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </pageControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dWj-Yi-imN" firstAttribute="top" secondItem="NK6-pU-dKO" secondAttribute="bottom" id="G6c-Pi-bTq"/>
+                            <constraint firstItem="oIJ-5N-h4g" firstAttribute="top" secondItem="Zyc-ZA-E2p" secondAttribute="bottom" constant="5" id="Oke-0e-pH5"/>
+                            <constraint firstItem="Zyc-ZA-E2p" firstAttribute="leading" secondItem="9iy-3p-J4C" secondAttribute="leading" constant="30" id="PW9-Oc-4yN"/>
+                            <constraint firstAttribute="trailing" secondItem="Zyc-ZA-E2p" secondAttribute="trailing" constant="30" id="Ry2-Nr-yrk"/>
+                            <constraint firstItem="Zj2-ns-aGC" firstAttribute="centerX" secondItem="9iy-3p-J4C" secondAttribute="centerX" id="Toa-Z1-F7k"/>
+                            <constraint firstItem="oIJ-5N-h4g" firstAttribute="leading" secondItem="9iy-3p-J4C" secondAttribute="leading" constant="30" id="aGt-UA-vDM"/>
+                            <constraint firstAttribute="trailing" secondItem="oIJ-5N-h4g" secondAttribute="trailing" constant="30" id="cIR-vb-j5Z"/>
+                            <constraint firstItem="FC2-5d-whz" firstAttribute="centerX" secondItem="9iy-3p-J4C" secondAttribute="centerX" id="cLK-Ad-XWQ"/>
+                            <constraint firstItem="FC2-5d-whz" firstAttribute="top" secondItem="oIJ-5N-h4g" secondAttribute="bottom" constant="25" id="e70-C7-Zcb"/>
+                            <constraint firstItem="Zyc-ZA-E2p" firstAttribute="top" secondItem="dWj-Yi-imN" secondAttribute="bottom" constant="40" id="ePk-uf-AQZ"/>
+                            <constraint firstAttribute="trailing" secondItem="dWj-Yi-imN" secondAttribute="trailing" id="i3q-3k-ll9"/>
+                            <constraint firstItem="Zj2-ns-aGC" firstAttribute="top" secondItem="FC2-5d-whz" secondAttribute="bottom" constant="20" id="mNg-xM-0su"/>
+                            <constraint firstItem="dWj-Yi-imN" firstAttribute="leading" secondItem="9iy-3p-J4C" secondAttribute="leading" id="sae-Cu-Jeg"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="oIJ-5N-h4g" id="Dbw-n6-e43"/>
+                        <outlet property="nextButton" destination="FC2-5d-whz" id="g5H-Q6-EgJ"/>
+                        <outlet property="pageControl" destination="Zj2-ns-aGC" id="gz9-ge-mF0"/>
+                        <outlet property="titleLabel" destination="Zyc-ZA-E2p" id="wNu-Kt-D5p"/>
+                        <outlet property="walkthroughImage" destination="dWj-Yi-imN" id="Wcx-zq-1Er"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nfq-pX-mqq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1738.4000000000001" y="35.532233883058474"/>
+        </scene>
         <!--Splash View Controller-->
         <scene sceneID="aJ3-Ne-Csg">
             <objects>
@@ -396,11 +503,12 @@
     <resources>
         <image name="anchor_down" width="50" height="50"/>
         <image name="back_arrow" width="23" height="16"/>
+        <image name="londontest.jpg" width="1600" height="1000"/>
         <image name="splash_background.png" width="375" height="667"/>
         <image name="typing.gif" width="176" height="88"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="L1o-aD-f0V"/>
+        <segue reference="ncS-vu-Ndq"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.19389812961791131" green="0.49599169178673963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

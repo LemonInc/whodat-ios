@@ -31,6 +31,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         theLocation.title = "I'm here!"
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Get assigned user defaults to check if walkthrough has been seen already, if it has then don't show, otherwise show
+        let defaults = UserDefaults.standard
+        let hasViewedWalkthrough = defaults.bool(forKey: "hasViewedWalkthrough")
+        
+        //if hasViewedWalkthrough != true {
+            // Show walkthrough page
+            if let pageVC = storyboard?.instantiateViewController(withIdentifier: "WalkthroughViewController") as? WalkthroughViewController {
+                present(pageVC, animated: true, completion: nil)
+            }
+        //}
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         

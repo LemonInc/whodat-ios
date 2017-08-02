@@ -17,7 +17,7 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         
         // Play splash animation
-        let animationView = LAAnimationView.animationNamed("splash_animation")
+        let animationView = LAAnimationView.animationNamed("carousel")
         animationView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         animationView?.contentMode = .scaleAspectFill
         animationView?.center = self.view.center
