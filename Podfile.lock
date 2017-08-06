@@ -51,7 +51,7 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GTMSessionFetcher/Core (1.1.8)
   - KMPlaceholderTextView (1.3.0)
-  - lottie-ios (1.0.0)
+  - lottie-ios (2.0.3)
   - SVProgressHUD (2.1.2)
 
 DEPENDENCIES:
@@ -61,7 +61,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - GoogleMaps
   - KMPlaceholderTextView (~> 1.3.0)
-  - lottie-ios
+  - lottie-ios (~> 2.0)
   - SVProgressHUD
 
 SPEC CHECKSUMS:
@@ -78,9 +78,9 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
-  lottie-ios: c40d67c1481d6fb9fa24fe46731ac823f5f6675b
+  lottie-ios: 445f77c7f661f95587e49095a1ac7de43f0da896
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
 
-PODFILE CHECKSUM: a42b9b2649348a4234917a7cb2fe69134f48845b
+PODFILE CHECKSUM: 0178f10d0537af8c07457f62f0d9fc9f513bb776
 
 COCOAPODS: 1.2.0

@@ -5,7 +5,7 @@ class WalkthroughViewController: UIPageViewController, UIPageViewControllerDataS
 
     var titleText = ["Chat anonymously", ""]
     var descriptionText = ["Join chat spots around you and stay updated with what's happening locally.", ""]
-    var image = ["londontest.jpg", ""]
+    var image = ["", ""]
     
     override func viewDidLoad() {
         super.viewDidLoad()

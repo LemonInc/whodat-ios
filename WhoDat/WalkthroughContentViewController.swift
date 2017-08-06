@@ -30,6 +30,8 @@ class WalkthroughContentViewController: UIViewController {
         
         switch index {
         case 0:
+            
+            //walkthroughImage.loadGif(name: "onboarding")
             nextButton.setTitle("Chat now", for: .normal)
         case 1:
             let defaults = UserDefaults.standard
@@ -48,13 +50,13 @@ class WalkthroughContentViewController: UIViewController {
     }
     
     func playAnimation() {
-        let animationView = LAAnimationView.animationNamed("carousel")
-        animationView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.width)
-        animationView?.contentMode = .scaleAspectFill
-        self.view.addSubview(animationView!)
-        animationView?.animationSpeed = 1
-        animationView?.loopAnimation = true
-        animationView?.play()
+        let animationView = LOTAnimationView(name: "carousel")
+        animationView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.width)
+        animationView.contentMode = .scaleAspectFill
+        self.view.addSubview(animationView)
+        animationView.animationSpeed = 1
+        animationView.loopAnimation = true
+        animationView.play()
     }
     
     func styleNextButton() {

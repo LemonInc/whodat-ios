@@ -17,14 +17,14 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         
         // Play splash animation
-        let animationView = LAAnimationView.animationNamed("carousel")
-        animationView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        animationView?.contentMode = .scaleAspectFill
-        animationView?.center = self.view.center
-        self.view.addSubview(animationView!)
-        animationView?.animationSpeed = 1.2
+        let animationView = LOTAnimationView(name: "splash_animation")
+        animationView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        animationView.contentMode = .scaleAspectFill
+        animationView.center = self.view.center
+        self.view.addSubview(animationView)
+        animationView.animationSpeed = 1.2
         
-        animationView?.play(completion: { (bool) in
+        animationView.play(completion: { (bool) in
             
             // If the user has not logged out, then automatically switch to MessageViewController, otherwise sign the user in as an anonymous user
             let currentUser = Api.user.CURRENT_USER
