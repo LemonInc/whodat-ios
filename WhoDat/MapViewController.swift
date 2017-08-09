@@ -38,12 +38,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let defaults = UserDefaults.standard
         let hasViewedWalkthrough = defaults.bool(forKey: "hasViewedWalkthrough")
         
-        if hasViewedWalkthrough != true {
+        //if hasViewedWalkthrough != true {
             // Show walkthrough page
             if let pageVC = storyboard?.instantiateViewController(withIdentifier: "WalkthroughViewController") as? WalkthroughViewController {
                 present(pageVC, animated: true, completion: nil)
             }
-        }
+        //}
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,12 +52,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // Show status bar and hide navigation bar
         UIApplication.shared.isStatusBarHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        
-        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true)
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        mapView.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true)
+        mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
     }
     
     func loadGroups() {
