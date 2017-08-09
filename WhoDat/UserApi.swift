@@ -15,14 +15,17 @@ class UserApi {
     var USER_REF = FIRDatabase.database().reference().child("users")
     
     // Grab user based on user ID
-    func observeUser(userId: String, onSuccess: @escaping (User) -> Void) {
+    func observeUser(userId: String, onSuccess: @escaping (User) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
         USER_REF.child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
             // Grab the user data snapshot from Firebase
             if let dict = snapshot.value as? [String: Any] {
                 let user = User.transformUser(dict: dict)
                 onSuccess(user)
             }
-        })
+        }) { (error) in
+            onError(error.localizedDescription)
+            return
+        }
     }
     
     var CURRENT_USER: FIRUser? {

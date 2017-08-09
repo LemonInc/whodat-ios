@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class MessageTableViewCell: UITableViewCell {
     
@@ -41,8 +42,10 @@ class MessageTableViewCell: UITableViewCell {
     func updateView() {
         
         // Grab the user who sent the corresponding message based on senderId then update the message avatar
-        Api.user.observeUser(userId: (message?.senderId)!) { (user) in
+        Api.user.observeUser(userId: (message?.senderId)!, onSuccess: { (user) in
             self.updateAvatar(user: user)
+        }) { (error) in
+            SVProgressHUD.showError(withStatus: error!)
         }
         
         self.messageTextLabel.text = self.message?.messageText

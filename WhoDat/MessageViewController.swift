@@ -2,6 +2,7 @@
 import UIKit
 import KMPlaceholderTextView
 import AVFoundation
+import SVProgressHUD
 
 class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
@@ -226,8 +227,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Grab group details and assign to view, observe methods trigger whenever Firebase changes, so it's an on-going function
     func loadGroupDetails() {
-        Api.group.observeGroup(groupId: groupId) { (group) in
-            
+        Api.group.observeGroup(groupId: groupId, onSuccess: { (group) in
             // Set user count value
             guard let userCount = group.users?.count else {
                 return
@@ -240,7 +240,9 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             self.navigationItem.title = location
-        } 
+        }) { (error) in
+            SVProgressHUD.showError(withStatus: error!)
+        }
     }
     
     // Grab all messages from database and assign to local messages array
@@ -248,7 +250,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             
         // After grabbing all message ID's, then grab the message details from the messages table
         Api.message.observeMessages(groupId: self.groupId, onSuccess: { (message) in
-            
             self.messages.append(message)
             
             // Scroll to the bottom upon first load
@@ -271,9 +272,9 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
-            
-        })
-        
+        }) { (error) in
+            SVProgressHUD.showError(withStatus: error!)
+        }
     }
     
     // Scroll to last message

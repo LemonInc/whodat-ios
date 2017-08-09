@@ -13,27 +13,30 @@ class GroupApi {
     
     var GROUP_REF = FIRDatabase.database().reference().child("groups")
     
-    func observeGroup(groupId id: String, onSuccess: @escaping (Group) -> Void) {
-        GROUP_REF.child(id).observe(FIRDataEventType.value, with: { (snapshot) in
-            
+    func observeGroup(groupId id: String, onSuccess: @escaping (Group) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
+        GROUP_REF.child(id).observe(.value, with: { (snapshot) in
             // Grab the newly added group data snapshot from Firebase
             if let dict = snapshot.value as? [String: Any] {
                 let group = Group.transformGroup(dict: dict)
                 onSuccess(group)
             }
-            
-        })
+        }) { (error) in
+            onError(error.localizedDescription)
+            return
+        }
     }
     
-    func observeGroups(onSuccess: @escaping (Group) -> Void) {
+    func observeGroups(onSuccess: @escaping (Group) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
         GROUP_REF.observe(.childAdded, with: { (snapshot) in
             // Grab the newly added group snapshot from Firebase
             if let dict = snapshot.value as? [String: Any] {
                 let group = Group.transformGroup(dict: dict)
-                print(group.location)
                 onSuccess(group)
             }
-        })
+        }) { (error) in
+            onError(error.localizedDescription)
+            return
+        }
     }
     
     func addUserToGroup(groupId: String, onSuccess: @escaping () -> Void) {
@@ -61,7 +64,8 @@ class GroupApi {
         
         newGroupRef.setValue(groupData) { (error, reference) in
             if error != nil {
-                print(error!)
+                onError(error?.localizedDescription)
+                return
             } else {
                 let groupId = reference.key
                 onSuccess(groupId)
