@@ -24,6 +24,15 @@ class WalkthroughContentViewController: UIViewController {
         
         titleLabel.text = titleText
         descriptionLabel.text = descriptionText
+        
+        let attrString = NSMutableAttributedString(string: descriptionText)
+        var style = NSMutableParagraphStyle()
+        style.lineSpacing = 4
+        attrString.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSRange(location: 0, length: descriptionText.characters.count))
+        descriptionLabel.attributedText = attrString
+        descriptionLabel.textAlignment = NSTextAlignment.center
+        
+        
         walkthroughImage.image = UIImage(named: imageFileName)
         
         pageControl.currentPage = index
@@ -32,7 +41,7 @@ class WalkthroughContentViewController: UIViewController {
         case 0:
             
             //walkthroughImage.loadGif(name: "onboarding")
-            nextButton.setTitle("Chat now", for: .normal)
+            nextButton.setTitle("Ok, got it", for: .normal)
         case 1:
             let defaults = UserDefaults.standard
             defaults.set(true, forKey: "hasViewedWalkthrough")
