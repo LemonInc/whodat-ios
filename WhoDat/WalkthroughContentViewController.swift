@@ -59,7 +59,7 @@ class WalkthroughContentViewController: UIViewController {
     }
     
     func playAnimation() {
-        let animationView = LOTAnimationView(name: "carousel")
+        let animationView = LOTAnimationView(name: "walkthrough")
         animationView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.width)
         animationView.contentMode = .scaleAspectFill
         self.view.addSubview(animationView)

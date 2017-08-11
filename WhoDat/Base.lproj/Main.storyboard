@@ -44,13 +44,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat anonymously" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zyc-ZA-E2p">
-                                <rect key="frame" x="30" y="415" width="315" height="31"/>
+                                <rect key="frame" x="30" y="425" width="315" height="31"/>
                                 <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oIJ-5N-h4g">
-                                <rect key="frame" x="30" y="451" width="315" height="73.5"/>
+                                <rect key="frame" x="30" y="461" width="315" height="73.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="KqH-OX-Zxl"/>
                                 </constraints>
@@ -66,7 +66,7 @@
                                 <color key="highlightedColor" red="1" green="0.078431372549019607" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FC2-5d-whz">
-                                <rect key="frame" x="73" y="549.5" width="230" height="50"/>
+                                <rect key="frame" x="73" y="559.5" width="230" height="50"/>
                                 <color key="backgroundColor" red="0.33333333329999998" green="0.80784313730000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="230" id="qES-gA-Oqu"/>
@@ -86,7 +86,7 @@
                                 </connections>
                             </button>
                             <pageControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="Zj2-ns-aGC">
-                                <rect key="frame" x="176" y="619.5" width="23" height="37"/>
+                                <rect key="frame" x="176" y="629.5" width="23" height="37"/>
                                 <color key="pageIndicatorTintColor" red="0.7803921568627451" green="0.80392156862745101" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.20392156862745098" green="0.72941176470588232" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
@@ -102,7 +102,7 @@
                             <constraint firstAttribute="trailing" secondItem="oIJ-5N-h4g" secondAttribute="trailing" constant="30" id="cIR-vb-j5Z"/>
                             <constraint firstItem="FC2-5d-whz" firstAttribute="centerX" secondItem="9iy-3p-J4C" secondAttribute="centerX" id="cLK-Ad-XWQ"/>
                             <constraint firstItem="FC2-5d-whz" firstAttribute="top" secondItem="oIJ-5N-h4g" secondAttribute="bottom" constant="25" id="e70-C7-Zcb"/>
-                            <constraint firstItem="Zyc-ZA-E2p" firstAttribute="top" secondItem="dWj-Yi-imN" secondAttribute="bottom" constant="40" id="ePk-uf-AQZ"/>
+                            <constraint firstItem="Zyc-ZA-E2p" firstAttribute="top" secondItem="dWj-Yi-imN" secondAttribute="bottom" constant="50" id="ePk-uf-AQZ"/>
                             <constraint firstAttribute="trailing" secondItem="dWj-Yi-imN" secondAttribute="trailing" id="i3q-3k-ll9"/>
                             <constraint firstItem="Zj2-ns-aGC" firstAttribute="top" secondItem="FC2-5d-whz" secondAttribute="bottom" constant="20" id="mNg-xM-0su"/>
                             <constraint firstItem="dWj-Yi-imN" firstAttribute="leading" secondItem="9iy-3p-J4C" secondAttribute="leading" id="sae-Cu-Jeg"/>
@@ -271,7 +271,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="y4V-sW-7Vp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="592"/>
                                 <color key="backgroundColor" red="0.93333333333333335" green="0.95294117647058818" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IncomingChatCell" rowHeight="80" id="Oe3-nB-gQb" customClass="MessageTableViewCell" customModule="WhoDat" customModuleProvider="target">
@@ -446,7 +446,7 @@
                             <constraint firstItem="BPh-aZ-xDb" firstAttribute="leading" secondItem="pee-41-b8l" secondAttribute="leading" id="atw-c5-syg"/>
                             <constraint firstAttribute="trailing" secondItem="BPh-aZ-xDb" secondAttribute="trailing" id="ceK-4c-bZl"/>
                             <constraint firstItem="y4V-sW-7Vp" firstAttribute="leading" secondItem="pee-41-b8l" secondAttribute="leading" id="dm1-VU-n3i"/>
-                            <constraint firstItem="BPh-aZ-xDb" firstAttribute="top" secondItem="y4V-sW-7Vp" secondAttribute="bottom" constant="5" id="l2Z-XK-UMH"/>
+                            <constraint firstItem="BPh-aZ-xDb" firstAttribute="top" secondItem="y4V-sW-7Vp" secondAttribute="bottom" constant="20" id="l2Z-XK-UMH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Loading..." id="RvK-rf-b9Y">
