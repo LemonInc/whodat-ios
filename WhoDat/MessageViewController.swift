@@ -303,7 +303,10 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         let newMessageId = messageRef.childByAutoId().key
         let newMessageRef = Api.message.MESSAGE_REF.child(self.groupId).child(newMessageId)
         
-        let messageData = ["messageText": messageTextInput.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), "senderId": currentUserId]
+        // Also store the timestamp of when the message is sent for ordering purposes
+        let timestamp = Int(Date().timeIntervalSince1970)
+        
+        let messageData = ["messageText": messageTextInput.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), "senderId": currentUserId, "timestamp": timestamp] as [String : Any]
         
         newMessageRef.setValue(messageData) { (error, reference) in
             if error != nil {
