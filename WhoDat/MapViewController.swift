@@ -5,6 +5,8 @@ import FirebaseDatabase
 import SVProgressHUD
 import CoreLocation
 import MapKit
+import UserNotifications
+
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -20,16 +22,186 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var groups = [Group]()
     var selectedAnnotation: Group?
     
+    //Json variables 
+    var fetchedStadium = [Stadium]()
+
+    //
+
     override func viewDidLoad() {
         super.viewDidLoad()
         styleChatButton()
-        setupMapView()
-        setUserTrackingButton()
-        loadGroups()
+        //setupMapView()
+        //setUserTrackingButton()
+        //loadGroups()
+        
         
         let theLocation: MKUserLocation = mapView.userLocation
         theLocation.title = "I'm here!"
+        
+        let locationManager = CLLocationManager()
+        
+        // Request for user notification premission
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {(granted, error) in }
+        // Get set location manager
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
+        
+        // JSON Data Path
+        self.parseData()
+        //=========================End of JSON
+    
     }
+    
+    //===================== Parse Data
+    func parseData() {
+        //empty array
+        fetchedStadium = []
+        
+        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=f987367d-a499-4719-bcd0-423023aa14e0"
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        
+        let configuration = URLSessionConfiguration.default
+        let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            
+            if (error != nil) {
+                
+                print("Error 1")
+            
+            } else {
+                
+                do {
+                    
+                    let fetchData = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as! NSArray
+                    
+                    for eachFetchedStadium in fetchData  {
+                        
+                        let eachStadium = eachFetchedStadium as! [String: Any]
+                        let name = eachStadium["Name"] as! String
+                        let type = eachStadium["Type"] as! String
+                        
+                        // init string before converting to double
+                        let lat = eachStadium["Latitude"] as! String
+                        let long = eachStadium["Longitude"] as! String
+                        let latitude = Double(lat)!
+                        let longitude = Double(long)!
+                        
+                        self.fetchedStadium.append(Stadium(name: name, type: type, latitude: latitude, longitude: longitude))
+                    }
+                    
+                    
+                    // Display annotations=========
+                    
+                    for stadium in self.fetchedStadium {
+                        let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
+                        let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(stadium.latitude, stadium.longitude)
+
+                        let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+
+                        self.mapView.setRegion(region, animated: true)
+
+                        // let annotation = MKPointAnnotation()
+                        let annotation = CustomPointAnnotation()
+                        annotation.coordinate = location
+                        annotation.title = stadium.name
+                        annotation.subtitle = stadium.type
+                        
+                        if(stadium.type == "Stadium"){
+                            print("Station")
+                            annotation.imageName = "stadium.png"
+                        
+                        } else if (stadium.type == "School") {
+                            print("School")
+                            annotation.imageName = "school.png"
+
+                        } else if (stadium.type == "Airport") {
+                            print("Airport")
+                            annotation.imageName = "airport.png"
+                            
+                        } else if (stadium.type == "Hospital") {
+                            print("Hospital")
+                            annotation.imageName = "hospital.png"
+                            
+                        }else if (stadium.type == "Train") {
+                            print("Train")
+                            annotation.imageName = "train.png"
+                            
+                        }  else {
+                            print("Random")
+                        }
+
+                        self.mapView.addAnnotation(annotation as MKAnnotation)
+                    
+                    }
+                    
+                    // Display annotations==============
+
+                    
+                }catch {
+                    
+                    print("Error 2")
+                }
+                
+            }
+        }
+        task.resume()
+    }
+    
+    
+    
+    class Stadium {
+        var name: String
+        var type: String
+        var latitude: Double
+        var longitude: Double
+        
+        init(name: String, type: String, latitude: Double, longitude: Double) {
+            self.name = name
+            self.type = type
+            self.latitude = latitude
+            self.longitude = longitude
+        }
+        
+    }
+    
+    //Custom annotation
+    class CustomPointAnnotation: MKPointAnnotation {
+        var imageName: String!
+    }
+    
+    //Set annotation image
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+
+        if !(annotation is MKPointAnnotation){
+            print("No register mkanotion")
+            return nil
+        }
+
+        // For better performance, always try to reuse existing annotations.
+        let annotationIdentifier = "pin"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+
+        // If there’s no reusable annotation view available, initialize a new one.
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+        
+        let cpa = annotation as! CustomPointAnnotation
+        annotationView!.image = UIImage(named: cpa.imageName)
+        return annotationView
+    }
+    
+    
+    //===================== End Parse Data
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -143,37 +315,56 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     // Handling of annotation
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
-        if annotation.isEqual(mapView.userLocation) {
-            return nil
-        }
-        
-        // For better performance, always try to reuse existing annotations.
-        let annotationIdentifier = "pin"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-        
-        // If there’s no reusable annotation view available, initialize a new one.
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            //annotationView!.canShowCallout = true
-        } else {
-            annotationView!.annotation = annotation
-        }
-        
-        annotationView!.image = UIImage(named: "hotspot")
-        return annotationView
-    }
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        
+//        if annotation.isEqual(mapView.userLocation) {
+//            return nil
+//        }
+//        
+//        // For better performance, always try to reuse existing annotations.
+//        let annotationIdentifier = "pin"
+//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+//        
+//        // If there’s no reusable annotation view available, initialize a new one.
+//        if annotationView == nil {
+//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+//            //annotationView!.canShowCallout = true
+//        } else {
+//            annotationView!.annotation = annotation
+//        }
+//        
+//        annotationView!.image = UIImage(named: "hotspot")
+//        return annotationView
+//    }
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        self.selectedAnnotation = view.annotation as? Group
-    }
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        self.selectedAnnotation = view.annotation as? Group
+//    }
     
     func styleChatButton() {
         let background = CAGradientLayer().backgroundGradientColor()
         background.frame = startChatButton.bounds
         startChatButton.clipsToBounds = true
         startChatButton.layer.addSublayer(background)
+    }
+    
+    // Draw circle region
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        //Draw regions
+        guard let circleOverlay = overlay as? MKCircle else {
+            return MKOverlayRenderer()
+        }
+        
+        
+        let circleRenderer = MKCircleRenderer(circle: circleOverlay)
+        
+        // Set region colours
+        circleRenderer.strokeColor = .black
+        circleRenderer.fillColor = .black
+        circleRenderer.alpha = 1
+        
+        return circleRenderer
     }
     
     // Pass groupId to MessageViewController
@@ -200,3 +391,5 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
 }
+
+

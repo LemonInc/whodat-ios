@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1807293D1F251163001FE59C /* JSONDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1807293C1F251163001FE59C /* JSONDownloader.swift */; };
+		1807293F1F25183C001FE59C /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1807293E1F25183C001FE59C /* JSONError.swift */; };
 		1841EA041EF066FC0090A984 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1841EA031EF066FC0090A984 /* CoreLocation.framework */; };
+		1867EE741F1FE508009723AE /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1867EE731F1FE508009723AE /* Data.swift */; };
+		1867EE761F1FE634009723AE /* DataApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1867EE751F1FE634009723AE /* DataApi.swift */; };
+		18BDADBB1F27CBB8001D26C7 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 18BDADBA1F27CBB8001D26C7 /* data.json */; };
 		521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AB0641EEDCBC80050FAD3 /* Gradient.swift */; };
 		521AB0681EF054CF0050FAD3 /* send.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 521AB0671EF054CF0050FAD3 /* send.aiff */; };
 		5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225D0111EB69E2800D6A1B4 /* AppDelegate.swift */; };
@@ -43,7 +48,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1807293C1F251163001FE59C /* JSONDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDownloader.swift; sourceTree = "<group>"; };
+		1807293E1F25183C001FE59C /* JSONError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
 		1841EA031EF066FC0090A984 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		1867EE731F1FE508009723AE /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		1867EE751F1FE634009723AE /* DataApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataApi.swift; sourceTree = "<group>"; };
+		18BDADBA1F27CBB8001D26C7 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data.json; path = ../../data.json; sourceTree = "<group>"; };
 		4374DA0AFE78DD04EECE21BF /* Pods-WhoDat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoDat.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhoDat/Pods-WhoDat.release.xcconfig"; sourceTree = "<group>"; };
 		521AB0641EEDCBC80050FAD3 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		521AB0671EF054CF0050FAD3 /* send.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = send.aiff; sourceTree = "<group>"; };
@@ -106,6 +116,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1807293B1F251145001FE59C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1807293C1F251163001FE59C /* JSONDownloader.swift */,
+				1807293E1F25183C001FE59C /* JSONError.swift */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		18BDADB91F27CB80001D26C7 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				18BDADBA1F27CBB8001D26C7 /* data.json */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
 		521AB0661EF054C50050FAD3 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +171,8 @@
 		5225D0101EB69E2800D6A1B4 /* WhoDat */ = {
 			isa = PBXGroup;
 			children = (
+				18BDADB91F27CB80001D26C7 /* Resource */,
+				1807293B1F251145001FE59C /* Networking */,
 				527F02E91F113EEA007804EF /* WhoDat.entitlements */,
 				521EC9241EFF1EF700E3C5E1 /* Archive */,
 				521AB0661EF054C50050FAD3 /* Sound */,
@@ -172,6 +201,7 @@
 				52A59FC11ED0878500F64743 /* MessageApi.swift */,
 				52A59FCA1ED0955B00F64743 /* UserApi.swift */,
 				524F10AE1EDAFC3E00E38373 /* GroupApi.swift */,
+				1867EE751F1FE634009723AE /* DataApi.swift */,
 			);
 			name = Api;
 			sourceTree = "<group>";
@@ -214,6 +244,7 @@
 				52A59FBD1ED0849A00F64743 /* Message.swift */,
 				52A59FC81ED094FA00F64743 /* User.swift */,
 				524F10B01EDB0A7D00E38373 /* Group.swift */,
+				1867EE731F1FE508009723AE /* Data.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -321,6 +352,7 @@
 				52F39E8D1EFDE345008C31B3 /* send_button.json in Resources */,
 				52F39E8F1EFDE756008C31B3 /* play_button.json in Resources */,
 				523D6E7B1F02D835002FC4A9 /* typing.gif in Resources */,
+				18BDADBB1F27CBB8001D26C7 /* data.json in Resources */,
 				52D2FE7C1EEB379E0005D524 /* splash_animation.json in Resources */,
 				5225D0241EB69E8900D6A1B4 /* GoogleService-Info.plist in Resources */,
 				5225D0191EB69E2800D6A1B4 /* Assets.xcassets in Resources */,
@@ -343,7 +375,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A30F805459C16C20A77B016A /* [CP] Embed Pods Frameworks */ = {
@@ -387,14 +419,18 @@
 				526D4A0A1EE72D5700E042E4 /* Archive.swift in Sources */,
 				524F10B31EDB917B00E38373 /* Helper.swift in Sources */,
 				524F72491EEB24D300FD5A8A /* SplashViewController.swift in Sources */,
+				1867EE761F1FE634009723AE /* DataApi.swift in Sources */,
 				5225D0261EB79DA300D6A1B4 /* MapViewController.swift in Sources */,
+				1807293F1F25183C001FE59C /* JSONError.swift in Sources */,
 				521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */,
 				52A59FCD1ED09B3F00F64743 /* AuthService.swift in Sources */,
+				1867EE741F1FE508009723AE /* Data.swift in Sources */,
 				52A59FC41ED08B4400F64743 /* MessageTableViewCell.swift in Sources */,
 				523D6E7D1F02D8E1002FC4A9 /* LoginViewController.swift in Sources */,
 				5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */,
 				52A59FC21ED0878500F64743 /* MessageApi.swift in Sources */,
 				524F10B91EDF566100E38373 /* GroupMessagesApi.swift in Sources */,
+				1807293D1F251163001FE59C /* JSONDownloader.swift in Sources */,
 				526D4A021EE4B01F00E042E4 /* GifPlayer.swift in Sources */,
 				524F10B11EDB0A7D00E38373 /* Group.swift in Sources */,
 				52A59FD11ED1907B00F64743 /* Button.swift in Sources */,
