@@ -14,18 +14,35 @@ class MessageApi {
     
     var MESSAGE_REF = FIRDatabase.database().reference().child("messages")
     
-    // Grab the message details based on messageId passed in
+//    // Grab the message details based on messageId passed in
+//    func observeMessages(groupId: String, onSuccess: @escaping (Message) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
+//        MESSAGE_REF.child(groupId).observe(.childAdded, with: { (snapshot) in
+//            // Grab the newly added message data snapshot from Firebase and add to local 'messages' JSQ array
+//            if let dict = snapshot.value as? [String: Any] {
+//                let message = Message.transformMessage(dict: dict)
+//                onSuccess(message)
+//            }
+//        }) { (error) in
+//            onError(error.localizedDescription)
+//            return
+//        }
+//    }
+    
     func observeMessages(groupId: String, onSuccess: @escaping (Message) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
-        MESSAGE_REF.child(groupId).observe(.childAdded, with: { (snapshot) in
-            // Grab the newly added message data snapshot from Firebase and add to local 'messages' JSQ array
+        
+        let query = MESSAGE_REF.child(groupId).queryOrdered(byChild: "timestamp").queryLimited(toLast: 100)
+        query.observe(.childAdded, with: { (snapshot) in
+            
             if let dict = snapshot.value as? [String: Any] {
                 let message = Message.transformMessage(dict: dict)
                 onSuccess(message)
             }
+            
         }) { (error) in
             onError(error.localizedDescription)
             return
         }
+        
     }
 
 }

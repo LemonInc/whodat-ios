@@ -26,9 +26,9 @@
 		524F72491EEB24D300FD5A8A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F72481EEB24D300FD5A8A /* SplashViewController.swift */; };
 		526D4A021EE4B01F00E042E4 /* GifPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D4A011EE4B01F00E042E4 /* GifPlayer.swift */; };
 		526D4A0A1EE72D5700E042E4 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D4A091EE72D5700E042E4 /* Archive.swift */; };
+		5287AC641F44EC1100A42658 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5287AC631F44EC1100A42658 /* MapKit.framework */; };
 		52884A8F1F27BA8A001DF163 /* WalkthroughContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52884A8E1F27BA8A001DF163 /* WalkthroughContentViewController.swift */; };
 		52884A911F27BB14001DF163 /* WalkthroughViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52884A901F27BB14001DF163 /* WalkthroughViewController.swift */; };
-		52884A931F27C957001DF163 /* londontest.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52884A921F27C957001DF163 /* londontest.jpg */; };
 		52A59FB61ECF841D00F64743 /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */; };
 		52A59FBA1ED0513500F64743 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A59FB91ED0513500F64743 /* MessageViewController.swift */; };
 		52A59FBE1ED0849A00F64743 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A59FBD1ED0849A00F64743 /* Message.swift */; };
@@ -75,9 +75,9 @@
 		526D4A011EE4B01F00E042E4 /* GifPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifPlayer.swift; sourceTree = "<group>"; };
 		526D4A091EE72D5700E042E4 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		527F02E91F113EEA007804EF /* WhoDat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhoDat.entitlements; sourceTree = "<group>"; };
+		5287AC631F44EC1100A42658 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		52884A8E1F27BA8A001DF163 /* WalkthroughContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughContentViewController.swift; sourceTree = "<group>"; };
 		52884A901F27BB14001DF163 /* WalkthroughViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughViewController.swift; sourceTree = "<group>"; };
-		52884A921F27C957001DF163 /* londontest.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = londontest.jpg; path = ../../londontest.jpg; sourceTree = "<group>"; };
 		5293CCE61EEDC8B6001E2DDE /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
 		52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
 		52A59FB91ED0513500F64743 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1841EA041EF066FC0090A984 /* CoreLocation.framework in Frameworks */,
+				5287AC641F44EC1100A42658 /* MapKit.framework in Frameworks */,
 				F757ED6A73AEDE421E136355 /* Pods_WhoDat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -119,6 +120,7 @@
 		088C36E66C5B68DE7F271ACA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5287AC631F44EC1100A42658 /* MapKit.framework */,
 				1841EA031EF066FC0090A984 /* CoreLocation.framework */,
 				AC2904529351EF65C602544E /* Pods_WhoDat.framework */,
 			);
@@ -212,7 +214,6 @@
 			children = (
 				52C45C081F3E6BD5005A2DC8 /* walkthrough.json */,
 				52C45C0A1F3E6C45005A2DC8 /* images */,
-				52884A921F27C957001DF163 /* londontest.jpg */,
 				523D6E7A1F02D835002FC4A9 /* typing.gif */,
 				52F39E8E1EFDE756008C31B3 /* play_button.json */,
 				52F39E8C1EFDE345008C31B3 /* send_button.json */,
@@ -328,6 +329,12 @@
 						DevelopmentTeam = V8LH24637C;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -369,7 +376,6 @@
 				52F39E8F1EFDE756008C31B3 /* play_button.json in Resources */,
 				52C45C111F3E6C45005A2DC8 /* img_1.png in Resources */,
 				523D6E7B1F02D835002FC4A9 /* typing.gif in Resources */,
-				52884A931F27C957001DF163 /* londontest.jpg in Resources */,
 				52C45C121F3E6C45005A2DC8 /* img_2.png in Resources */,
 				52C45C141F3E6C45005A2DC8 /* img_4.png in Resources */,
 				52D2FE7C1EEB379E0005D524 /* splash_animation.json in Resources */,
