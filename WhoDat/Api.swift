@@ -13,4 +13,5 @@ struct Api {
     static var user = UserApi()
     static var group = GroupApi()
     static var groupMessages = GroupMessagesApi()
+    static var muteUser = MuteUserApi()
 }

@@ -27,6 +27,67 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         loadMessages()
         setUpView()
         showTypingIndicator()
+        
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(MessageViewController.handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.delegate = self
+        self.tableView.addGestureRecognizer(longPressGesture)
+    }
+    
+    func handleLongPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        
+        if longPressGestureRecognizer.state == UIGestureRecognizerState.began {
+            
+            let touchPoint = longPressGestureRecognizer.location(in: self.view)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                
+                let actionSheet = UIAlertController(title: "Title", message: "Lorem ipsum dolor sit", preferredStyle: .actionSheet)
+                
+                let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+                    
+                    // Mute sender by grabbing senderID and storing this on Firebase
+                    let muteMessage = self.messages[indexPath.row]
+                    let muteSenderId = muteMessage.senderId!
+                    self.muteUser(senderId: muteSenderId)
+                    
+                    // For each message with matching senderID, change the text to "muted"
+                    for i in 0 ..< self.messages.count {
+                        if self.messages[i].senderId == muteSenderId {
+                            self.messages[i].messageText = "muted"
+                            print(self.messages[i].messageText!)
+                            self.tableView.reloadData()
+                        }
+                    }
+                })
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
+                actionSheet.addAction(muteUserAction)
+                actionSheet.addAction(cancelAction)
+                
+                self.present(actionSheet, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    
+    func muteUser(senderId: String) {
+        // Check for current User ID
+        guard let currentUser = Api.user.CURRENT_USER else {
+            return
+        }
+        let currentUserId = currentUser.uid
+        
+        let newMuteUserRef = Api.muteUser.MUTE_USER_REF.child(currentUserId).child(senderId)
+        
+        newMuteUserRef.setValue(true, withCompletionBlock: { (error, ref) in
+            if error != nil {
+                SVProgressHUD.showError(withStatus: error!.localizedDescription)
+                return
+            } else {
+                
+            }
+        })
     }
     
     func setUpView() {
@@ -406,6 +467,11 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let message = messages[indexPath.row]
+        print(message.messageText)
     }
 }
 

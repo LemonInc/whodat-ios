@@ -205,16 +205,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     @IBAction func startChatButton_TouchUpInside(_ sender: Any) {
         
-        getLocationDetails(location: self.userLocation!) {
-            Api.group.createGroup(location: self.userLocationName!, longitude: self.userLongitude!, latitude: self.userLatitude!, onSuccess: { (groupId) in
-                // Update and increment user count then show messageViewController
-                Api.group.addUserToGroup(groupId: self.groupId) {
-                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-                }
-            }) { (error) in
-                print(error!)
-            }
-        }
+        // UNCOMMENT AND DELETE BOTTOM SEGUE FOR CREATE CUSTOM GROUP
+        
+//        getLocationDetails(location: self.userLocation!) {
+//            Api.group.createGroup(location: self.userLocationName!, longitude: self.userLongitude!, latitude: self.userLatitude!, onSuccess: { (groupId) in
+//                // Update and increment user count then show messageViewController
+//                Api.group.addUserToGroup(groupId: self.groupId) {
+//                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+//                }
+//            }) { (error) in
+//                print(error!)
+//            }
+//        }
+        
+        self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
         
     }
     
