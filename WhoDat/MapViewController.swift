@@ -24,13 +24,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     //Json variables 
     var fetchedStadium = [Stadium]()
-
-    //
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         styleChatButton()
-        //setupMapView()
+        setupMapView()
         //setUserTrackingButton()
         //loadGroups()
         
@@ -50,17 +49,99 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         
         // JSON Data Path
-        self.parseData()
+        self.dataDidLoad()
         //=========================End of JSON
     
     }
     
-    //===================== Parse Data
-    func parseData() {
-        //empty array
-        fetchedStadium = []
+    
+    
+    //Add annotation method
+    func addAnnotation(latitude: Double, longitude: Double, type: String, name: String, id: String) {
+        let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
+        let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+
+//        let pinLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+        mapView.setRegion(region, animated: true)
+
+//        let annotation =  MKPointAnnotation()
+        let annotation =  CustomPointAnnotation()
+        
+        switch (type){
+            case "Train":
+//            print("Train")
+            annotation.imageName = "train"
+            
+            case "Hospital":
+//            print("Hospital")
+            annotation.imageName = "hospital"
+
+            case "Airport":
+//            print("Airport")
+            annotation.imageName = "airport"
+            
+            case "School":
+//            print("School")
+            annotation.imageName = "school"
+
+        default:
+            print("Integer out of range")
+        }
+        
+        annotation.title = id
+        annotation.subtitle = type
+        annotation.coordinate = location
+        mapView.addAnnotation(annotation)
+        
+    }
+    
+    //Annotation select
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("test")
+    }
+    
+    //Custom annotation
+    class CustomPointAnnotation: MKPointAnnotation {
+        var imageName: String!
+    }
+
+    
+    // Handling of annotation
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if annotation.isEqual(mapView.userLocation) {
+            return nil
+        }
+        
+        // For better performance, always try to reuse existing annotations.
+        let annotationIdentifier = "pin"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+        
+        annotationView?.canShowCallout = true
+        
+        // If there’s no reusable annotation view available, initialize a new one.
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            //annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+        
+        let cpa = annotation as! CustomPointAnnotation
+        annotationView!.image = UIImage(named: cpa.imageName)
+        return annotationView
+    }
+    
+    
+    // fetch Data from JSON
+    func fetchData(onSuccess: @escaping() -> Void) {
+//        self.fetchedStadium = []
         
         let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=f987367d-a499-4719-bcd0-423023aa14e0"
+        
+//        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test.json?alt=media&token=e927accf-9392-4f08-a7d4-6e06b66eb994"
         
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = "GET"
@@ -73,74 +154,51 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             if (error != nil) {
                 
                 print("Error 1")
-            
+                
             } else {
                 
                 do {
                     
                     let fetchData = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as! NSArray
-                    
+
                     for eachFetchedStadium in fetchData  {
                         
                         let eachStadium = eachFetchedStadium as! [String: Any]
                         let name = eachStadium["Name"] as! String
                         let type = eachStadium["Type"] as! String
                         
+                        let id = eachStadium["ID"] as! String
+                        
+//                        print(id)
+                        
+                        var lat = ""
+                        var long = ""
+                        
+                        
+                        var latitude = 1.0;
+                        var longitude = 1.0;
+                        
                         // init string before converting to double
-                        let lat = eachStadium["Latitude"] as! String
-                        let long = eachStadium["Longitude"] as! String
-                        let latitude = Double(lat)!
-                        let longitude = Double(long)!
-                        
-                        self.fetchedStadium.append(Stadium(name: name, type: type, latitude: latitude, longitude: longitude))
-                    }
-                    
-                    
-                    // Display annotations=========
-                    
-                    for stadium in self.fetchedStadium {
-                        let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
-                        let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(stadium.latitude, stadium.longitude)
-
-                        let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
-
-                        self.mapView.setRegion(region, animated: true)
-
-                        // let annotation = MKPointAnnotation()
-                        let annotation = CustomPointAnnotation()
-                        annotation.coordinate = location
-                        annotation.title = stadium.name
-                        annotation.subtitle = stadium.type
-                        
-                        if(stadium.type == "Stadium"){
-                            print("Station")
-                            annotation.imageName = "stadium.png"
-                        
-                        } else if (stadium.type == "School") {
-                            print("School")
-                            annotation.imageName = "school.png"
-
-                        } else if (stadium.type == "Airport") {
-                            print("Airport")
-                            annotation.imageName = "airport.png"
+                        if(( eachStadium["Latitude"] ) != nil && ( eachStadium["Longitude"] ) != nil) {
+                            lat = eachStadium["Latitude"] as! String
+                            long = eachStadium["Longitude"] as! String
                             
-                        } else if (stadium.type == "Hospital") {
-                            print("Hospital")
-                            annotation.imageName = "hospital.png"
-                            
-                        }else if (stadium.type == "Train") {
-                            print("Train")
-                            annotation.imageName = "train.png"
-                            
-                        }  else {
-                            print("Random")
+                        } else {
+                            print("No lat or long")
                         }
-
-                        self.mapView.addAnnotation(annotation as MKAnnotation)
-                    
+//                        let lat = eachStadium["Latitude"] as! String
+//                        let long = eachStadium["Longitude"] as! String
+                        
+//                        let latitude = Double(lat)!
+//                        let longitude = Double(long)!
+                        
+                        latitude = Double(lat)!
+                        longitude = Double(long)!
+                        
+                        self.fetchedStadium.append(Stadium(name: name, type: type, id: id,latitude: latitude, longitude: longitude))
                     }
                     
-                    // Display annotations==============
+                    onSuccess()
 
                     
                 }catch {
@@ -151,19 +209,32 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             }
         }
         task.resume()
+        
+        
+        
     }
     
     
+    func dataDidLoad(){
+        fetchData {
+            for item in self.fetchedStadium {
+                self.addAnnotation(latitude: item.latitude, longitude: item.longitude, type: item.type, name: item.name, id: item.id)
+            }
+        }
+    }
+
     
     class Stadium {
         var name: String
         var type: String
+        var id: String
         var latitude: Double
         var longitude: Double
         
-        init(name: String, type: String, latitude: Double, longitude: Double) {
+        init(name: String, type: String, id: String, latitude: Double, longitude: Double) {
             self.name = name
             self.type = type
+            self.id = id
             self.latitude = latitude
             self.longitude = longitude
         }
@@ -171,35 +242,35 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     //Custom annotation
-    class CustomPointAnnotation: MKPointAnnotation {
-        var imageName: String!
-    }
+//    class CustomPointAnnotation: MKPointAnnotation {
+//        var imageName: String!
+//    }
     
     //Set annotation image
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-
-        if !(annotation is MKPointAnnotation){
-            print("No register mkanotion")
-            return nil
-        }
-
-        // For better performance, always try to reuse existing annotations.
-        let annotationIdentifier = "pin"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-
-        // If there’s no reusable annotation view available, initialize a new one.
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView!.canShowCallout = true
-        } else {
-            annotationView!.annotation = annotation
-        }
-        
-        let cpa = annotation as! CustomPointAnnotation
-        annotationView!.image = UIImage(named: cpa.imageName)
-        return annotationView
-    }
-    
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//
+//
+//        if annotation.isEqual(mapView.userLocation) {
+//            return nil
+//        }
+//
+//        // For better performance, always try to reuse existing annotations.
+//        let annotationIdentifier = "pin"
+//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+//
+//        // If there’s no reusable annotation view available, initialize a new one.
+//        if annotationView == nil {
+//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+//            annotationView!.canShowCallout = true
+//        } else {
+//            annotationView!.annotation = annotation
+//        }
+//        
+////        let cpa = annotation as! CustomPointAnnotation
+////        annotationView!.image = UIImage(named: cpa.imageName)
+//        annotationView!.image = UIImage(named: "hot")
+//        return annotationView
+//    }
     
     //===================== End Parse Data
     
@@ -265,7 +336,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func addAnnotation(latitude: Double, longitude: Double) {
         let pinLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let annotation = MKPointAnnotation()
-        annotation.title = " "
+        annotation.title = ""
         annotation.coordinate = pinLocation
         mapView.addAnnotation(annotation)
     }
