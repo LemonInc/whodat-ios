@@ -80,7 +80,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
         annotation.title = id
-        annotation.subtitle = type
+        annotation.subtitle = name
         annotation.coordinate = location
         mapView.addAnnotation(annotation)
         
@@ -286,11 +286,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     //======================================== fetch Data from JSON
     func fetchData(onSuccess: @escaping() -> Void) {
-        //        self.fetchedStadium = []
-        
+
         let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=f987367d-a499-4719-bcd0-423023aa14e0"
-        
-        //        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test.json?alt=media&token=e927accf-9392-4f08-a7d4-6e06b66eb994"
         
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = "GET"
@@ -317,8 +314,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                         let type = eachStadium["Type"] as! String
                         
                         let id = eachStadium["ID"] as! String
-                        
-                        //                        print(id)
                         
                         var lat = ""
                         var long = ""
