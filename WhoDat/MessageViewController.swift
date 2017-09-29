@@ -15,6 +15,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var groupId: String!
     var messages = [Message]()
+    var mutedUsers = [String]()
     var firstLoad = true
     var userCountButton: UIButton!
     var player: AVAudioPlayer = AVAudioPlayer()
@@ -23,6 +24,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadGroupDetails()
         loadMessages()
         setUpView()
@@ -306,36 +308,70 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    // Grab all messages from database and assign to local messages array
-    func loadMessages() {
-            
-        // After grabbing all message ID's, then grab the message details from the messages table
-        Api.message.observeMessages(groupId: self.groupId, onSuccess: { (message) in
-            self.messages.append(message)
-            
-            // Scroll to the bottom upon first load
-            if self.firstLoad == true {
-                self.scrollToLastMessage(animated: false)
-                self.firstLoad = false
-            } else {
-                // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
-                var scrolledToBottom = false
-                if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
-                    scrolledToBottom = true
-                }
-                
-                // If user has scrolled to the bottom, then scroll to last message when new message comes in
-                if scrolledToBottom == true {
-                    self.scrollToLastMessage(animated: false)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+    func getMutedUsers(onSuccess: @escaping () -> Void) {
+        guard let currentUser = Api.user.CURRENT_USER else {
+            return
+        }
+        let currentUserId = currentUser.uid
+        
+        Api.muteUser.observeMutedUsers(userId: currentUserId, onSuccess: { (mutedUserId) in
+            //print("muted user: \(mutedUserId)")
+            self.mutedUsers.append(mutedUserId)
+            print("muted user count: \(self.mutedUsers.count)")
         }) { (error) in
             SVProgressHUD.showError(withStatus: error!)
         }
+        
+        onSuccess()
+    }
+    
+    // Grab all messages from database and assign to local messages array
+    func loadMessages() {
+        
+        // Grab all muted users from current user session ID
+        self.getMutedUsers {
+            
+            // After grabbing all message ID's, then grab the message details from the messages table
+            Api.message.observeMessages(groupId: self.groupId, onSuccess: { (message) in
+                
+                // Scroll to the bottom upon first load
+                if self.firstLoad == true {
+                    self.scrollToLastMessage(animated: false)
+                    self.firstLoad = false
+                } else {
+                    // If this is not first load and the user scrolls to the bottom, set 'scrolledBottom' to true
+                    var scrolledToBottom = false
+                    if self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.frame.size.height) {
+                        scrolledToBottom = true
+                    }
+                    
+                    // If user has scrolled to the bottom, then scroll to last message when new message comes in
+                    if scrolledToBottom == true {
+                        self.scrollToLastMessage(animated: false)
+                    }
+                }
+                
+                // For each message with matching senderID, change the text to "muted"
+                for i in 0 ..< self.mutedUsers.count {
+                    let muteSenderId = self.mutedUsers[i]
+                    
+                    if message.senderId == muteSenderId {
+                        message.messageText = "muted"
+                    } else {
+                        
+                    }
+                }
+                self.messages.append(message)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            }) { (error) in
+                SVProgressHUD.showError(withStatus: error!)
+            }
+        }
+        
     }
     
     // Scroll to last message

@@ -112,7 +112,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func addAnnotation(latitude: Double, longitude: Double) {
         let pinLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let annotation = MKPointAnnotation()
-        annotation.title = " "
+        annotation.title = "Hi"
         annotation.coordinate = pinLocation
         mapView.addAnnotation(annotation)
     }
