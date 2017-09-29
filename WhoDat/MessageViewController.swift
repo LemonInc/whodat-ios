@@ -25,6 +25,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("group ID \(groupId!)")
+        
         loadGroupDetails()
         loadMessages()
         setUpView()
@@ -291,6 +293,9 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     // Grab group details and assign to view, observe methods trigger whenever Firebase changes, so it's an on-going function
     func loadGroupDetails() {
         Api.group.observeGroup(groupId: groupId, onSuccess: { (group) in
+            
+            print("locaton name: \(group.location)")
+            
             // Set user count value
             guard let userCount = group.users?.count else {
                 return
@@ -507,7 +512,6 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let message = messages[indexPath.row]
-        print(message.messageText)
     }
 }
 

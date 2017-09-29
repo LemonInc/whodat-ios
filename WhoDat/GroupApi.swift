@@ -55,20 +55,36 @@ class GroupApi {
         onSuccess()
     }
     
-    func createGroup(location: String, longitude: Double, latitude: Double, onSuccess: @escaping (String) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
+//    func createGroup(location: String, longitude: Double, latitude: Double, onSuccess: @escaping (String) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
+//        
+//        // Create a unique ID for each group and assign the group details to it
+//        let newGroupRef = Api.group.GROUP_REF.childByAutoId()
+//
+//        let groupData = ["location": location, "longitude": longitude, "latitude": latitude] as [String : Any]
+//        
+//        newGroupRef.setValue(groupData) { (error, reference) in
+//            if error != nil {
+//                onError(error?.localizedDescription)
+//                return
+//            } else {
+//                let groupId = reference.key
+//                onSuccess(groupId)
+//            }
+//        }
+//    }
+    
+    func createGroup(groupId: String, location: String, onSuccess: @escaping () -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
         
-        // Create a unique ID for each group and assign the group details to it
-        let newGroupRef = Api.group.GROUP_REF.childByAutoId()
+        let newGroupRef = GROUP_REF.child(groupId)
         
-        let groupData = ["location": location, "longitude": longitude, "latitude": latitude] as [String : Any]
+        let groupData = ["location": location, "longitude": 1, "latitude": 2] as [String : Any]
         
         newGroupRef.setValue(groupData) { (error, reference) in
             if error != nil {
                 onError(error?.localizedDescription)
                 return
             } else {
-                let groupId = reference.key
-                onSuccess(groupId)
+                onSuccess()
             }
         }
     }

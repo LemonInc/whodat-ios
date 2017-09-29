@@ -28,7 +28,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         styleChatButton()
         setupMapView()
         setUserTrackingButton()
-        loadGroups()
+        //loadGroups()
         
         let theLocation: MKUserLocation = mapView.userLocation
         theLocation.title = "I'm here!"
@@ -92,6 +92,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if let annotation = view.annotation {
             self.groupId = annotation.title!!
             print("Your annotation title: \(String(describing: self.groupId))");
+            
+            Api.group.createGroup(groupId: self.groupId, location: annotation.subtitle!!, onSuccess: {
+                self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+            }) { (error) in
+                SVProgressHUD.showError(withStatus: error!)
+            }
         }
         
     }
@@ -395,6 +401,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if segue.identifier == "messageVCSegue" {
             let messageVC = segue.destination as! MessageViewController
             messageVC.groupId = self.groupId
+            print(messageVC.groupId)
         }
     }
     
