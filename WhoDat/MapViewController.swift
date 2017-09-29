@@ -11,7 +11,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startChatButton: UIButton!
     
-    let groupId = "Group 1"
+    var groupId = "Group 1"
     let manager = CLLocationManager()
     var userLocation: CLLocation? = nil
     var userLongitude: Double? = nil
@@ -19,6 +19,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var userLocationName: String? = ""
     var groups = [Group]()
     var selectedAnnotation: Group?
+    
+    //Json variables
+    var fetchedStadium = [Stadium]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +32,76 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         let theLocation: MKUserLocation = mapView.userLocation
         theLocation.title = "I'm here!"
+        
+        //=================================merged map stuff
+        
+        // Get set location manager
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
+        // JSON Data Path
+        self.dataDidLoad()
+        
+        //===================================End of JSON
     }
+    
+    
+    //===============================================Add annotation method
+    func addAnnotation(latitude: Double, longitude: Double, type: String, name: String, id: String) {
+        let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
+        let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+        
+        //        let pinLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+        mapView.setRegion(region, animated: true)
+        
+        //        let annotation =  MKPointAnnotation()
+        let annotation =  CustomPointAnnotation()
+        
+        switch (type){
+        case "Train":
+            annotation.imageName = "train"
+            
+        case "Hospital":
+            annotation.imageName = "hospital"
+            
+        case "Airport":
+            annotation.imageName = "airport"
+            
+        case "School":
+            annotation.imageName = "school"
+            
+        default:
+            print("Integer out of range")
+        }
+        
+        annotation.title = id
+        annotation.subtitle = type
+        annotation.coordinate = location
+        mapView.addAnnotation(annotation)
+        
+    }
+    
+    //==================================================Annotation select
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        if let annotation = view.annotation {
+            self.groupId = annotation.title!!
+            print("Your annotation title: \(String(describing: self.groupId))");
+        }
+        
+    }
+    
+    //==============================================Custom annotation
+    class CustomPointAnnotation: MKPointAnnotation {
+        var imageName: String!
+    }
+    
+    //=======================================================Annotation
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -66,7 +138,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             SVProgressHUD.showError(withStatus: error!)
         }
     }
-    
+
     func setUserTrackingButton() {
         
         // Mapkit tracking button
@@ -161,7 +233,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         })
     }
     
-    // Handling of annotation
+//    // Handling of annotation
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        
+//        if annotation.isEqual(mapView.userLocation) {
+//            return nil
+//        }
+//        
+//        // For better performance, always try to reuse existing annotations.
+//        let annotationIdentifier = "pin"
+//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+//        
+//        // If there’s no reusable annotation view available, initialize a new one.
+//        if annotationView == nil {
+//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+//            //annotationView!.canShowCallout = true
+//        } else {
+//            annotationView!.annotation = annotation
+//        }
+//        
+//        annotationView!.image = UIImage(named: "hotspot")
+//        return annotationView
+//    }
+    
+    //======================================= New Handling of annotation
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation.isEqual(mapView.userLocation) {
@@ -172,6 +267,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let annotationIdentifier = "pin"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
         
+        annotationView?.canShowCallout = true
+        
         // If there’s no reusable annotation view available, initialize a new one.
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
@@ -180,14 +277,117 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             annotationView!.annotation = annotation
         }
         
-        annotationView!.image = UIImage(named: "hotspot")
+        let cpa = annotation as! CustomPointAnnotation
+        annotationView!.image = UIImage(named: cpa.imageName)
         return annotationView
     }
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        self.selectedAnnotation = view.annotation as? Group
+    //======================================= New Handling of annotation
+    
+    //======================================== fetch Data from JSON
+    func fetchData(onSuccess: @escaping() -> Void) {
+        //        self.fetchedStadium = []
+        
+        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=f987367d-a499-4719-bcd0-423023aa14e0"
+        
+        //        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test.json?alt=media&token=e927accf-9392-4f08-a7d4-6e06b66eb994"
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        
+        let configuration = URLSessionConfiguration.default
+        let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            
+            if (error != nil) {
+                
+                print("Error 1")
+                
+            } else {
+                
+                do {
+                    
+                    let fetchData = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as! NSArray
+                    
+                    for eachFetchedStadium in fetchData  {
+                        
+                        let eachStadium = eachFetchedStadium as! [String: Any]
+                        let name = eachStadium["Name"] as! String
+                        let type = eachStadium["Type"] as! String
+                        
+                        let id = eachStadium["ID"] as! String
+                        
+                        //                        print(id)
+                        
+                        var lat = ""
+                        var long = ""
+                        
+                        
+                        var latitude = 1.0;
+                        var longitude = 1.0;
+                        
+                        // init string before converting to double
+                        if(( eachStadium["Latitude"] ) != nil && ( eachStadium["Longitude"] ) != nil) {
+                            lat = eachStadium["Latitude"] as! String
+                            long = eachStadium["Longitude"] as! String
+                            
+                        } else {
+                            print("No lat or long")
+                        }
+                       
+                        latitude = Double(lat)!
+                        longitude = Double(long)!
+                        
+                        self.fetchedStadium.append(Stadium(name: name, type: type, id: id,latitude: latitude, longitude: longitude))
+                    }
+                    
+                    onSuccess()
+                    
+                    
+                }catch {
+                    
+                    print("Error 2")
+                }
+                
+            }
+        }
+        task.resume()
+        
+        
+        
     }
     
+    
+    func dataDidLoad(){
+        fetchData {
+            for item in self.fetchedStadium {
+                self.addAnnotation(latitude: item.latitude, longitude: item.longitude, type: item.type, name: item.name, id: item.id)
+            }
+        }
+    }
+    
+    
+    class Stadium {
+        var name: String
+        var type: String
+        var id: String
+        var latitude: Double
+        var longitude: Double
+        
+        init(name: String, type: String, id: String, latitude: Double, longitude: Double) {
+            self.name = name
+            self.type = type
+            self.id = id
+            self.latitude = latitude
+            self.longitude = longitude
+        }
+        
+    }
+    
+    //============================================Fetch JSON data
+
+
     func styleChatButton() {
         let background = CAGradientLayer().backgroundGradientColor()
         background.frame = startChatButton.bounds
