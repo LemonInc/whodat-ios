@@ -25,17 +25,11 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("group ID \(groupId!)")
-        
+        print("group ID: \(groupId!)")
+        setUpView()
         loadGroupDetails()
         loadMessages()
-        setUpView()
         showTypingIndicator()
-        
-        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(MessageViewController.handleLongPress(_:)))
-        longPressGesture.minimumPressDuration = 1.0 // 1 second press
-        longPressGesture.delegate = self
-        self.tableView.addGestureRecognizer(longPressGesture)
     }
     
     func handleLongPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
@@ -52,13 +46,14 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                     // Mute sender by grabbing senderID and storing this on Firebase
                     let muteMessage = self.messages[indexPath.row]
                     let muteSenderId = muteMessage.senderId!
+                    //print(muteSenderId)
                     self.muteUser(senderId: muteSenderId)
                     
                     // For each message with matching senderID, change the text to "muted"
                     for i in 0 ..< self.messages.count {
                         if self.messages[i].senderId == muteSenderId {
                             self.messages[i].messageText = "muted"
-                            print(self.messages[i].messageText!)
+                            //print(self.messages[i].messageText!)
                             self.tableView.reloadData()
                         }
                     }
@@ -216,7 +211,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Calculate tableview height when keyboard is shown
         let pushedUpTableViewHeight = Int(screenHeight) - Int(keyboardHeight) - inputFieldHeight - Int(navigationBarHeight)
-        print(pushedUpTableViewHeight)
         
         // Only push view up if messages exist and the last cell will be hidden when keyboard is shown
         if messages.count > 0 {
@@ -294,7 +288,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     func loadGroupDetails() {
         Api.group.observeGroup(groupId: groupId, onSuccess: { (group) in
             
-            print("locaton name: \(group.location)")
+            print("Locaton name: \(group.location)")
             
             // Set user count value
             guard let userCount = group.users?.count else {
@@ -322,7 +316,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         Api.muteUser.observeMutedUsers(userId: currentUserId, onSuccess: { (mutedUserId) in
             //print("muted user: \(mutedUserId)")
             self.mutedUsers.append(mutedUserId)
-            print("muted user count: \(self.mutedUsers.count)")
+            //print("muted user count: \(self.mutedUsers.count)")
         }) { (error) in
             SVProgressHUD.showError(withStatus: error!)
         }
@@ -488,6 +482,11 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(MessageViewController.handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.delegate = self
+        //self.tableView.addGestureRecognizer(longPressGesture)
+        
         let message = messages[indexPath.row]
         var cellIdentifier = ""
         
@@ -501,6 +500,12 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         // Set cell layout based on whether the message is incoming or outgoing
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MessageTableViewCell
         
+        if cell.message?.senderId == Api.user.CURRENT_USER?.uid {
+            
+        } else {
+            cell.backgroundBubble.addGestureRecognizer(longPressGesture)
+        }
+        
         // Pass the current indexPath.row message data to MessageTableViewCell for use
         cell.message = message
         
@@ -508,10 +513,6 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
         
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let message = messages[indexPath.row]
     }
 }
 
