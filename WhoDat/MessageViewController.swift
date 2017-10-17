@@ -25,9 +25,11 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addUserToGroup()
+        loadGroupDetails()
+        
         print("group ID \(groupId!)")
         
-        loadGroupDetails()
         loadMessages()
         setUpView()
         showTypingIndicator()
@@ -36,6 +38,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         longPressGesture.minimumPressDuration = 1.0 // 1 second press
         longPressGesture.delegate = self
         self.tableView.addGestureRecognizer(longPressGesture)
+        
     }
     
     func handleLongPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
@@ -297,7 +300,11 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     func loadGroupDetails() {
         Api.group.observeGroup(groupId: groupId, onSuccess: { (group) in
             
-            print("locaton name: \(group.location)")
+            // Set navigation title to group location
+            guard let location = group.location else {
+                return
+            }
+            self.navigationItem.title = location
             
             // Set user count value
             guard let userCount = group.users?.count else {
@@ -306,11 +313,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             self.userCountButton.setTitle(" \(String(userCount))", for: .normal)
             self.userCountButton.sizeToFit()
             
-            // Set navigation title to group location
-            guard let location = group.location else {
-                return
-            }
-            self.navigationItem.title = location
         }) { (error) in
             SVProgressHUD.showError(withStatus: error!)
         }

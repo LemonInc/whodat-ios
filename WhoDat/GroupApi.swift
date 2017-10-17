@@ -26,6 +26,28 @@ class GroupApi {
         }
     }
     
+//    func observeGroup(groupId id: String, onSuccess: @escaping (Group) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
+//        print("ID: \(id)")
+//        GROUP_REF.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+//            // Grab the newly added group data snapshot from Firebase
+//            if let dict = snapshot.value as? [String: Any] {
+//                let group = Group.transformGroup(dict: dict)
+//                print("Latitude: \(group.latitude)")
+//                onSuccess(group)
+//            }
+//        })
+////        GROUP_REF.child(id).observe(.value, with: { (snapshot) in
+////            // Grab the newly added group data snapshot from Firebase
+////            if let dict = snapshot.value as? [String: Any] {
+////                let group = Group.transformGroup(dict: dict)
+////                onSuccess(group)
+////            }
+////        }) { (error) in
+////            onError(error.localizedDescription)
+////            return
+////        }
+//    }
+    
     func observeGroups(onSuccess: @escaping (Group) -> Void, onError: @escaping (_ errorMessage: String?) -> Void) {
         GROUP_REF.observe(.childAdded, with: { (snapshot) in
             // Grab the newly added group snapshot from Firebase
