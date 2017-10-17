@@ -52,6 +52,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                     // Mute sender by grabbing senderID and storing this on Firebase
                     let muteMessage = self.messages[indexPath.row]
                     let muteSenderId = muteMessage.senderId!
+                    print(muteSenderId)
                     self.muteUser(senderId: muteSenderId)
                     
                     // For each message with matching senderID, change the text to "muted"
@@ -212,7 +213,9 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Get input field and navigation bar height
         let inputFieldHeight = 65
-        let navigationBarHeight = UIApplication.shared.statusBarFrame.height + self.navigationController!.navigationBar.frame.height
+        //let navigationBarHeight = UIApplication.shared.statusBarFrame.height + self.navigationController!.navigationBar.frame.height
+        //let navigationBarHeight: CGFloat = self.navigationController!.navigationBar.frame.height
+        let navigationBarHeight = 66
         
         // Calculate tableview height when keyboard is shown
         let pushedUpTableViewHeight = Int(screenHeight) - Int(keyboardHeight) - inputFieldHeight - Int(navigationBarHeight)
@@ -494,6 +497,7 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
         // Check if message is sent by current user or not - if it is, then it's an outgoing message, otherwise it's an incoming message
         if message.senderId == Api.user.CURRENT_USER?.uid {
             cellIdentifier = "OutgoingChatCell"
+            
         } else {
             cellIdentifier = "IncomingChatCell"
         }
