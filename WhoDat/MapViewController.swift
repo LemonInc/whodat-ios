@@ -91,7 +91,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         if let annotation = view.annotation {
             self.groupId = annotation.title!!
-            print("Your annotation title: \(String(describing: self.groupId))");
+            //print("Your annotation title: \(String(describing: self.groupId))");
             
             Api.group.createGroup(groupId: self.groupId, location: annotation.subtitle!!, onSuccess: {
                 self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
@@ -228,7 +228,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             // City
             if let city = placeMark.addressDictionary!["City"] as? NSString {
-                print(city)
+                //print(city)
             }
             
             // Set global variable to be consumed by start chat button
@@ -401,7 +401,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if segue.identifier == "messageVCSegue" {
             let messageVC = segue.destination as! MessageViewController
             messageVC.groupId = self.groupId
-            print(messageVC.groupId)
+            //print(messageVC.groupId)
         }
     }
     
