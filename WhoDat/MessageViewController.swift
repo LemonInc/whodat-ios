@@ -129,7 +129,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addUserToGroup() {
-        Api.group.addUserToGroup(groupId: self.groupId) { 
+        Api.group.addUserToGroup(groupId: self.groupId) {
             return
         }
     }
@@ -245,6 +245,12 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 })
             }
             
+        } else {
+            let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+            UIView.animate(withDuration: 0.3) {
+                self.bottomConstraint.constant = keyboardFrame!.height
+                self.view.layoutIfNeeded()
+            }
         }
         
     }
@@ -396,7 +402,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func sendButton_TouchUpInside(_ sender: Any) {
-
+        
         // Check for current User ID
         guard let currentUser = Api.user.CURRENT_USER else {
             return

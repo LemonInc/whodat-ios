@@ -28,6 +28,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var userLocationName: String? = ""
     var groups = [Group]()
     var selectedAnnotation: Group?
+    var mapFinishedLoading = 1
     
     //Json variables
     var fetchedStadium = [Stadium]()
@@ -164,8 +165,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+        if self.mapFinishedLoading == 1 {
+            print("RUNNING")
+            mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+            self.mapFinishedLoading += 1
+        }
     }
     
     func loadGroups() {
