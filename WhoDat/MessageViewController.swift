@@ -27,9 +27,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
         addUserToGroup()
         loadGroupDetails()
-        
-        print("group ID \(groupId!)")
-        
         loadMessages()
         setUpView()
         showTypingIndicator()
@@ -48,7 +45,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             let touchPoint = longPressGestureRecognizer.location(in: self.view)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 
-                let actionSheet = UIAlertController(title: "Title", message: "Lorem ipsum dolor sit", preferredStyle: .actionSheet)
+                //let actionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+                let actionSheet = UIAlertController()
                 
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     

@@ -293,7 +293,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     //======================================== fetch Data from JSON
     func fetchData(onSuccess: @escaping() -> Void) {
 
-        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=f987367d-a499-4719-bcd0-423023aa14e0"
+        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=0abdb169-d2dc-472d-8c93-8391e04132fc"
         
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = "GET"
