@@ -6,6 +6,15 @@ import SVProgressHUD
 import CoreLocation
 import MapKit
 
+//function to calculate distance between user and hotspot
+extension CLLocationCoordinate2D {
+    
+    func distance(to coordinate: CLLocationCoordinate2D) -> Double {
+        
+        return MKMetersBetweenMapPoints(MKMapPointForCoordinate(self), MKMapPointForCoordinate(coordinate))
+    }
+}
+
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
@@ -22,6 +31,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     //Json variables
     var fetchedStadium = [Stadium]()
+    //Store users current location
+    var currentLocation: CLLocation? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +50,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        //Store users current location in the currentLocation variable
+        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
+            currentLocation = locationManager.location!
+        }
+
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
@@ -82,8 +99,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         annotation.title = id
         annotation.subtitle = name
         annotation.coordinate = location
-        mapView.addAnnotation(annotation)
         
+        //Get the current location of annotation
+        let locationofHotspot = CLLocation(latitude: latitude, longitude: longitude)
+        //Get the distance between the users current location and the location of the annotation
+        let distanceInMeters = currentLocation?.distance(from: locationofHotspot)
+        
+        //Show annotation if the detanceInMeters is less than 5 miles away form the users current location.
+        //5 miles in meters = 8046.72
+        if let distanceInMeters = distanceInMeters, distanceInMeters > 8046.72{
+            //Hide annotation on map
+            mapView.view(for: annotation)?.isHidden = true
+        }
+        else {
+            //Show annotation on map
+            mapView.view(for: annotation)?.isHidden = false
+            mapView.addAnnotation(annotation)
+        }
     }
     
     //==================================================Annotation select
