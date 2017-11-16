@@ -43,10 +43,17 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         if longPressGestureRecognizer.state == UIGestureRecognizerState.began {
             
             let touchPoint = longPressGestureRecognizer.location(in: self.view)
+            
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 
                 //let actionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
                 let actionSheet = UIAlertController()
+                
+                // Check for current User ID
+                guard let currentUser = Api.user.CURRENT_USER else {
+                    return
+                }
+                let currentUserId = currentUser.uid
                 
                 // Grab ID of message
                 let muteMessage = self.messages[indexPath.row]
@@ -73,7 +80,10 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 actionSheet.addAction(muteUserAction)
                 actionSheet.addAction(cancelAction)
                 
-                self.present(actionSheet, animated: true, completion: nil)
+                // Don't show the action sheet for own messages
+                if muteSenderId != currentUserId {
+                    self.present(actionSheet, animated: true, completion: nil)
+                }
                 
             }
         }
