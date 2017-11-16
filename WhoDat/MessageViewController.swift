@@ -48,12 +48,14 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 //let actionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
                 let actionSheet = UIAlertController()
                 
+                // Grab ID of message
+                let muteMessage = self.messages[indexPath.row]
+                let muteSenderId = muteMessage.senderId!
+                print("Muted user \(muteSenderId)")
+                
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
-                    // Mute sender by grabbing senderID and storing this on Firebase
-                    let muteMessage = self.messages[indexPath.row]
-                    let muteSenderId = muteMessage.senderId!
-                    print(muteSenderId)
+                    // Mute corresponding sender ID
                     self.muteUser(senderId: muteSenderId)
                     
                     // For each message with matching senderID, change the text to "muted"
