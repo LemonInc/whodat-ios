@@ -59,7 +59,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 // Grab ID of message
                 let muteMessage = self.messages[indexPath.row]
                 let muteSenderId = muteMessage.senderId!
-                print("Row \(indexPath.row)")
                 
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
@@ -82,17 +81,30 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                 
-                // Check to see if current message is muted
-                for i in 0 ..< self.mutedUsers.count {
-                    if self.mutedUsers[i] == muteSenderId {
-                        print("THIS IS MUTED")
-                        actionSheet.addAction(unmuteUserAction)
-                        actionSheet.addAction(cancelAction)
-                    } else {
-                        actionSheet.addAction(muteUserAction)
-                        actionSheet.addAction(cancelAction)
+                var alreadyMuted = 1
+                
+                // Check to see if current message is muted and set the action buttons
+                if self.mutedUsers.count > 0 {
+                    for i in 0 ..< self.mutedUsers.count {
+                        if self.mutedUsers[i] == muteSenderId {
+                            print("MUTED")
+                            alreadyMuted = 0
+                            //actionSheet.addAction(unmuteUserAction)
+                        } else {
+                            print("UNMUTED")
+                            alreadyMuted = 1
+                            //actionSheet.addAction(muteUserAction)
+                        }
                     }
                 }
+                
+                if alreadyMuted == 1 {
+                    actionSheet.addAction(muteUserAction)
+                } else {
+                    actionSheet.addAction(unmuteUserAction)
+                }
+                
+                actionSheet.addAction(cancelAction)
                 
                 // Don't show the action sheet for own messages
                 if muteSenderId != currentUserId {

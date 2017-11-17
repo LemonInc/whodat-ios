@@ -50,7 +50,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oIJ-5N-h4g">
-                                <rect key="frame" x="30" y="461" width="315" height="50"/>
+                                <rect key="frame" x="30" y="461" width="315" height="74"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="KqH-OX-Zxl"/>
                                 </constraints>
@@ -66,7 +66,7 @@
                                 <color key="highlightedColor" red="1" green="0.078431372549019607" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FC2-5d-whz">
-                                <rect key="frame" x="73" y="536" width="230" height="50"/>
+                                <rect key="frame" x="73" y="560" width="230" height="50"/>
                                 <color key="backgroundColor" red="0.33333333329999998" green="0.80784313730000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="230" id="qES-gA-Oqu"/>
@@ -86,7 +86,7 @@
                                 </connections>
                             </button>
                             <pageControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="Zj2-ns-aGC">
-                                <rect key="frame" x="176" y="606" width="23" height="37"/>
+                                <rect key="frame" x="176" y="630" width="23" height="37"/>
                                 <color key="pageIndicatorTintColor" red="0.7803921568627451" green="0.80392156862745101" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.20392156862745098" green="0.72941176470588232" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
