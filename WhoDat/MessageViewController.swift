@@ -60,15 +60,6 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 let muteMessage = self.messages[indexPath.row]
                 let muteSenderId = muteMessage.senderId!
                 print("Row \(indexPath.row)")
-                print("Muted user \(muteSenderId)")
-                print("Muted message \(muteMessage.messageText)")
-                
-//                for i in 0 ..< self.mutedUsers.count {
-//                    if self.mutedUsers[i] == muteSenderId {
-//                        print("THIS IS MUTED")
-//                        self.tableView.reloadData()
-//                    }
-//                }
                 
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
@@ -85,16 +76,27 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                     }
                 })
                 
+                let unmuteUserAction = UIAlertAction(title: "Unmute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+                    
+                })
+                
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                 
-                actionSheet.addAction(muteUserAction)
-                actionSheet.addAction(cancelAction)
+                // Check to see if current message is muted
+                for i in 0 ..< self.mutedUsers.count {
+                    if self.mutedUsers[i] == muteSenderId {
+                        print("THIS IS MUTED")
+                        actionSheet.addAction(unmuteUserAction)
+                        actionSheet.addAction(cancelAction)
+                    } else {
+                        actionSheet.addAction(muteUserAction)
+                        actionSheet.addAction(cancelAction)
+                    }
+                }
                 
                 // Don't show the action sheet for own messages
                 if muteSenderId != currentUserId {
                     self.present(actionSheet, animated: true, completion: nil)
-                } else {
-                    print("THIS IS YOUR MESSAGE")
                 }
                 
             }
