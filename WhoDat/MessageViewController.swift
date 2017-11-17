@@ -13,6 +13,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
+    
     var groupId: String!
     var messages = [Message]()
     var mutedUsers = [String]()
@@ -42,7 +43,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
         if longPressGestureRecognizer.state == UIGestureRecognizerState.began {
             
-            let touchPoint = longPressGestureRecognizer.location(in: self.view)
+            let touchPoint = longPressGestureRecognizer.location(in: self.tableView)
             
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 
@@ -58,7 +59,16 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 // Grab ID of message
                 let muteMessage = self.messages[indexPath.row]
                 let muteSenderId = muteMessage.senderId!
+                print("Row \(indexPath.row)")
                 print("Muted user \(muteSenderId)")
+                print("Muted message \(muteMessage.messageText)")
+                
+//                for i in 0 ..< self.mutedUsers.count {
+//                    if self.mutedUsers[i] == muteSenderId {
+//                        print("THIS IS MUTED")
+//                        self.tableView.reloadData()
+//                    }
+//                }
                 
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
@@ -83,6 +93,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 // Don't show the action sheet for own messages
                 if muteSenderId != currentUserId {
                     self.present(actionSheet, animated: true, completion: nil)
+                } else {
+                    print("THIS IS YOUR MESSAGE")
                 }
                 
             }
