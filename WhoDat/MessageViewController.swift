@@ -47,6 +47,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 
+                print("Muted user count: \(self.mutedUsers.count)")
+                
                 //let actionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
                 let actionSheet = UIAlertController()
                 
@@ -59,7 +61,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 // Grab ID of message
                 let muteMessage = self.messages[indexPath.row]
                 let muteSenderId = muteMessage.senderId!
-                print(muteMessage)
+                print(muteMessage.messageText)
                 print(muteSenderId)
                 
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
@@ -71,26 +73,23 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                     for i in 0 ..< self.messages.count {
                         if self.messages[i].senderId == muteSenderId {
                             self.messages[i].messageText = "muted"
-                            print(self.messages[i].messageText!)
+                            //print(self.messages[i].messageText!)
                             self.tableView.reloadData()
                         }
                     }
+                    
+                    print("Muted user count: \(self.mutedUsers.count)")
                 })
                 
                 let unmuteUserAction = UIAlertAction(title: "Unmute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
-                    // Unmute corresponding sender ID
+                    // Unmute corresponding sender ID and then reload the messages
                     self.unmuteUser(senderId: muteSenderId)
-                    
-                    // Remove entry in mutedUser array with matching senderID
-                    for i in 0 ..< self.mutedUsers.count {
-                        if self.mutedUsers[i] == muteSenderId {
-                            self.mutedUsers.remove(at: i)
-                        }
-                    }
-                    
+                    self.mutedUsers.removeAll()
+                    self.messages.removeAll()
                     self.loadMessages()
-                    self.tableView.reloadData()
+                    
+                    print("Muted user count: \(self.mutedUsers.count)")
                     
                 })
                 
@@ -100,13 +99,12 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 // Check to see if current message is muted and set the action buttons
                 if self.mutedUsers.count > 0 {
+                    
                     for i in 0 ..< self.mutedUsers.count {
                         if self.mutedUsers[i] == muteSenderId {
-                            //print("MUTED")
+                            print("ALREADY MUTED")
                             alreadyMuted = 0
-                        } else {
-                            //print("UNMUTED")
-                            alreadyMuted = 1
+                            break
                         }
                     }
                 }
@@ -401,9 +399,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         let currentUserId = currentUser.uid
         
         Api.muteUser.observeMutedUsers(userId: currentUserId, onSuccess: { (mutedUserId) in
-            //print("muted user: \(mutedUserId)")
             self.mutedUsers.append(mutedUserId)
-            print("muted user count: \(self.mutedUsers.count)")
         }) { (error) in
             SVProgressHUD.showError(withStatus: error!)
         }
