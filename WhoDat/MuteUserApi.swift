@@ -22,7 +22,6 @@ class MuteUserApi {
             onError(error.localizedDescription)
             return
         }
-        
     }
     
 }

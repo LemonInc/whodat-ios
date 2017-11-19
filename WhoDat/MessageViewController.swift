@@ -59,6 +59,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 // Grab ID of message
                 let muteMessage = self.messages[indexPath.row]
                 let muteSenderId = muteMessage.senderId!
+                print(muteMessage)
+                print(muteSenderId)
                 
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
@@ -77,6 +79,19 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 let unmuteUserAction = UIAlertAction(title: "Unmute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
+                    // Unmute corresponding sender ID
+                    self.unmuteUser(senderId: muteSenderId)
+                    
+                    // Remove entry in mutedUser array with matching senderID
+                    for i in 0 ..< self.mutedUsers.count {
+                        if self.mutedUsers[i] == muteSenderId {
+                            self.mutedUsers.remove(at: i)
+                        }
+                    }
+                    
+                    self.loadMessages()
+                    self.tableView.reloadData()
+                    
                 })
                 
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -87,17 +102,16 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 if self.mutedUsers.count > 0 {
                     for i in 0 ..< self.mutedUsers.count {
                         if self.mutedUsers[i] == muteSenderId {
-                            print("MUTED")
+                            //print("MUTED")
                             alreadyMuted = 0
-                            //actionSheet.addAction(unmuteUserAction)
                         } else {
-                            print("UNMUTED")
+                            //print("UNMUTED")
                             alreadyMuted = 1
-                            //actionSheet.addAction(muteUserAction)
                         }
                     }
                 }
                 
+                // Add mute user action sheet if select message isn't muted, otherwise use the unmute actionsheet
                 if alreadyMuted == 1 {
                     actionSheet.addAction(muteUserAction)
                 } else {
@@ -113,6 +127,26 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 
             }
         }
+    }
+    
+    func unmuteUser(senderId: String) {
+        // Check for current User ID
+        guard let currentUser = Api.user.CURRENT_USER else {
+            return
+        }
+        let currentUserId = currentUser.uid
+        
+        let unmuteUserRef = Api.muteUser.MUTE_USER_REF.child(currentUserId).child(senderId)
+        
+        unmuteUserRef.removeValue { (error, ref) in
+            if error != nil {
+                SVProgressHUD.showError(withStatus: error!.localizedDescription)
+                return
+            } else {
+                
+            }
+        }
+        
     }
     
     func muteUser(senderId: String) {
