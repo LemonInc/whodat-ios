@@ -14,6 +14,33 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //logout()
+        
+        // Log user in if they haven't logged in
+        if Api.user.CURRENT_USER == nil {
+            loginAnonymously()
+        }
+    }
+    
+    func loginAnonymously() {
+        AuthService.loginAnonymously(onSuccess: {
+            print("logged in")
+            self.performSegue(withIdentifier: "mapVCSegue", sender: nil)
+        }) { (error) in
+            print(error)
+        }
+    }
+    
+    func logout() {
+        AuthService.logout(onSuccess: {
+            print("logged out")
+        }) { (error) in
+            print(error)
+        }
+    }
+    
     @IBAction func loginButton_TouchUpInside(_ sender: Any) {
         AuthService.loginAnonymously(onSuccess: {
             print("logged in")

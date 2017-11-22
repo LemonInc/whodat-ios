@@ -194,13 +194,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9IJ-k6-cl7"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="mapVCSegue" action="showViewController:sender:" id="gkI-KY-noY"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="22o-ed-a36" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="622" y="-395"/>
+            <point key="canvasLocation" x="658" y="-1056"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -485,7 +482,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="TYM-uE-954" kind="relationship" relationship="rootViewController" id="ThT-jD-7nr"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="B2R-7x-QzW"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbC-08-ROZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -37,6 +37,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //logout()
+        
+        // Log user in anonymously if user has not logged in yet
+        if Api.user.CURRENT_USER == nil {
+            loginAnonymously()
+        }
+        
         styleChatButton()
         setupMapView()
         setUserTrackingButton()
@@ -56,7 +64,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
             currentLocation = locationManager.location!
         }
-
+        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
@@ -66,6 +74,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //===================================End of JSON
     }
     
+    func logout() {
+        AuthService.logout(onSuccess: {
+            print("logged out")
+        }) { (error) in
+            //
+        }
+    }
+    
+    func loginAnonymously() {
+        AuthService.loginAnonymously(onSuccess: {
+            print("logged in")
+        }) { (error) in
+            print(error)
+        }
+    }
     
     //===============================================Add annotation method
     func addAnnotation(latitude: Double, longitude: Double, type: String, name: String, id: String) {
@@ -127,6 +150,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             //print("Your annotation title: \(String(describing: self.groupId))");
             
             Api.group.createGroup(groupId: self.groupId, location: annotation.subtitle!!, onSuccess: {
+                mapView.deselectAnnotation(annotation, animated: false)
                 self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
             }) { (error) in
                 SVProgressHUD.showError(withStatus: error!)
@@ -181,7 +205,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             SVProgressHUD.showError(withStatus: error!)
         }
     }
-
+    
     func setUserTrackingButton() {
         
         // Mapkit tracking button
@@ -276,28 +300,28 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         })
     }
     
-//    // Handling of annotation
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        
-//        if annotation.isEqual(mapView.userLocation) {
-//            return nil
-//        }
-//        
-//        // For better performance, always try to reuse existing annotations.
-//        let annotationIdentifier = "pin"
-//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-//        
-//        // If there’s no reusable annotation view available, initialize a new one.
-//        if annotationView == nil {
-//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-//            //annotationView!.canShowCallout = true
-//        } else {
-//            annotationView!.annotation = annotation
-//        }
-//        
-//        annotationView!.image = UIImage(named: "hotspot")
-//        return annotationView
-//    }
+    //    // Handling of annotation
+    //    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    //
+    //        if annotation.isEqual(mapView.userLocation) {
+    //            return nil
+    //        }
+    //
+    //        // For better performance, always try to reuse existing annotations.
+    //        let annotationIdentifier = "pin"
+    //        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+    //
+    //        // If there’s no reusable annotation view available, initialize a new one.
+    //        if annotationView == nil {
+    //            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+    //            //annotationView!.canShowCallout = true
+    //        } else {
+    //            annotationView!.annotation = annotation
+    //        }
+    //
+    //        annotationView!.image = UIImage(named: "hotspot")
+    //        return annotationView
+    //    }
     
     //======================================= New Handling of annotation
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -329,7 +353,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     //======================================== fetch Data from JSON
     func fetchData(onSuccess: @escaping() -> Void) {
-
+        
         let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=0abdb169-d2dc-472d-8c93-8391e04132fc"
         
         var request = URLRequest(url: URL(string: url)!)
@@ -373,7 +397,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                         } else {
                             print("No lat or long")
                         }
-                       
+                        
                         latitude = Double(lat)!
                         longitude = Double(long)!
                         
@@ -424,8 +448,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     //============================================Fetch JSON data
-
-
+    
+    
     func styleChatButton() {
         let background = CAGradientLayer().backgroundGradientColor()
         background.frame = startChatButton.bounds
@@ -446,16 +470,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         // UNCOMMENT AND DELETE BOTTOM SEGUE FOR CREATE CUSTOM GROUP
         
-//        getLocationDetails(location: self.userLocation!) {
-//            Api.group.createGroup(location: self.userLocationName!, longitude: self.userLongitude!, latitude: self.userLatitude!, onSuccess: { (groupId) in
-//                // Update and increment user count then show messageViewController
-//                Api.group.addUserToGroup(groupId: self.groupId) {
-//                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-//                }
-//            }) { (error) in
-//                print(error!)
-//            }
-//        }
+        //        getLocationDetails(location: self.userLocation!) {
+        //            Api.group.createGroup(location: self.userLocationName!, longitude: self.userLongitude!, latitude: self.userLatitude!, onSuccess: { (groupId) in
+        //                // Update and increment user count then show messageViewController
+        //                Api.group.addUserToGroup(groupId: self.groupId) {
+        //                    self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+        //                }
+        //            }) { (error) in
+        //                print(error!)
+        //            }
+        //        }
         
         self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
         
