@@ -29,12 +29,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var groups = [Group]()
     var selectedAnnotation: Group?
     var mapFinishedLoading = 1
-    
-    //Json variables
-    var fetchedStadium = [Stadium]()
-    //Store users current location
-    var currentLocation: CLLocation? = nil
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,19 +54,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        //Store users current location in the currentLocation variable
-        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
-            currentLocation = locationManager.location!
-        }
-        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
-        // JSON Data Path
-        self.dataDidLoad()
-        
-        //===================================End of JSON
     }
     
     func logout() {
@@ -90,17 +75,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-    //===============================================Add annotation method
-    func addAnnotation(latitude: Double, longitude: Double, type: String, name: String, id: String) {
+    //Add annotation method
+    func addAnnotation(latitude: Double, longitude: Double, type: String, id: String, name: String) {
         let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         
-        //        let pinLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         
         let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
-        mapView.setRegion(region, animated: true)
+        self.mapView.setRegion(region, animated: true)
         
-        //        let annotation =  MKPointAnnotation()
         let annotation =  CustomPointAnnotation()
         
         switch (type){
@@ -116,6 +99,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         case "School":
             annotation.imageName = "school"
             
+        case "Park":
+            annotation.imageName = "park"
+            
+        case "Stadium":
+            annotation.imageName = "stadiuml"
+            
+        case "Museum":
+            annotation.imageName = "museum"
+            
         default:
             print("Integer out of range")
         }
@@ -124,25 +116,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         annotation.subtitle = name
         annotation.coordinate = location
         
-        //Get the current location of annotation
-        let locationofHotspot = CLLocation(latitude: latitude, longitude: longitude)
-        //Get the distance between the users current location and the location of the annotation
-        let distanceInMeters = currentLocation?.distance(from: locationofHotspot)
+        self.mapView.addAnnotation(annotation)
         
-        //Show annotation if the detanceInMeters is less than 5 miles away form the users current location.
-        //5 miles in meters = 8046.72
-        if let distanceInMeters = distanceInMeters, distanceInMeters > 8046.72{
-            //Hide annotation on map
-            mapView.view(for: annotation)?.isHidden = true
-        }
-        else {
-            //Show annotation on map
-            mapView.view(for: annotation)?.isHidden = false
-            mapView.addAnnotation(annotation)
-        }
     }
+
     
-    //==================================================Annotation select
+    //Annotation select
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         if let annotation = view.annotation {
@@ -159,13 +138,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
     
-    //==============================================Custom annotation
+    //Custom annotation
     class CustomPointAnnotation: MKPointAnnotation {
         var imageName: String!
     }
-    
-    //=======================================================Annotation
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -179,6 +156,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 present(pageVC, animated: true, completion: nil)
             }
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -192,6 +170,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         if self.mapFinishedLoading == 1 {
             print("RUNNING")
+            
+            //Wait for map to finish rendering before rendering JSON data
+            self.waitForMapToLoadBeforeREnderingParsingData()
+
             mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
             self.mapFinishedLoading += 1
         }
@@ -299,31 +281,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             onSuccess()
         })
     }
-    
-    //    // Handling of annotation
-    //    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-    //
-    //        if annotation.isEqual(mapView.userLocation) {
-    //            return nil
-    //        }
-    //
-    //        // For better performance, always try to reuse existing annotations.
-    //        let annotationIdentifier = "pin"
-    //        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-    //
-    //        // If there’s no reusable annotation view available, initialize a new one.
-    //        if annotationView == nil {
-    //            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-    //            //annotationView!.canShowCallout = true
-    //        } else {
-    //            annotationView!.annotation = annotation
-    //        }
-    //
-    //        annotationView!.image = UIImage(named: "hotspot")
-    //        return annotationView
-    //    }
-    
-    //======================================= New Handling of annotation
+  
+    //Set images for annotation pins
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation.isEqual(mapView.userLocation) {
@@ -349,106 +308,55 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         return annotationView
     }
     
-    //======================================= New Handling of annotation
-    
-    //======================================== fetch Data from JSON
-    func fetchData(onSuccess: @escaping() -> Void) {
+    //Render Data from JSON
+    func renderJSONMapData() {
+        let userLocationLatitude = self.userLocation?.coordinate.latitude
+        let userLocationLongitude = self.userLocation?.coordinate.longitude
         
-        let url = "https://firebasestorage.googleapis.com/v0/b/whodat-fdb19.appspot.com/o/test2.json?alt=media&token=0abdb169-d2dc-472d-8c93-8391e04132fc"
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
         
-        var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "GET"
-        
-        let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
-        
-        let task = session.dataTask(with: request) { (data, response, error) in
-            
-            if (error != nil) {
-                
-                print("Error 1")
-                
-            } else {
-                
-                do {
+        MapAPI.getJSONMapData(latitude: userLocationLatitude!, longitude: userLocationLongitude!) { (results:[MapAPI]) in
+            DispatchQueue.main.async {
+                for result in results {
+                    //Get the current location of annotation
+                    let locationofHotspot = CLLocation(latitude: Double(result.latitude)!, longitude: Double(result.longitude)!)
                     
-                    let fetchData = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as! NSArray
+                    //Get the distance between the users current location and the location of the annotation
+                    let distanceInMeters = self.userLocation?.distance(from: locationofHotspot)
                     
-                    for eachFetchedStadium in fetchData  {
-                        
-                        let eachStadium = eachFetchedStadium as! [String: Any]
-                        let name = eachStadium["Name"] as! String
-                        let type = eachStadium["Type"] as! String
-                        
-                        let id = eachStadium["ID"] as! String
-                        
-                        var lat = ""
-                        var long = ""
-                        
-                        
-                        var latitude = 1.0;
-                        var longitude = 1.0;
-                        
-                        // init string before converting to double
-                        if(( eachStadium["Latitude"] ) != nil && ( eachStadium["Longitude"] ) != nil) {
-                            lat = eachStadium["Latitude"] as! String
-                            long = eachStadium["Longitude"] as! String
-                            
-                        } else {
-                            print("No lat or long")
-                        }
-                        
-                        latitude = Double(lat)!
-                        longitude = Double(long)!
-                        
-                        self.fetchedStadium.append(Stadium(name: name, type: type, id: id,latitude: latitude, longitude: longitude))
+                    //5 mile in meters = 8046.72
+                    //1 mile in meters = 1609.34
+                    //2 mile in meters = 3218.69
+                    if let distanceInMeters = distanceInMeters, distanceInMeters < 3218.69{
+                        self.addAnnotation(latitude: Double(result.latitude)!, longitude: Double(result.longitude)!, type: result.type, id: result.id, name: result.name)
                     }
-                    
-                    onSuccess()
-                    
-                    
-                }catch {
-                    
-                    print("Error 2")
                 }
-                
+                dispatchGroup.leave()
             }
         }
-        task.resume()
         
-        
-        
-    }
-    
-    
-    func dataDidLoad(){
-        fetchData {
-            for item in self.fetchedStadium {
-                self.addAnnotation(latitude: item.latitude, longitude: item.longitude, type: item.type, name: item.name, id: item.id)
-            }
-        }
-    }
-    
-    
-    class Stadium {
-        var name: String
-        var type: String
-        var id: String
-        var latitude: Double
-        var longitude: Double
-        
-        init(name: String, type: String, id: String, latitude: Double, longitude: Double) {
-            self.name = name
-            self.type = type
-            self.id = id
-            self.latitude = latitude
-            self.longitude = longitude
+        dispatchGroup.notify(queue: .main) {
+            print("Both functions complete 👍")
         }
         
     }
     
-    //============================================Fetch JSON data
-    
+    //Wait for map to load before calling renderJSONMapData()
+    func waitForMapToLoadBeforeREnderingParsingData() {
+        let group = DispatchGroup()
+        group.enter()
+        
+        DispatchQueue.main.async {
+            group.leave()
+        }
+        
+        // does not wait. But the code in notify() is run
+        // after enter() and leave() calls are balanced
+        group.notify(queue: .main) {
+            self.renderJSONMapData()
+        }
+    }
     
     func styleChatButton() {
         let background = CAGradientLayer().backgroundGradientColor()

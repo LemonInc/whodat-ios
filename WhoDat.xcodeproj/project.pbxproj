@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1841EA041EF066FC0090A984 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1841EA031EF066FC0090A984 /* CoreLocation.framework */; };
+		188960051FEFE2A7004333AC /* MapApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188960041FEFE2A7004333AC /* MapApi.swift */; };
 		521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AB0641EEDCBC80050FAD3 /* Gradient.swift */; };
 		521AB0681EF054CF0050FAD3 /* send.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 521AB0671EF054CF0050FAD3 /* send.aiff */; };
 		521F6B321F6C55400074CE8C /* MuteUserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521F6B311F6C55400074CE8C /* MuteUserApi.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		1841EA031EF066FC0090A984 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		188960041FEFE2A7004333AC /* MapApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapApi.swift; sourceTree = "<group>"; };
 		4374DA0AFE78DD04EECE21BF /* Pods-WhoDat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoDat.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhoDat/Pods-WhoDat.release.xcconfig"; sourceTree = "<group>"; };
 		521AB0641EEDCBC80050FAD3 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		521AB0671EF054CF0050FAD3 /* send.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = send.aiff; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				52A59FCA1ED0955B00F64743 /* UserApi.swift */,
 				521F6B311F6C55400074CE8C /* MuteUserApi.swift */,
 				524F10AE1EDAFC3E00E38373 /* GroupApi.swift */,
+				188960041FEFE2A7004333AC /* MapApi.swift */,
 			);
 			name = Api;
 			sourceTree = "<group>";
@@ -404,7 +407,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A30F805459C16C20A77B016A /* [CP] Embed Pods Frameworks */ = {
@@ -451,6 +454,7 @@
 				5225D0261EB79DA300D6A1B4 /* MapViewController.swift in Sources */,
 				521AB0651EEDCBC80050FAD3 /* Gradient.swift in Sources */,
 				52A59FCD1ED09B3F00F64743 /* AuthService.swift in Sources */,
+				188960051FEFE2A7004333AC /* MapApi.swift in Sources */,
 				52A59FC41ED08B4400F64743 /* MessageTableViewCell.swift in Sources */,
 				523D6E7D1F02D8E1002FC4A9 /* LoginViewController.swift in Sources */,
 				5225D0121EB69E2800D6A1B4 /* AppDelegate.swift in Sources */,
