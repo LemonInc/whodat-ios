@@ -326,9 +326,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                     let distanceInMeters = self.userLocation?.distance(from: locationofHotspot)
                     
                     //5 mile in meters = 8046.72
+                    //1/2 mile in meters = 804.672
                     //1 mile in meters = 1609.34
                     //2 mile in meters = 3218.69
-                    if let distanceInMeters = distanceInMeters, distanceInMeters < 3218.69{
+                    if let distanceInMeters = distanceInMeters, distanceInMeters < 804.672{
                         self.addAnnotation(latitude: Double(result.latitude)!, longitude: Double(result.longitude)!, type: result.type, id: result.id, name: result.name)
                     }
                 }
