@@ -77,9 +77,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     //Add annotation method
     func addAnnotation(latitude: Double, longitude: Double, type: String, id: String, name: String) {
-        let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
+        
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         
+        //let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
         //let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         //self.mapView.setRegion(region, animated: true)
         
