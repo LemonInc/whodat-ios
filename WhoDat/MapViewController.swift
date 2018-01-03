@@ -80,9 +80,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         
-        //let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
-        //let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
-        //self.mapView.setRegion(region, animated: true)
+//        let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
+//        let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+//        self.mapView.setRegion(region, animated: true)
         
         let annotation =  CustomPointAnnotation()
         
@@ -176,8 +176,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
             mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
             self.mapFinishedLoading += 1
-        } else {
-            mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         }
     }
     
