@@ -293,7 +293,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let annotationIdentifier = "pin"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
         
-        annotationView?.canShowCallout = true
+        annotationView?.canShowCallout = false
         
         // If there’s no reusable annotation view available, initialize a new one.
         if annotationView == nil {
