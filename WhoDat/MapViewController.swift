@@ -190,29 +190,51 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func setUserTrackingButton() {
         
-        // Mapkit tracking button
-        let trackingButton: MKUserTrackingBarButtonItem = MKUserTrackingBarButtonItem.init(mapView: mapView)
-        trackingButton.customView?.tintColor = UIColor(red:0.01, green:0.81, blue:0.37, alpha:1.0)
-        trackingButton.customView?.frame.size = CGSize(width: 50, height: 50)
+        let button = MKUserTrackingButton(mapView: mapView)
+        button.layer.backgroundColor = UIColor(white: 1, alpha: 1).cgColor
+        button.tintColor = UIColor(red:0.01, green:0.81, blue:0.37, alpha:1.0)
+        button.frame.size = CGSize(width: 50, height: 50)
+        button.layer.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
         
-        // Need to use toolbar to show item on page rather than on navigation bar
-        let toolBarFrame = CGRect(origin: CGPoint(x: 0, y: 0) , size: CGSize(width: 50, height: 50))
-        let toolbar = UIToolbar.init(frame: toolBarFrame)
-        toolbar.barTintColor = UIColor.white
-        toolbar.isTranslucent = true
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        toolbar.items = [flex, trackingButton, flex]
+        let scale = MKScaleView(mapView: mapView)
+        scale.legendAlignment = .trailing
+        scale.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scale)
         
-        // Need to implement this rounded view in order to get the box to look consistent with MKUserTrackingButton API. Origin is set by frame size - button size - margin
-        let origin = CGPoint(x: self.view.frame.size.width - 85, y: 60)
-        let roundedSquare: UIView = UIView(frame: CGRect(origin: origin, size: CGSize(width: 50, height: 50)))
-        roundedSquare.backgroundColor = UIColor.white
-        roundedSquare.layer.cornerRadius = 5
-        roundedSquare.layer.masksToBounds = true
+        NSLayoutConstraint.activate([button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+                                     button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+                                     scale.trailingAnchor.constraint(equalTo: button.leadingAnchor, constant: -10),
+                                     scale.centerYAnchor.constraint(equalTo: button.centerYAnchor)])
         
-        roundedSquare.addSubview(toolbar)
-        mapView.addSubview(roundedSquare)
     }
+    
+//    func setUserTrackingButton() {
+//
+//        // Mapkit tracking button
+//        let trackingButton: MKUserTrackingBarButtonItem = MKUserTrackingBarButtonItem.init(mapView: mapView)
+//        trackingButton.customView?.tintColor = UIColor(red:0.01, green:0.81, blue:0.37, alpha:1.0)
+//        trackingButton.customView?.frame.size = CGSize(width: 50, height: 50)
+//
+//        // Need to use toolbar to show item on page rather than on navigation bar
+//        let toolBarFrame = CGRect(origin: CGPoint(x: 0, y: 0) , size: CGSize(width: 50, height: 50))
+//        let toolbar = UIToolbar.init(frame: toolBarFrame)
+//        toolbar.barTintColor = UIColor.white
+//        toolbar.isTranslucent = true
+//        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+//        toolbar.items = [flex, trackingButton, flex]
+//
+//        // Need to implement this rounded view in order to get the box to look consistent with MKUserTrackingButton API. Origin is set by frame size - button size - margin
+//        let origin = CGPoint(x: self.view.frame.size.width - 85, y: 60)
+//        let roundedSquare: UIView = UIView(frame: CGRect(origin: origin, size: CGSize(width: 50, height: 50)))
+//        roundedSquare.backgroundColor = UIColor.white
+//        roundedSquare.layer.cornerRadius = 5
+//        roundedSquare.layer.masksToBounds = true
+//
+//        roundedSquare.addSubview(toolbar)
+//        mapView.addSubview(roundedSquare)
+//    }
     
     func setupMapView() {
         manager.delegate = self
