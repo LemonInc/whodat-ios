@@ -15,6 +15,21 @@ extension CLLocationCoordinate2D {
     }
 }
 
+//Function for queuing map data task
+extension DispatchQueue {
+    static func background(delay: Double = 0.0, background: (()->Void)? = nil, completion: (() -> Void)? = nil) {
+        DispatchQueue.global(qos: .background).async {
+            background?()
+            if let completion = completion {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                    completion()
+                })
+            }
+        }
+    }
+    
+}
+
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
@@ -33,29 +48,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //logout()
-        
         // Log user in anonymously if user has not logged in yet
         if Api.user.CURRENT_USER == nil {
             loginAnonymously()
         }
         
         styleChatButton()
-        setupMapView()
         setUserTrackingButton()
-        //loadGroups()
-        
-        let theLocation: MKUserLocation = mapView.userLocation
-        theLocation.title = "I'm here!"
-        
-        //=================================merged map stuff
-        
-        // Get set location manager
-        let locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
         
     }
     
@@ -162,6 +161,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        self.setupMapView()
+        
         // Show status bar and hide navigation bar
         UIApplication.shared.isStatusBarHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -169,10 +170,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         if self.mapFinishedLoading == 1 {
-            print("RUNNING")
-            
+
             //Wait for map to finish rendering before rendering JSON data
-            self.waitForMapToLoadBeforeREnderingParsingData()
+            self.waitForMapToLoadBeforeRenderingParsingData()
 
             mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
             self.mapFinishedLoading += 1
@@ -215,7 +215,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func setupMapView() {
-        
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
@@ -257,31 +256,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         manager.stopUpdatingLocation()
     }
     
-    func getLocationDetails(location: CLLocation, onSuccess: @escaping () -> Void) {
-        CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
-            
-            var placeMark: CLPlacemark!
-            placeMark = placemarks?[0]
-            
-            // Location name
-            if let locationName = placeMark.addressDictionary!["Name"] as? NSString {
-                // Set global variable to be consumed by start chat button
-                self.userLocationName = locationName as String
-            }
-            
-            // City
-            if let city = placeMark.addressDictionary!["City"] as? NSString {
-                //print(city)
-            }
-            
-            // Set global variable to be consumed by start chat button
-            self.userLongitude = location.coordinate.longitude
-            self.userLatitude = location.coordinate.latitude
-            
-            onSuccess()
-        })
-    }
-  
     //Set images for annotation pins
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -310,53 +284,40 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     //Render Data from JSON
     func renderJSONMapData() {
-        let userLocationLatitude = self.userLocation?.coordinate.latitude
-        let userLocationLongitude = self.userLocation?.coordinate.longitude
-        
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        
-        MapAPI.getJSONMapData(latitude: userLocationLatitude!, longitude: userLocationLongitude!) { (results:[MapAPI]) in
-            DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+            let userLocationLatitude = self?.userLocation?.coordinate.latitude
+            let userLocationLongitude = self?.userLocation?.coordinate.longitude
+            
+            MapAPI.getJSONMapData(latitude: userLocationLatitude!, longitude: userLocationLongitude!) { (results:[MapAPI]) in
                 for result in results {
                     //Get the current location of annotation
                     let locationofHotspot = CLLocation(latitude: Double(result.latitude)!, longitude: Double(result.longitude)!)
                     
                     //Get the distance between the users current location and the location of the annotation
-                    let distanceInMeters = self.userLocation?.distance(from: locationofHotspot)
+                    let distanceInMeters = self?.userLocation?.distance(from: locationofHotspot)
                     
                     //5 mile in meters = 8046.72
                     //1/2 mile in meters = 804.672
                     //1 mile in meters = 1609.34
                     //2 mile in meters = 3218.69
-                    if let distanceInMeters = distanceInMeters, distanceInMeters < 804.672{
-                        self.addAnnotation(latitude: Double(result.latitude)!, longitude: Double(result.longitude)!, type: result.type, id: result.id, name: result.name)
+                    DispatchQueue.main.async { () -> Void in
+                        if let distanceInMeters = distanceInMeters, distanceInMeters < 804.672{
+                            self?.addAnnotation(latitude: Double(result.latitude)!, longitude: Double(result.longitude)!, type: result.type, id: result.id, name: result.name)
+                            
+                        }
+                        
                     }
+                    
                 }
-                dispatchGroup.leave()
             }
+            
         }
-        
-        dispatchGroup.notify(queue: .main) {
-            print("Both functions complete 👍")
-        }
-        
     }
     
+    
     //Wait for map to load before calling renderJSONMapData()
-    func waitForMapToLoadBeforeREnderingParsingData() {
-        let group = DispatchGroup()
-        group.enter()
-        
-        DispatchQueue.main.async {
-            group.leave()
-        }
-        
-        // does not wait. But the code in notify() is run
-        // after enter() and leave() calls are balanced
-        group.notify(queue: .main) {
-            self.renderJSONMapData()
-        }
+    func waitForMapToLoadBeforeRenderingParsingData() {
+        self.renderJSONMapData()
     }
     
     func styleChatButton() {
