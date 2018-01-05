@@ -54,7 +54,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
         styleChatButton()
-        setUserTrackingButton()
+        if #available(iOS 11.0, *) {
+            setUserTrackingButton()
+        } else {
+            setUserTrackingButton2()
+        }
         
     }
     
@@ -188,6 +192,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
+    @available(iOS 11.0, *)
     func setUserTrackingButton() {
         
         let button = MKUserTrackingButton(mapView: mapView)
@@ -210,31 +215,31 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
     
-//    func setUserTrackingButton() {
-//
-//        // Mapkit tracking button
-//        let trackingButton: MKUserTrackingBarButtonItem = MKUserTrackingBarButtonItem.init(mapView: mapView)
-//        trackingButton.customView?.tintColor = UIColor(red:0.01, green:0.81, blue:0.37, alpha:1.0)
-//        trackingButton.customView?.frame.size = CGSize(width: 50, height: 50)
-//
-//        // Need to use toolbar to show item on page rather than on navigation bar
-//        let toolBarFrame = CGRect(origin: CGPoint(x: 0, y: 0) , size: CGSize(width: 50, height: 50))
-//        let toolbar = UIToolbar.init(frame: toolBarFrame)
-//        toolbar.barTintColor = UIColor.white
-//        toolbar.isTranslucent = true
-//        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-//        toolbar.items = [flex, trackingButton, flex]
-//
-//        // Need to implement this rounded view in order to get the box to look consistent with MKUserTrackingButton API. Origin is set by frame size - button size - margin
-//        let origin = CGPoint(x: self.view.frame.size.width - 85, y: 60)
-//        let roundedSquare: UIView = UIView(frame: CGRect(origin: origin, size: CGSize(width: 50, height: 50)))
-//        roundedSquare.backgroundColor = UIColor.white
-//        roundedSquare.layer.cornerRadius = 5
-//        roundedSquare.layer.masksToBounds = true
-//
-//        roundedSquare.addSubview(toolbar)
-//        mapView.addSubview(roundedSquare)
-//    }
+    func setUserTrackingButton2() {
+
+        // Mapkit tracking button
+        let trackingButton: MKUserTrackingBarButtonItem = MKUserTrackingBarButtonItem.init(mapView: mapView)
+        trackingButton.customView?.tintColor = UIColor(red:0.01, green:0.81, blue:0.37, alpha:1.0)
+        trackingButton.customView?.frame.size = CGSize(width: 50, height: 50)
+
+        // Need to use toolbar to show item on page rather than on navigation bar
+        let toolBarFrame = CGRect(origin: CGPoint(x: 0, y: 0) , size: CGSize(width: 50, height: 50))
+        let toolbar = UIToolbar.init(frame: toolBarFrame)
+        toolbar.barTintColor = UIColor.white
+        toolbar.isTranslucent = true
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        toolbar.items = [flex, trackingButton, flex]
+
+        // Need to implement this rounded view in order to get the box to look consistent with MKUserTrackingButton API. Origin is set by frame size - button size - margin
+        let origin = CGPoint(x: self.view.frame.size.width - 85, y: 60)
+        let roundedSquare: UIView = UIView(frame: CGRect(origin: origin, size: CGSize(width: 50, height: 50)))
+        roundedSquare.backgroundColor = UIColor.white
+        roundedSquare.layer.cornerRadius = 5
+        roundedSquare.layer.masksToBounds = true
+
+        roundedSquare.addSubview(toolbar)
+        mapView.addSubview(roundedSquare)
+    }
     
     func setupMapView() {
         manager.delegate = self
@@ -245,7 +250,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.delegate = self
         mapView.mapType = MKMapType.standard
         mapView.showsUserLocation = true
-        mapView.showsCompass = false
+        
+        if #available(iOS 9.0, *) {
+            mapView.showsCompass = false
+        } else {
+            // Fallback on earlier versions
+        }
         
         // Colour of pulse and user icon
         mapView.tintColor = UIColor(red:0.00, green:0.71, blue:1.00, alpha:1.0)

@@ -28,7 +28,6 @@
 		524F72491EEB24D300FD5A8A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524F72481EEB24D300FD5A8A /* SplashViewController.swift */; };
 		526D4A021EE4B01F00E042E4 /* GifPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D4A011EE4B01F00E042E4 /* GifPlayer.swift */; };
 		526D4A0A1EE72D5700E042E4 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526D4A091EE72D5700E042E4 /* Archive.swift */; };
-		5287AC641F44EC1100A42658 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5287AC631F44EC1100A42658 /* MapKit.framework */; };
 		52884A8F1F27BA8A001DF163 /* WalkthroughContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52884A8E1F27BA8A001DF163 /* WalkthroughContentViewController.swift */; };
 		52884A911F27BB14001DF163 /* WalkthroughViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52884A901F27BB14001DF163 /* WalkthroughViewController.swift */; };
 		52A59FB61ECF841D00F64743 /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 52A59FB51ECF83B500F64743 /* WorkSans-Light.otf */; };
@@ -79,7 +78,6 @@
 		526D4A011EE4B01F00E042E4 /* GifPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifPlayer.swift; sourceTree = "<group>"; };
 		526D4A091EE72D5700E042E4 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		527F02E91F113EEA007804EF /* WhoDat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhoDat.entitlements; sourceTree = "<group>"; };
-		5287AC631F44EC1100A42658 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		52884A8E1F27BA8A001DF163 /* WalkthroughContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughContentViewController.swift; sourceTree = "<group>"; };
 		52884A901F27BB14001DF163 /* WalkthroughViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughViewController.swift; sourceTree = "<group>"; };
 		5293CCE61EEDC8B6001E2DDE /* WorkSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1841EA041EF066FC0090A984 /* CoreLocation.framework in Frameworks */,
-				5287AC641F44EC1100A42658 /* MapKit.framework in Frameworks */,
 				F757ED6A73AEDE421E136355 /* Pods_WhoDat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,7 +121,6 @@
 		088C36E66C5B68DE7F271ACA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5287AC631F44EC1100A42658 /* MapKit.framework */,
 				1841EA031EF066FC0090A984 /* CoreLocation.framework */,
 				AC2904529351EF65C602544E /* Pods_WhoDat.framework */,
 			);
@@ -339,7 +335,7 @@
 								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -589,7 +585,7 @@
 		};
 		5225D0211EB69E2800D6A1B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A17D40064ACB9CC762E701E0 /* Pods-WhoDat.debug.xcconfig */;
+			baseConfigurationReference = 4374DA0AFE78DD04EECE21BF /* Pods-WhoDat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WhoDat/WhoDat.entitlements;
