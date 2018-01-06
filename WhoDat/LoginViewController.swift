@@ -29,7 +29,7 @@ class LoginViewController: UIViewController {
             print("logged in")
             self.performSegue(withIdentifier: "mapVCSegue", sender: nil)
         }) { (error) in
-            print(error)
+            print(error!)
         }
     }
     
@@ -37,7 +37,7 @@ class LoginViewController: UIViewController {
         AuthService.logout(onSuccess: {
             print("logged out")
         }) { (error) in
-            print(error)
+            print(error!)
         }
     }
     
@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
             print("logged in")
             self.performSegue(withIdentifier: "mapVCSegue", sender: nil)
         }) { (error) in
-            print(error)
+            print(error!)
         }
     }
     
@@ -54,7 +54,7 @@ class LoginViewController: UIViewController {
         AuthService.logout(onSuccess: {
             print("logged out")
         }) { (error) in
-            print(error)
+            print(error!)
         }
     }
     

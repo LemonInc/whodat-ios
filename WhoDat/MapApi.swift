@@ -52,10 +52,10 @@ struct MapAPI{
                         if let dailyData = json["items"] as? [[String:Any]] {
                             
                             for dataPoint in dailyData {
-                                var latitudeString = dataPoint["Latitude"] as! String
-                                var longitudeString = dataPoint["Longitude"] as! String
+                                let latitudeString = dataPoint["Latitude"] as! String
+                                let longitudeString = dataPoint["Longitude"] as! String
                                 
-                                if (latitudeString.characters.count != 0) || (longitudeString.characters.count != 0) {
+                                if (latitudeString.count != 0) || (longitudeString.count != 0) {
                                     if let mapAPIObject = try? MapAPI(json: dataPoint) {
                                         mapDataArray.append(mapAPIObject)
                                     }

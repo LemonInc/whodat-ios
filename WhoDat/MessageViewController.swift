@@ -61,8 +61,8 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
                 // Grab ID of message
                 let muteMessage = self.messages[indexPath.row]
                 let muteSenderId = muteMessage.senderId!
-                print(muteMessage.messageText)
-                print(muteSenderId)
+                //print(muteMessage.messageText!)
+                //print(muteSenderId)
                 
                 let muteUserAction = UIAlertAction(title: "Mute user", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                     
@@ -589,7 +589,7 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let message = messages[indexPath.row]
+        _ = messages[indexPath.row]
     }
 }
 

@@ -74,7 +74,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         AuthService.loginAnonymously(onSuccess: {
             print("logged in")
         }) { (error) in
-            print(error)
+            print(error!)
         }
     }
     
