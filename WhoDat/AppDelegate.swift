@@ -23,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set navigation bar text colour and font
         let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName: UIFont(name: "WorkSans-Light", size: 18)!
+            NSAttributedStringKey.foregroundColor: UIColor.white,
+            NSAttributedStringKey.font: UIFont(name: "WorkSans-Light", size: 18)!
         ]
         UINavigationBar.appearance().titleTextAttributes = textAttributes
         

@@ -39,7 +39,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
-    func handleLongPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
+    @objc func handleLongPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
         
         if longPressGestureRecognizer.state == UIGestureRecognizerState.began {
             
@@ -198,7 +198,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
             NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     
-    func addUserToGroup() {
+    @objc func addUserToGroup() {
         Api.group.addUserToGroup(groupId: self.groupId) {
             return
         }
@@ -260,7 +260,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // Function called when user touches screen, this will be used for dismissing the keyboard
-    func dismissKeyboard(gesture: UITapGestureRecognizer) {
+    @objc func dismissKeyboard(gesture: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
     
@@ -270,7 +270,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // Move view up by keyboard height when keyboard is shown
-    func keyboardWillShow(_ notification: NSNotification) {
+    @objc func keyboardWillShow(_ notification: NSNotification) {
         
         // Get screen height
         let screenSize: CGRect = UIScreen.main.bounds
@@ -326,7 +326,7 @@ class MessageViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // Move view down by keyboard height when keyboard is hidden
-    func keyboardWillHide(_ notification: NSNotification) {
+    @objc func keyboardWillHide(_ notification: NSNotification) {
         
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 64 {

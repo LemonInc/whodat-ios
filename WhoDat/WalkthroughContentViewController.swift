@@ -28,7 +28,7 @@ class WalkthroughContentViewController: UIViewController {
         let attrString = NSMutableAttributedString(string: descriptionText)
         var style = NSMutableParagraphStyle()
         style.lineSpacing = 4
-        attrString.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSRange(location: 0, length: descriptionText.characters.count))
+        attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: descriptionText.characters.count))
         descriptionLabel.attributedText = attrString
         descriptionLabel.textAlignment = NSTextAlignment.center
         
