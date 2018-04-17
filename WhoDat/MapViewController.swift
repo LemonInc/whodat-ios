@@ -1,16 +1,12 @@
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
 import SVProgressHUD
 import CoreLocation
 import MapKit
 
 //function to calculate distance between user and hotspot
 extension CLLocationCoordinate2D {
-    
     func distance(to coordinate: CLLocationCoordinate2D) -> Double {
-        
         return MKMetersBetweenMapPoints(MKMapPointForCoordinate(self), MKMapPointForCoordinate(coordinate))
     }
 }
@@ -78,14 +74,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-    //Add annotation method
+    // Add annotation hotspots
     func addAnnotation(latitude: Double, longitude: Double, type: String, id: String, name: String) {
         
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-        
-//        let span: MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
-//        let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
-//        self.mapView.setRegion(region, animated: true)
         
         let annotation =  CustomPointAnnotation()
         
@@ -123,19 +115,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
 
-    
-    //Annotation select
+    // Annotation select
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
+       
         if let annotation = view.annotation {
-            self.groupId = annotation.title!!
-            //print("Your annotation title: \(String(describing: self.groupId))");
-            
-            Api.group.createGroup(groupId: self.groupId, location: annotation.subtitle!!, onSuccess: {
-                mapView.deselectAnnotation(annotation, animated: false)
-                self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
-            }) { (error) in
-                SVProgressHUD.showError(withStatus: error!)
+            // Disable user location selection callout
+            if let userLocation = annotation as? MKUserLocation {
+                userLocation.title = ""
+            } else {
+                // Else if the user selects hotspots, then assign this to groupId to be passed onto the messageVC
+                if let selectedAnnotationId = annotation.title {
+                    self.groupId = selectedAnnotationId!
+                    Api.group.createGroup(groupId: self.groupId, location: annotation.subtitle!!, onSuccess: {
+                        mapView.deselectAnnotation(annotation, animated: false)
+                        self.performSegue(withIdentifier: "messageVCSegue", sender: nil)
+                    }) { (error) in
+                        SVProgressHUD.showError(withStatus: error!)
+                    }
+                }
             }
         }
         

@@ -121,40 +121,6 @@
             </objects>
             <point key="canvasLocation" x="-1738.4000000000001" y="35.532233883058474"/>
         </scene>
-        <!--Splash View Controller-->
-        <scene sceneID="aJ3-Ne-Csg">
-            <objects>
-                <viewController id="ybh-La-0sW" customClass="SplashViewController" customModule="WhoDat" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="L9Z-zk-g5Q"/>
-                        <viewControllerLayoutGuide type="bottom" id="4qx-oa-Vdb"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="iqn-Jw-dMj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="dpe-xX-UXB">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="dpe-xX-UXB" secondAttribute="trailing" id="4kO-2v-8Jr"/>
-                            <constraint firstItem="dpe-xX-UXB" firstAttribute="top" secondItem="L9Z-zk-g5Q" secondAttribute="bottom" id="EJ6-dk-Yjp"/>
-                            <constraint firstItem="4qx-oa-Vdb" firstAttribute="top" secondItem="dpe-xX-UXB" secondAttribute="bottom" id="Nm3-PD-aPF"/>
-                            <constraint firstItem="dpe-xX-UXB" firstAttribute="leading" secondItem="iqn-Jw-dMj" secondAttribute="leading" id="wbx-Kb-MhH"/>
-                        </constraints>
-                    </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <connections>
-                        <segue destination="hf2-fa-HFn" kind="show" identifier="loginVCSegue" id="cER-aB-0bz"/>
-                        <segue destination="Ug7-k6-9qu" kind="show" identifier="messageVCSegue" id="ncS-vu-Ndq"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Txo-kc-xZu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-959" y="36"/>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="1XZ-sC-dCH">
             <objects>
@@ -487,11 +453,7 @@
         <image name="anchor_down" width="50" height="50"/>
         <image name="back_arrow" width="23" height="16"/>
         <image name="londontest.jpg" width="1600" height="1000"/>
-        <image name="splash_background.png" width="375" height="667"/>
         <image name="typing.gif" width="176" height="88"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="L1o-aD-f0V"/>
-    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.19389812961791131" green="0.49599169178673963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
